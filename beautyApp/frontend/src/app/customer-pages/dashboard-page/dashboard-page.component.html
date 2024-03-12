@@ -1,0 +1,56 @@
+<body>
+    <div class="container">
+        <div class="body">
+            <input type="checkbox"  class="openSidebarMenu" id="openSidebarMenu">
+            <label for="openSidebarMenu" class="sidebarIconToggle">
+                <div class="spinner diagonal part-1"></div>
+                <div class="spinner horizontal"></div>
+                <div class="spinner diagonal part-2"></div>
+            </label>
+            <div id="sidebarMenu">
+                  <div class="main-content-wrapper">
+                      <a  style="color: beige; cursor: pointer;" (click)= "routeTo('nails')">Nails</a>
+                      <a  style="color: beige; cursor: pointer;"  (click) = "routeTo('lash')">Lashes</a>
+                      <a  style="color: beige; cursor: pointer;"  (click)="logout()">Log out</a>
+                  </div>
+            </div>
+            <h1 style="text-align: center;">BeautyApp</h1>
+        </div>
+        <br>
+  
+    </div>
+
+    <div class="card card-design" >
+        <div class="card-body">
+          <h5 class="card-title">Upcoming Appointments</h5>
+          <!-- <h6 class="card-subtitle mb-2 text-muted">test</h6> -->
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+    </div>
+
+    <div class="card card-design">
+        <div class="card-body">
+          <h5 class="card-title">Available Vouchers</h5>
+          <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+    </div>
+
+    <div class="card card-design">
+        <div class="card-body">
+          <h5 class="card-title">Account Settings</h5>
+        </div>
+    </div>
+
+    
+    <div class="card card-design">
+        <div class="card-body">
+          <h5 class="card-title" style="cursor: pointer;"  (click)="logout()">Log Out</h5>
+        </div>
+    </div>
+    
+</body>

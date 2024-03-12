@@ -1,0 +1,29 @@
+body{
+    background-color: #D8C2A5;
+    align-items: center;
+    align-content: center;
+}
+
+
+.card-box{
+    /* Ellipse 21 */
+
+    position:relative;
+    width: 70%;
+    height: 30%;
+    left: 15%;
+    right: 15%;
+    margin-bottom: 5%; 
+    align-items: center;
+    background: #27201B;
+    border-radius: 20%;
+    display: block;
+
+}
+
+.card-design{
+    background-color: beige;
+    margin-left: 25%;
+    width: 50%;
+    margin-bottom: 5%;
+}
