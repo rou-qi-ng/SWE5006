@@ -21,7 +21,10 @@ import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.componen
 import { BaseHomeComponent } from './home-pages/base-home/base-home.component';
 import { DashboardPageComponent } from './customer-pages/dashboard-page/dashboard-page.component';
 import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
-
+// import {MatButtonModule} from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
+// import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSidenavModule} from '@angular/material/sidenav';
 // import { UserUpdateComponent } from './user-update/user-update.component';
 // import { UserDetailsComponent } from './user-details/user-details.component';
 @NgModule({
@@ -49,6 +52,10 @@ import { SearchPageComponent } from './customer-pages/search-page/search-page.co
     MatFormFieldModule,
     MatCardModule,
     MatInputModule,
+    MatSidenavModule, 
+    MatFormFieldModule, 
+    MatSelectModule, 
+    MatButtonModule,
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }, provideAnimationsAsync(),],
   bootstrap: [AppComponent]

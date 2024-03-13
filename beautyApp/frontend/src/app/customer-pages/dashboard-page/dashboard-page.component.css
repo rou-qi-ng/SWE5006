@@ -1,29 +1,16 @@
-body{
+body, mat-drawer-container{
     background-color: #D8C2A5;
-    align-items: center;
-    align-content: center;
-}
+    height: 100%;
+  }
 
 
-.card-box{
-    /* Ellipse 21 */
+mat-drawer{
+    width: 30%;
+    height: 100%;
+  }
 
-    position:relative;
-    width: 70%;
-    height: 30%;
-    left: 15%;
-    right: 15%;
-    margin-bottom: 5%; 
-    align-items: center;
-    background: #27201B;
-    border-radius: 20%;
-    display: block;
-
-}
-
-.card-design{
-    background-color: beige;
-    margin-left: 25%;
-    width: 50%;
-    margin-bottom: 5%;
+.header{
+    align-self: center;
+    width: max-content;
+    margin-left: 50%;
 }
