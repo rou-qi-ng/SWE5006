@@ -1,0 +1,64 @@
+
+CREATE SCHEMA db;
+USE db;
+CREATE TABLE User (
+    UserId int not null PRIMARY KEY,
+    Name varchar(255),
+    Password varchar(255),
+    UserType varchar(50)
+);
+
+CREATE TABLE Service (
+	ServiceId int not null PRIMARY KEY,
+	Location varchar(255),
+	Type varchar(255),
+	Description varchar(255),
+	Images varchar(255)
+);
+
+CREATE TABLE Business (
+	UserId int not null,
+    ServiceId int not null,
+    FOREIGN KEY (UserId) REFERENCES User (UserId),
+    FOREIGN KEY (ServiceId) REFERENCES Service (ServiceId),
+    CONSTRAINT PK_Business PRIMARY KEY (UserID, ServiceID)
+);
+
+CREATE TABLE Customer (
+	UserId int not null PRIMARY KEY,
+    Favourites varchar(255),
+	Skin_Type varchar(255),
+	DOB varchar(255),
+	Gender varchar(255),
+	Address varchar(255),
+    FOREIGN KEY (UserId) REFERENCES User (UserId)
+);
+
+CREATE TABLE Appointment (
+	AppointmentId int not null PRIMARY KEY,
+    UserId int not null,
+    ServiceId int not null,
+	FOREIGN KEY (ServiceId) REFERENCES Service (ServiceId),
+	FOREIGN KEY (UserId) REFERENCES User (UserId),
+	AppointmentDate date,
+	AppointmentTime varchar(255),
+	Status varchar(255)
+);
+
+CREATE TABLE Availability (
+	AvailabilityId int not null PRIMARY KEY,
+	ServiceId int not null,
+	Status varchar(255),
+    FOREIGN KEY (ServiceId) REFERENCES Service (ServiceId)
+);
+
+
+CREATE TABLE Review (
+	ReviewId int not null PRIMARY KEY,
+	UserId int,
+	ServiceId int,
+	Rating varchar(10),
+	Description varchar(255),
+    FOREIGN KEY (ServiceId) REFERENCES Service (ServiceId),
+	FOREIGN KEY (UserId) REFERENCES User (UserId)
+);
