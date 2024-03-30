@@ -1,0 +1,47 @@
+<body>
+
+  <mat-drawer-container class="example-container" hasBackdrop="false">
+    <mat-drawer #drawer mode="side">
+      <div class="main-content-wrapper">
+        <a style="color: beige; cursor: pointer;" (click)="routeTo('nails'); drawer.toggle()">Nails</a>
+        <a style="color: beige; cursor: pointer;" (click)="routeTo('lash'); drawer.toggle()">Lashes</a>
+        <a style="color: beige; cursor: pointer;" (click)="logout()">Log out</a>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content>
+
+      <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
+      <label for="openSidebarMenu" (click)="drawer.toggle()" class="sidebarIconToggle">
+          <div class="spinner diagonal part-1"></div>
+          <div class="spinner horizontal"></div>
+          <div class="spinner diagonal part-2"></div>
+      </label>
+      
+      <div class="search-section">
+
+          <div *ngIf="serviceDetails">
+            <!-- <h1 class = "title">{{ serviceDetails.location }}</h1> -->
+
+            <p>Service Id: {{ serviceDetails.serviceId }}</p>
+            <p>Location: {{ serviceDetails.location }}</p>
+            <p>Type: {{ serviceDetails.type }}</p>
+            <p>Description: {{ serviceDetails.description }}</p>
+
+          </div>
+          
+          <div *ngIf="!serviceDetails">
+            <p>Loading...</p>
+          </div>
+
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+
+
+
+
+
+
+
+  
+</body>
