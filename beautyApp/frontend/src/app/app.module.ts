@@ -25,6 +25,8 @@ import { SearchPageComponent } from './customer-pages/search-page/search-page.co
 import {MatSelectModule} from '@angular/material/select';
 // import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { BusinessPageComponent } from './business-pages/business-page.component';
+import { BusinessPageBookAppointmentComponent } from './business-pages/business-page-book-appointment.component';
 // import { UserUpdateComponent } from './user-update/user-update.component';
 // import { UserDetailsComponent } from './user-details/user-details.component';
 @NgModule({
@@ -37,7 +39,9 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     ForbiddenPageComponent,
     BaseHomeComponent,
     DashboardPageComponent,
+    BusinessPageComponent,
     SearchPageComponent,
+    BusinessPageBookAppointmentComponent,
     // UserUpdateComponent,
     // UserDetailsComponent
   ],

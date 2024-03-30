@@ -1,0 +1,94 @@
+
+<mat-drawer-container class="example-container" hasBackdrop="false">
+    <mat-drawer #drawer mode="side">
+      <div class="main-content-wrapper">
+        <a  style="color: beige; cursor: pointer;" (click)= "routeTo('nails')" (click)="drawer.toggle()">Nails</a>
+        <a  style="color: beige; cursor: pointer;"  (click) = "routeTo('lash')" (click)="drawer.toggle()">Lashes</a>
+        <a  style="color: beige; cursor: pointer;"  (click)="logout()">Log out</a>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content>
+   
+      <input type="checkbox"  class="openSidebarMenu" id="openSidebarMenu">
+      <label for="openSidebarMenu" (click)="drawer.toggle()" class="sidebarIconToggle">
+          <div class="spinner diagonal part-1"></div>
+          <div class="spinner horizontal"></div>
+          <div class="spinner diagonal part-2"></div>
+      </label>
+<div class="jumbotron">
+    <h1>THE NAIL ARTISTRY</h1>
+    <p>Welcome to The Nail Artistry, your one-stop destination for exquisite and innovative nail art designs. Our team of highly skilled and experienced nail technicians is passionate about creating stunning nail art that reflects your personality and style.</p>
+</div>
+
+<div class="scroll-container">
+        <img class="service-img" src="assets/service_image1.jpg" alt="Service Image 1">
+        <img class="service-img" src="assets/service_image2.jpg" alt="Service Image 2">
+        <img class="service-img" src="assets/service_image3.jpg" alt="Service Image 3">
+        <img class="service-img" src="assets/service_image4.jpg" alt="Service Image 4">
+        <img class="service-img" src="assets/service_image5.jpg" alt="Service Image 5">
+        <img class="service-img" src="assets/service_image6.jpg" alt="Service Image 6">
+        <img class="service-img" src="assets/service_image7.jpg" alt="Service Image 7">
+        <img class="service-img" src="assets/service_image8.jpg" alt="Service Image 8">
+        <img class="service-img" src="assets/service_image9.jpg" alt="Service Image 9">
+        <img class="service-img" src="assets/service_image10.jpg" alt="Service Image 10">
+
+</div>
+
+<div class="container1">
+    <h1>SERVICE MENU</h1>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>THE BASICS</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>EXPRESS MANICURE<br><p>SHAPE | BUFF | POLISH</p></td>
+                    <td>$100</td>
+                </tr>
+                <tr>
+                    <td>EXPRESS MANICURE<br><p>SHAPE | BUFF | POLISH</p></td>
+                    <td>$100</td>
+                </tr>
+                <tr>
+                    <td>Data 1<br><p>test</p></td>
+                    <td>Data 2</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="container2">
+    <div class="calendar">
+        <div class="month">
+            <h2 id="current-month">April 2024</h2>
+            
+        </div>
+        <div class="weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tues</div>
+            <div>Wed</div>
+            <div>Thur</div>
+            <div>Fri</div>
+            <div>Sat</div>
+        </div>
+        <div class="days"  id="calendar-days">
+            <!-- Days will be generated dynamically using JavaScript -->
+        </div>
+        <h6>* is Fully Booked :)</h6>
+    </div>
+    <div class="button-container">
+        <button class="button" type="button" (click)="navigateToOtherPage()">Book Appointment Now</button>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2024 Nails Service. All rights reserved.</p>
+    </div>
+</footer>

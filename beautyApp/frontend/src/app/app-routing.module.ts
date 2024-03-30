@@ -10,7 +10,8 @@ import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.componen
 import { BaseHomeComponent } from './home-pages/base-home/base-home.component';
 import { DashboardPageComponent } from './customer-pages/dashboard-page/dashboard-page.component';
 import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
-
+import { BusinessPageComponent } from './business-pages/business-page.component';
+import { BusinessPageBookAppointmentComponent} from './business-pages/business-page-book-appointment.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,16 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardPageComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'business',
+    component: BusinessPageComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'business/bookappointment',
+    component: BusinessPageBookAppointmentComponent,
     canActivate: [authGuard],
   },
   {
