@@ -19,4 +19,10 @@ export class ServiceProfileService {
   getServiceDetails(serviceId: number): Observable<ServiceProfile> {
     return this.httpClient.get<ServiceProfile>(`${this.baseUrl}/serviceProfile/${serviceId}`);
   }
+
+  search(serviceProfile: ServiceProfile): Observable<ServiceProfile> {
+    return this.httpClient.post<ServiceProfile>('${this.baseUrl}/serviceProfile/search', serviceProfile);
+  }
+
+
 }
