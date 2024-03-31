@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 // import org.springframework.web.bind.annotation.CrossOrigin;
 
 // import java.util.List;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -23,7 +24,6 @@ public interface ServiceProfileRepository extends JpaRepository<ServiceProfile, 
 
     Optional<ServiceProfile> findByType(String serviceType);
 
-    @Query("SELECT sp FROM ServiceProfile sp WHERE sp.name = :serviceName AND sp.type = :serviceType")
-    Optional<ServiceProfile> findServiceByNameAndType(@Param("serviceName") String serviceName, @Param("serviceType") String serviceType);
+    List<ServiceProfile> findByNameAndType(@Param("serviceName") String serviceName, @Param("serviceType") String serviceType);
 
 }

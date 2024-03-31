@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 // import java.util.List;
@@ -41,7 +42,7 @@ public class ServiceProfileController {
         }
     }
     
-    @GetMapping("/{serviceType}")
+    @GetMapping("/type/{serviceType}")
     public ResponseEntity<ServiceProfile> getServiceProfileByType(@PathVariable("serviceType") String serviceType) {
         Optional<ServiceProfile> serviceProfile = serviceProfileManager.getServiceProfileByType(serviceType);
         if (serviceProfile.isPresent()) {
@@ -51,13 +52,14 @@ public class ServiceProfileController {
         }
     }
 
-    @PostMapping(path = "/{serviceType}")
-    public ResponseEntity<?> search(@PathVariable("serviceType") String serviceType, @RequestBody String serviceName) throws Exception {
-        Optional<ServiceProfile> serviceProfile = serviceProfileManager.search(serviceType, serviceName);
-        System.out.println("serviceType: " + serviceType);
-        System.out.println("serviceName: " + serviceName);
-        if (serviceProfile.isPresent()) {
-            return ResponseEntity.ok(serviceProfile.get());
+    @PostMapping(path = "/search")
+    public ResponseEntity<?> search(@RequestBody ServiceProfile s) throws Exception {
+        List<ServiceProfile> serviceProfile = serviceProfileManager.search(s.getType(), s.getName());
+        System.out.println("serviceType: " + s.getType());
+        System.out.println("serviceName: " +  s.getName());
+        System.out.println(serviceProfile);
+        if (!serviceProfile.isEmpty()) {
+            return null;
         } else {
             return ResponseEntity.notFound().build();
         }

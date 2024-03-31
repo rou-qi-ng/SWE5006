@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 // import java.util.List;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,10 +29,11 @@ public class ServiceProfileManager {
         return serviceProfileRepository.findByType(serviceType);
     }
     
-    public Optional<ServiceProfile> search(String serviceType, String serviceName) {
-        System.out.println("serviceType: " + serviceType);
-        System.out.println("serviceName: " + serviceName);
-        return serviceProfileRepository.findServiceByNameAndType(serviceType, serviceName);
+    public List<ServiceProfile> search(String serviceType, String serviceName) {
+        System.out.println("serviceType1: " + serviceType);
+        System.out.println("serviceName1: " + serviceName);
+        System.out.println(serviceProfileRepository.findByNameAndType(serviceType, serviceName));
+        return serviceProfileRepository.findByNameAndType(serviceType, serviceName);
         // if (serviceType.equals("Nails")){
         //     return serviceProfileRepository.findServiceName("Nails", serviceName);  
         // }
