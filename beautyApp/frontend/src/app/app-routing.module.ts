@@ -10,6 +10,7 @@ import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.componen
 import { BaseHomeComponent } from './home-pages/base-home/base-home.component';
 import { DashboardPageComponent } from './customer-pages/dashboard-page/dashboard-page.component';
 import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
+import { BusinessPagesComponent } from './business-pages/business-pages.component';
 
 
 
@@ -37,6 +38,11 @@ const routes: Routes = [
   {
     path: 'users',
     component: UserListComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'business',
+    component: BusinessPagesComponent,
     canActivate: [authGuard],
   },
   {

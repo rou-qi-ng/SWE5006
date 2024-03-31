@@ -25,8 +25,12 @@ import { SearchPageComponent } from './customer-pages/search-page/search-page.co
 import {MatSelectModule} from '@angular/material/select';
 // import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { BusinessPagesComponent } from './business-pages/business-pages.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 // import { UserUpdateComponent } from './user-update/user-update.component';
 // import { UserDetailsComponent } from './user-details/user-details.component';
+import { MatNativeDateModule } from '@angular/material/core';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,6 +60,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatFormFieldModule, 
     MatSelectModule, 
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }, provideAnimationsAsync(),],
   bootstrap: [AppComponent]
