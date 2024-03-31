@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { FormGroup } from '@angular/forms';
 import { AvailabilityService } from '../../services/availability.service'; // Import the service
 import { Availability } from '../../model/availability.model';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-availability-page',
@@ -16,14 +17,49 @@ export class AvailabilityPageComponent implements OnInit {
   serviceId: number | null = null; 
   serviceDetails: any; // Variable to store service details
   availabilities: Availability[] = [];
+  selected: Date | null; // Initialize selected property
+  selectedTimeSlot: string | null;
+  timeSlots: string[]; // Array to hold time slots
+  
+  addHour(timeSlot: string): string {
+    const [hour, minute] = timeSlot.split(':').map(Number);
+    const nextHour = hour === 23 ? 0 : hour + 1;
+    return `${nextHour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+  }
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private availabilityService: AvailabilityService // Inject the service
-    
-  ) {}
+    private availabilityService: AvailabilityService, // Inject the service
+    private dateAdapter: DateAdapter<Date> // Inject DateAdapter
+  ) {
+    this.selected = null; // Initialize selected property
+    this.dateAdapter.setLocale('en'); // Set locale
+    this.selectedTimeSlot = null;
+    this.timeSlots = this.generateTimeSlots(); // Generate time slots
+  }
+
+  // Function to generate time slots
+  generateTimeSlots(): string[] {
+    const timeSlots: string[] = [];
+    for (let i = 9; i < 21; i++) { // From 9 am to 9 pm (24-hour format)
+      timeSlots.push(this.formatTime(i) + ':00'); // Add start of time slot
+    }
+    return timeSlots;
+  }
+
+  // Function to format time in HH:mm format
+  formatTime(hour: number): string {
+    return ('0' + hour).slice(-2); // Add leading zero if single digit
+  }
+
+  // Function to handle selection of time slot
+  selectTimeSlot(timeSlot: string): void {
+    console.log('Selected time slot:', timeSlot);
+    this.selectedTimeSlot = timeSlot; // Update selected time slot property
+  }
+
 
   // ngOnInit(): void {
   //   this.getAllAvailabilitys();

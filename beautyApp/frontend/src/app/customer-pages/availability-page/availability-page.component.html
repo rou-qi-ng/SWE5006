@@ -33,15 +33,19 @@
             <p>AVAILABILITY HELLO</p>
           </div>
 
+          <mat-card class="inline-calendar-card">
+            <mat-calendar [(selected)]="selected"></mat-calendar>
+          </mat-card>
+          <p class="selected-date">Selected date: {{selected}}</p>
+
+          <div class="time-slots">
+            <button *ngFor="let timeSlot of timeSlots" (click)="selectTimeSlot(timeSlot)" [class.selected]="timeSlot === selectedTimeSlot">
+              {{ timeSlot }} - {{ addHour(timeSlot) }}
+            </button>
+          </div>
+          <p class="selected-time-slot">Selected time slot: {{ selectedTimeSlot }}</p>
       </div>
     </mat-drawer-content>
   </mat-drawer-container>
-
-
-
-
-
-
-
   
 </body>
