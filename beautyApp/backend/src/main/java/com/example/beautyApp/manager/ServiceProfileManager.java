@@ -25,13 +25,13 @@ public class ServiceProfileManager {
     }
 
     public Optional<ServiceProfile> getServiceProfileByType(String serviceType) {
-        return serviceProfileRepository.findByServiceType(serviceType);
+        return serviceProfileRepository.findByType(serviceType);
     }
     
     public Optional<ServiceProfile> search(String serviceType, String serviceName) {
         System.out.println("serviceType: " + serviceType);
         System.out.println("serviceName: " + serviceName);
-        return serviceProfileRepository.findServiceName(serviceType, serviceName);
+        return serviceProfileRepository.findServiceByNameAndType(serviceType, serviceName);
         // if (serviceType.equals("Nails")){
         //     return serviceProfileRepository.findServiceName("Nails", serviceName);  
         // }
