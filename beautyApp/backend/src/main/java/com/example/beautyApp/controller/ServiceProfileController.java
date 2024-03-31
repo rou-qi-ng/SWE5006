@@ -2,11 +2,16 @@ package com.example.beautyApp.controller;
 
 import com.example.beautyApp.manager.ServiceProfileManager;
 import com.example.beautyApp.model.ServiceProfile;
+import com.example.beautyApp.model.User;
+import com.example.beautyApp.request.LoginRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 // import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 // import java.util.List;
 
@@ -34,6 +39,29 @@ public class ServiceProfileController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    
+    @GetMapping("/{serviceType}")
+    public ResponseEntity<ServiceProfile> getServiceProfileByType(@PathVariable("serviceType") String serviceType) {
+        Optional<ServiceProfile> serviceProfile = serviceProfileManager.getServiceProfileByType(serviceType);
+        if (serviceProfile.isPresent()) {
+            return ResponseEntity.ok(serviceProfile.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(path = "/{serviceType}")
+    public ResponseEntity<?> search(@PathVariable("serviceType") String serviceType, @RequestBody String serviceName) throws Exception {
+        Optional<ServiceProfile> serviceProfile = serviceProfileManager.search(serviceType, serviceName);
+        System.out.println("serviceType: " + serviceType);
+        System.out.println("serviceName: " + serviceName);
+        if (serviceProfile.isPresent()) {
+            return ResponseEntity.ok(serviceProfile.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 }
