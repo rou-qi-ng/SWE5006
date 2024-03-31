@@ -22,6 +22,10 @@ public class ServiceProfile implements Serializable {
     private int serviceId;
 
     @NonNull
+    @Column(name = "service_name")
+    private String serviceName;
+
+    @NonNull
     @Column(name = "service_location")
     private String location;
 
@@ -33,8 +37,7 @@ public class ServiceProfile implements Serializable {
     @Column(name = "service_description")
     private String description;
 
-    @Column(name = "service_images")
-    private String images;
+    
 
 
     // Getters and setters
@@ -45,6 +48,14 @@ public class ServiceProfile implements Serializable {
 
     public void setServiceId(int serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public String getLocation() {
@@ -71,13 +82,7 @@ public class ServiceProfile implements Serializable {
         this.description = description;
     }
 
-    public String getImages() {
-        return images;
-    }
-
-    public void setImages(String images) {
-        this.images = images;
-    }
+    
 
 }
 

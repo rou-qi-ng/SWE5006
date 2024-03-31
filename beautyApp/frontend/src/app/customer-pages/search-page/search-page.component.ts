@@ -28,5 +28,10 @@ export class SearchPageComponent implements OnInit {
     this.authenticationService.logout();
   }
 
+  onSubmit(): void {
+    // const shopName = this.searchForm.get('shopName').value;
+    // console.log('Searching for shop:', shopName);
+  }
+
 
 }
