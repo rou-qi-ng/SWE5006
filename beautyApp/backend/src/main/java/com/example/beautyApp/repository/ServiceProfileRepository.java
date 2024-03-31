@@ -24,6 +24,8 @@ public interface ServiceProfileRepository extends JpaRepository<ServiceProfile, 
 
     Optional<ServiceProfile> findByType(String serviceType);
 
-    List<ServiceProfile> findByNameAndType(@Param("serviceName") String serviceName, @Param("serviceType") String serviceType);
+
+    @Query("SELECT sp FROM ServiceProfile sp WHERE sp.name = :name AND sp.type = :type")
+    List<ServiceProfile> findByNameAndType(@Param("type") String type, @Param("name") String name);
 
 }

@@ -59,7 +59,7 @@ public class ServiceProfileController {
         System.out.println("serviceName: " +  s.getName());
         System.out.println(serviceProfile);
         if (!serviceProfile.isEmpty()) {
-            return null;
+            return ResponseEntity.ok(serviceProfile);
         } else {
             return ResponseEntity.notFound().build();
         }
