@@ -8,11 +8,12 @@ import { LoginPageComponent } from './home-pages/login-page/login-page.component
 import { authGuard } from './helpers/auth.guard';
 import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.component';
 import { BaseHomeComponent } from './home-pages/base-home/base-home.component';
+
 import { DashboardPageComponent } from './customer-pages/dashboard-page/dashboard-page.component';
-import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
 import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
-
-
+import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
+import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page.component';
+import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
 
 const routes: Routes = [
   { path: 'forbidden', component: ForbiddenPageComponent },
@@ -49,7 +50,22 @@ const routes: Routes = [
     path: 'serviceProfile/:serviceId',
     component: ServiceProfilePageComponent,
     canActivate: [authGuard],
-  }
+  },
+  {
+    path: 'serviceProfile/:serviceId/pricing',
+    component: PricingPageComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'serviceProfile/:serviceId/availability',
+    component: AvailabilityPageComponent,
+    canActivate: [authGuard],
+  },
+  // {
+  //   path: 'serviceProfile/:serviceId/reviews',
+  //   component: ReviewPageComponent,
+  //   canActivate: [authGuard],
+  // },
   // { path: 'update-user/:id', component: UserUpdateComponent },
 ];
 

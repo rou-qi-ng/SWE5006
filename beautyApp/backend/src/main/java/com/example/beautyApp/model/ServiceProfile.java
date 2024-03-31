@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Entity
 @Setter
 @Getter
-@Table(name = "Service") 
+@Table(name = "service") 
 public class ServiceProfile implements Serializable {
 
     @Id
