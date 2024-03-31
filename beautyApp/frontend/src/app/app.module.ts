@@ -25,6 +25,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 // import { UserUpdateComponent } from './user-update/user-update.component';
 // import { UserDetailsComponent } from './user-details/user-details.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { DashboardPageComponent } from './customer-pages/dashboard-page/dashboard-page.component';
 import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
@@ -65,6 +67,8 @@ import { AvailabilityPageComponent } from './customer-pages/availability-page/av
     MatFormFieldModule, 
     MatSelectModule, 
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }, provideAnimationsAsync(),],
   bootstrap: [AppComponent]
