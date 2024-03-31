@@ -3,5 +3,6 @@ export class ServiceProfile {
     location!: string;
     type!: string;
     description!: string;
-    images: string | null = null;
+    name!: string;
+    // images: string | null = null;
 }

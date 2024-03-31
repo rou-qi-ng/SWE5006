@@ -28,10 +28,11 @@
               [formGroup]="loginForm"
               fxLayout="column"
               fxLayoutAlign="center stretch"
+              enctype="multipart/form-data"
             >
               <mat-form-field>
                 <mat-label>Name</mat-label>
-                <input matInput formControlName="name" />
+                <input matInput formControlName="service_name" />
               </mat-form-field>
               <br>
               <mat-form-field>
@@ -49,7 +50,7 @@
                 <input matInput type="text" formControlName="service_location" />
               </mat-form-field>
               <br>
-              <mat-form-field>
+              <!-- <mat-form-field>
                 <mat-label>Choose a date</mat-label>
                 <input matInput [matDatepicker]="picker">
                 <mat-hint>MM/DD/YYYY</mat-hint>
@@ -57,7 +58,8 @@
                     <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
+              </mat-form-field> -->
+              <input type="file" multiple (change)="onFileSelected($event)" accept="image/*">
             </form>
           </mat-card-content>
           <mat-card-actions>

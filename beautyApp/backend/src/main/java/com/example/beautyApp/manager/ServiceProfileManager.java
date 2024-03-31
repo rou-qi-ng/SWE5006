@@ -20,5 +20,10 @@ public class ServiceProfileManager {
     public Optional<ServiceProfile> getServiceProfileById(int serviceId) {
         return serviceProfileRepository.findByServiceId(serviceId);
     }
+
+    public ServiceProfile saveServiceProfile(ServiceProfile serviceProfile) {
+
+        return serviceProfileRepository.save(serviceProfile);
+    }
     
 }

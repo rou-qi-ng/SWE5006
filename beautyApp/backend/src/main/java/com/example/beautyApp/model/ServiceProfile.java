@@ -12,12 +12,11 @@ import java.io.Serializable;
 @Entity
 @Setter
 @Getter
-@Table(name = "Service") 
+@Table(name = "service")
 public class ServiceProfile implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // @NonNull                         // not needed as int in java will not hold null values
     @Column(name = "service_id")
     private int serviceId;
 
@@ -33,8 +32,11 @@ public class ServiceProfile implements Serializable {
     @Column(name = "service_description")
     private String description;
 
-    @Column(name = "service_images")
-    private String images;
+//    @Column(name = "service_images")
+//    private String images;
+
+    @Column(name = "service_name")
+    private String name;
 
 
     // Getters and setters
@@ -71,12 +73,12 @@ public class ServiceProfile implements Serializable {
         this.description = description;
     }
 
-    public String getImages() {
-        return images;
+    public String getName() {
+        return name;
     }
 
-    public void setImages(String images) {
-        this.images = images;
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
