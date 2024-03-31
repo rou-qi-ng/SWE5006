@@ -27,6 +27,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { BusinessPagesComponent } from './business-pages/business-pages.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
 // import { UserUpdateComponent } from './user-update/user-update.component';
 // import { UserDetailsComponent } from './user-details/user-details.component';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -42,6 +43,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     BaseHomeComponent,
     DashboardPageComponent,
     SearchPageComponent,
+    ServiceProfilePageComponent
     // UserUpdateComponent,
     // UserDetailsComponent
   ],
