@@ -53,7 +53,7 @@ public class ServiceProfileController {
     }
 
     @PostMapping(path = "/search")
-    public ResponseEntity<?> search(@RequestBody ServiceProfile s) throws Exception {
+    public ResponseEntity<List<ServiceProfile>> search(@RequestBody ServiceProfile s) throws Exception {
         List<ServiceProfile> serviceProfile = serviceProfileManager.search(s.getType(), s.getName());
         System.out.println("serviceType: " + s.getType());
         System.out.println("serviceName: " +  s.getName());
@@ -61,7 +61,7 @@ public class ServiceProfileController {
         if (!serviceProfile.isEmpty()) {
             return ResponseEntity.ok(serviceProfile);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(null);
         }
 
     }
