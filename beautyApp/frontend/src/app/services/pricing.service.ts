@@ -16,7 +16,8 @@ export class PricingService {
   //   return this.httpClient.get<Pricing[]>(`${this.baseUrl}/pricing`);
   // }
 
-  getServiceDetails(serviceId: number): Observable<Pricing> {
-    return this.httpClient.get<Pricing>(`${this.baseUrl}/serviceProfile/${serviceId}/pricing`);
+  getPricings(serviceId: number): Observable<Pricing[]> {
+    return this.httpClient.get<Pricing[]>(`${this.baseUrl}/serviceProfile/${serviceId}/pricing`);
   }
+
 }

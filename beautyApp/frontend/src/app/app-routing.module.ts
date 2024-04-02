@@ -42,7 +42,7 @@ const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'service/:service',
+    path: 'service/:serviceType',
     component: SearchPageComponent,
     canActivate: [authGuard],
   },

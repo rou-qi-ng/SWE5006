@@ -1,7 +1,7 @@
 export class Pricing {
-    // serviceId!: number;
-    // location!: string;
-    // type!: string;
-    // description!: string;
-    // images: string | null = null;
+    pricingId!: number;
+    pricingServiceId!: number;
+    pricingName!: string;
+    pricingCost!: number;
+    pricingAddon!: string;
 }
