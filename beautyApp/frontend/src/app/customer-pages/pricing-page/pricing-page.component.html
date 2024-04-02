@@ -16,30 +16,44 @@
           <div class="spinner horizontal"></div>
           <div class="spinner diagonal part-2"></div>
       </label>
+
       
-      <div class="search-section">
 
-          <div *ngIf="serviceDetails">
-            <!-- <h1 class = "title">{{ serviceDetails.location }}</h1> -->
+      <div class="pricing-card">
+        <div class="pricing-card-header">
+          <div class="pricing-card-title">Catalog</div>
+        </div>
+        
+        <div *ngIf="loading" class="pricing-card-loading">
+          Loading...
+        </div>
 
-            <p>Service Id: {{ serviceDetails.serviceId }}</p>
-            <p>Location: {{ serviceDetails.location }}</p>
-            <p>Type: {{ serviceDetails.type }}</p>
-            <p>Description: {{ serviceDetails.description }}</p>
-
+        <div class="pricing-card-content" *ngIf="!loading && (regularPricings.length > 0 || addOns.length > 0)">
+          <!-- Regular Pricings -->
+          <div *ngFor="let pricing of regularPricings" class="pricing-row">
+            <div>{{ pricing.pricingName }}</div>
+            <div class="pricing-cost">{{ pricing.pricingCost | number:'1.0-0' }}</div>
           </div>
-          
-          <div *ngIf="!serviceDetails">
-            <p>PRICING HELLO</p>
+      
+          <!-- Add Ons -->
+          <div *ngIf="addOns.length > 0" class="add-ons">
+            <div class="pricing-card-title">Add Ons</div>
+            <div *ngFor="let pricing of addOns" class="pricing-row">
+              <div>{{ pricing.pricingName }}</div>
+              <div class="pricing-cost">{{ pricing.pricingCost | number:'1.0-0' }}</div>
+            </div>
           </div>
+        </div>
 
+        <div class="pricing-card-content" *ngIf="!loading && regularPricings.length === 0 && addOns.length === 0">
+          <p class="no-pricing">No pricing available at the moment</p>
+        </div>
       </div>
+      
     </mat-drawer-content>
   </mat-drawer-container>
 
-
-
-
+  
 
 
 

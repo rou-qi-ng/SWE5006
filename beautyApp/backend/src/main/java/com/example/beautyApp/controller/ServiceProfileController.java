@@ -41,27 +41,4 @@ public class ServiceProfileController {
         }
     }
     
-    @GetMapping("/{serviceType}")
-    public ResponseEntity<ServiceProfile> getServiceProfileByType(@PathVariable("serviceType") String serviceType) {
-        Optional<ServiceProfile> serviceProfile = serviceProfileManager.getServiceProfileByType(serviceType);
-        if (serviceProfile.isPresent()) {
-            return ResponseEntity.ok(serviceProfile.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PostMapping(path = "/{serviceType}")
-    public ResponseEntity<?> search(@PathVariable("serviceType") String serviceType, @RequestBody String serviceName) throws Exception {
-        Optional<ServiceProfile> serviceProfile = serviceProfileManager.search(serviceType, serviceName);
-        System.out.println("serviceType: " + serviceType);
-        System.out.println("serviceName: " + serviceName);
-        if (serviceProfile.isPresent()) {
-            return ResponseEntity.ok(serviceProfile.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-
-    }
-
 }
