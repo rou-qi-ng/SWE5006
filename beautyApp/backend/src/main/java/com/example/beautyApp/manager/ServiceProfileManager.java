@@ -21,6 +21,10 @@ public class ServiceProfileManager {
         return serviceProfileRepository.findByServiceId(serviceId);
     }
 
+    public Optional<ServiceProfile> findServiceId(ServiceProfile s) {
+        return serviceProfileRepository.findByLocationAndTypeAndDescriptionAndName(s.getLocation(), s.getType(), s.getDescription(), s.getName());
+    }
+
     public ServiceProfile saveServiceProfile(ServiceProfile serviceProfile) {
 
         return serviceProfileRepository.save(serviceProfile);

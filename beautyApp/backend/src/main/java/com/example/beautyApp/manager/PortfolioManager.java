@@ -20,14 +20,16 @@ public class PortfolioManager {
     private PortfolioRepository  portfolioRepository ;
 
     public void saveFile(Integer serviceId, MultipartFile file) throws IOException {
-        Portfolio fileEntity = new Portfolio();
+        log.info("Service ID: {}", serviceId);
+        Portfolio portfolio = new Portfolio();
         if (serviceId != null) {
-            fileEntity.setServiceId(serviceId);
+            portfolio.setServiceId(serviceId);
+            log.info("Service ID: {}", portfolio.getServiceId());
+            portfolio.setData(file.getBytes());
+            portfolioRepository.save(portfolio);
         } else {
-            fileEntity.setServiceId(1);
+            portfolio.setServiceId(0);
         }
-        fileEntity.setData(file.getBytes());
-        log.info(String.valueOf(fileEntity.getServiceId()));
-        portfolioRepository.save(fileEntity);
+
     }
 }

@@ -1,5 +1,6 @@
 package com.example.beautyApp.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,11 +16,12 @@ import java.io.Serializable;
 @Table(name = "Portfolio")
 public class Portfolio implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_id")
     private int serviceId;
 
     @Lob
+    @Nullable
     @Column(name = "Data")
     private byte[] data;
 

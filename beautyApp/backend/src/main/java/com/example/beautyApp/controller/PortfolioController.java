@@ -21,14 +21,22 @@ public class PortfolioController {
     private static final Logger log = LoggerFactory.getLogger(PortfolioController.class);
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("serviceId") int serviceId, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestParam("serviceId") int serviceId, @RequestParam("data") MultipartFile file) {
         try {
-            log.info("******************",String.valueOf(serviceId));
-            portfolioManager.saveFile(serviceId, file);
-            return ResponseEntity.ok("File uploaded successfully");
+            if (String.valueOf(serviceId) != null) {
+                log.info("Service ID: {}", serviceId);
+                portfolioManager.saveFile(serviceId, file);
+                return ResponseEntity.ok("File uploaded successfully");
+            }
+            else {
+                throw new IllegalArgumentException("Service ID cannot be zero");
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid service ID");
         }
     }
 

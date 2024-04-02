@@ -28,4 +28,8 @@ export class ServiceProfileService {
   saveServiceImages(portfolio: FormData): Observable<ServiceProfile> {
     return this.httpClient.post<ServiceProfile>(`${this.baseUrl}/portfolio/upload`, portfolio);
   }
+
+  findServiceId(serviceProfile: ServiceProfile): Observable<ServiceProfile> {
+    return this.httpClient.post<ServiceProfile>(`${this.baseUrl}/serviceProfile/find`, serviceProfile);
+  }
 }

@@ -40,6 +40,16 @@ public class ServiceProfileController {
         }
     }
 
+    @GetMapping("/find")
+    public ResponseEntity<Optional<ServiceProfile>> findServiceId(@RequestBody ServiceProfile serviceProfile) {
+        Optional<ServiceProfile> serviceProfile2 = serviceProfileManager.findServiceId(serviceProfile);
+        if (serviceProfile2.isPresent()) {
+            return new ResponseEntity<>(serviceProfile2, HttpStatus.OK);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     // Endpoint to insert a new service profile
     @PostMapping("/add")
     public ResponseEntity<ServiceProfile> addServiceProfile(@RequestBody ServiceProfile serviceProfile) {

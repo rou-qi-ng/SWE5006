@@ -18,4 +18,8 @@ public interface ServiceProfileRepository extends JpaRepository<ServiceProfile, 
 
     Optional<ServiceProfile> findByServiceId(int serviceId);
 
+    Optional<ServiceProfile> findByLocationAndTypeAndDescriptionAndName(
+            String location, String type, String description, String name);
+
+
 }

@@ -16,7 +16,6 @@ import java.io.Serializable;
 public class ServiceProfile implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_id")
     private int serviceId;
 

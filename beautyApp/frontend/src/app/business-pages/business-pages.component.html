@@ -8,14 +8,16 @@
       </div>
     </mat-drawer>
     <mat-drawer-content>
-   
+
       <input type="checkbox"  class="openSidebarMenu" id="openSidebarMenu">
       <label for="openSidebarMenu" (click)="drawer.toggle()" class="sidebarIconToggle">
           <div class="spinner diagonal part-1"></div>
           <div class="spinner horizontal"></div>
           <div class="spinner diagonal part-2"></div>
       </label>
-      <div class="background">
+      </mat-drawer-content>
+  </mat-drawer-container>
+  <div class="background">
         <div
         class="authentication-card-container"
         fxLayout="column"
@@ -23,6 +25,7 @@
       >
         <mat-card class="authentication-card">
           <mat-card-header> <mat-card-title>Business Registration</mat-card-title></mat-card-header>
+          <mat-card-header> <mat-card-subtitle>Details</mat-card-subtitle></mat-card-header>
           <mat-card-content>
             <form
               [formGroup]="loginForm"
@@ -59,7 +62,31 @@
                 </mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field> -->
-              <input type="file" multiple (change)="onFileSelected($event)" accept="image/*">
+              <mat-card-header> <mat-card-subtitle>Service Menu (Pricing List)</mat-card-subtitle></mat-card-header>
+              <div class="example-container" *ngFor="let product of products; let i = index">
+                <mat-form-field>
+                  <input matInput placeholder="Service Name" formControlName="productName{{i}}">
+                </mat-form-field>
+                <mat-form-field>
+                  <span matPrefix>$&nbsp;</span>
+                  <input matInput type="number" placeholder="Service Price" formControlName="productPrice{{i}}">
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Service Add On</mat-label>
+                  <mat-select formControlName="productAddon{{i}}">
+                    <mat-option value="yes">Yes</mat-option>
+                    <mat-option value="no">No</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-icon-button color="warn" (click)="removeProduct(i)">
+                  <mat-icon>remove_circle</mat-icon>
+                </button>
+              </div>
+
+              <button mat-raised-button color="primary" (click)="addProduct()">Add Product</button>
+              <br>
+              <mat-card-header> <mat-card-subtitle>Photo Listing</mat-card-subtitle></mat-card-header>
+              <button type="button"><input type="file" multiple (change)="onFileSelected($event)" accept="image/*"></button>
             </form>
           </mat-card-content>
           <mat-card-actions>
