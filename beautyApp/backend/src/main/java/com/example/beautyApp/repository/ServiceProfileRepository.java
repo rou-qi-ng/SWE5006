@@ -2,7 +2,7 @@ package com.example.beautyApp.repository;
 
 import com.example.beautyApp.model.ServiceProfile;
 // import com.example.beautyApp.model.User;
-import com.example.beautyApp.model.User;
+//import com.example.beautyApp.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,9 +21,10 @@ public interface ServiceProfileRepository extends JpaRepository<ServiceProfile, 
 
     Optional<ServiceProfile> findByServiceId(int serviceId);
 
-    Optional<ServiceProfile> findByServiceType(String serviceType);
+    Optional<ServiceProfile> findByType(String type);
 
-    @Query("SELECT u FROM Service u WHERE (u.serviceName = :serviceName) AND (u.serviceType = :serviceType)")
-    Optional<ServiceProfile> findServiceName( @Param("serviceType") String serviceType, @Param("serviceName") String serviceName);
+    @Query("SELECT u FROM ServiceProfile u WHERE ((u.serviceName = :serviceName) AND (u.type = :serviceType))")
+    Optional<ServiceProfile> findServiceName( @Param("serviceType") String serviceType,
+                                              @Param("serviceName") String serviceName);
 
 }
