@@ -1,6 +1,7 @@
 package com.example.beautyApp.controller;
 
 import com.example.beautyApp.manager.ServiceProfileManager;
+import com.example.beautyApp.model.Pricing;
 import com.example.beautyApp.model.ServiceProfile;
 import com.example.beautyApp.model.User;
 import com.example.beautyApp.request.LoginRequest;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 // import java.util.List;
@@ -36,6 +38,16 @@ public class ServiceProfileController {
         Optional<ServiceProfile> serviceProfile = serviceProfileManager.getServiceProfileById(serviceId);
         if (serviceProfile.isPresent()) {
             return ResponseEntity.ok(serviceProfile.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{serviceId}/pricing")
+    public ResponseEntity<List<Pricing>> getAllPricingsByServiceId(@PathVariable("serviceId") int serviceId) {
+        List<Pricing> pricings = serviceProfileManager.getAllPricingsByServiceId(serviceId);
+        if (!pricings.isEmpty()) {
+            return ResponseEntity.ok(pricings);
         } else {
             return ResponseEntity.notFound().build();
         }
