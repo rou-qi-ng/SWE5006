@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,8 +24,8 @@ public class Pricing implements Serializable {
     private int pricingId;
 
 
-    @Column(name = "pricing_service_id")
-    private int pricingServiceId;
+    // @Column(name = "pricing_service_id") // Assuming this column references the service_id in the service table
+    // private int pricingServiceId;
 
     @NonNull
     @Column(name = "pricing_name")
@@ -38,6 +40,12 @@ public class Pricing implements Serializable {
     private String pricingAddon;
 
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "pricing_service_id", referencedColumnName = "service_id")
+    private ServiceProfile serviceProfile;
+    
+    
     // Getters and setters
 
     public int getPricingId() {
@@ -48,13 +56,13 @@ public class Pricing implements Serializable {
         this.pricingId = pricingId;
     }
 
-    public int getPricingServiceId() {
-        return pricingServiceId;
-    }
+    // public int getPricingServiceId() {
+    //     return pricingServiceId;
+    // }
 
-    public void setPricingServiceId(int pricingServiceId) {
-        this.pricingServiceId = pricingServiceId;
-    }
+    // public void setPricingServiceId(int pricingServiceId) {
+    //     this.pricingServiceId = pricingServiceId;
+    // }
 
     public String getPricingName() {
         return pricingName;
