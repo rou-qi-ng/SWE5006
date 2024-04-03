@@ -21,7 +21,7 @@ export class ServiceProfileService {
   }
 
   search(serviceProfile: ServiceProfile): Observable<ServiceProfile> {
-    return this.httpClient.post<ServiceProfile>('${this.baseUrl}/serviceProfile/search', serviceProfile);
+    return this.httpClient.post<ServiceProfile>(`${this.baseUrl}/serviceProfile/search`, serviceProfile);
   }
 
 
