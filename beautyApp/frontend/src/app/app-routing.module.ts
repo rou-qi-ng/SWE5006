@@ -14,6 +14,7 @@ import { SearchPageComponent } from './customer-pages/search-page/search-page.co
 import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
 import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page.component';
 import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
+import { ReviewPageComponent } from './customer-pages/review-page/review-page.component';
 
 const routes: Routes = [
   { path: 'forbidden', component: ForbiddenPageComponent },
@@ -61,11 +62,11 @@ const routes: Routes = [
     component: AvailabilityPageComponent,
     canActivate: [authGuard],
   },
-  // {
-  //   path: 'serviceProfile/:serviceId/reviews',
-  //   component: ReviewPageComponent,
-  //   canActivate: [authGuard],
-  // },
+  {
+    path: 'serviceProfile/:serviceId/review',
+    component: ReviewPageComponent,
+    canActivate: [authGuard],
+  },
   // { path: 'update-user/:id', component: UserUpdateComponent },
 ];
 

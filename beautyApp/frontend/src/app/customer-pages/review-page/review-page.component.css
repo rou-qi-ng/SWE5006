@@ -1,0 +1,96 @@
+
+  body, mat-drawer-container{
+    background-color: #D8C2A5;
+    height: 100%;
+  }
+
+  mat-drawer{
+    width: 30%;
+    height: 100%;
+  }
+
+  .review-card {
+    margin-top: 2%;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #C6B4B4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .review-card-header {
+    text-align: center;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .review-card-title {
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    font-family: sans-serif;
+    font-size: larger;
+  }
+  
+  .review-card-loading {
+    padding: 16px;
+    color: white;
+    text-align: center;
+  }
+
+  .review-card-content {
+    padding: 16px;
+    color: white;
+  }
+
+  .review-details {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    line-height: 2;
+  }
+
+  .date {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+  }
+  
+  .review-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+  }
+  
+  .review-cost {
+    text-align: right;
+  }
+
+  .no-review {
+    text-align: center;
+  }
+
+
+  .review-card-actions {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .review-button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .review-button:hover {
+    background-color: #45a049;
+  }
+  

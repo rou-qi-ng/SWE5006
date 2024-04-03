@@ -24,7 +24,7 @@ public class Pricing implements Serializable {
     private int pricingId;
 
 
-    // @Column(name = "pricing_service_id") // Assuming this column references the service_id in the service table
+    // @Column(name = "pricing_service_id") 
     // private int pricingServiceId;
 
     @NonNull

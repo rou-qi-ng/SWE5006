@@ -2,6 +2,7 @@ package com.example.beautyApp.controller;
 
 import com.example.beautyApp.manager.ServiceProfileManager;
 import com.example.beautyApp.model.Pricing;
+import com.example.beautyApp.model.Review;
 import com.example.beautyApp.model.ServiceProfile;
 import com.example.beautyApp.model.User;
 import com.example.beautyApp.request.LoginRequest;
@@ -53,4 +54,13 @@ public class ServiceProfileController {
         }
     }
     
+    @GetMapping("/{serviceId}/review")
+    public ResponseEntity<List<Review>> getAllReviewsByServiceId(@PathVariable("serviceId") int serviceId) {
+        List<Review> reviews = serviceProfileManager.getAllReviewsByServiceId(serviceId);
+        if (!reviews.isEmpty()) {
+            return ResponseEntity.ok(reviews);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

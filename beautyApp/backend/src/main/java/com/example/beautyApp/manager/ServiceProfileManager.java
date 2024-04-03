@@ -1,6 +1,7 @@
 package com.example.beautyApp.manager;
 
 import com.example.beautyApp.model.Pricing;
+import com.example.beautyApp.model.Review;
 import com.example.beautyApp.model.ServiceProfile;
 //import com.example.beautyApp.model.User;
 import com.example.beautyApp.repository.ServiceProfileRepository;
@@ -27,5 +28,9 @@ public class ServiceProfileManager {
 
     public List<Pricing> getAllPricingsByServiceId(int serviceId) {
         return serviceProfileRepository.findPricingsByServiceId(serviceId);
+    }
+
+    public List<Review> getAllReviewsByServiceId(int serviceId) {
+        return serviceProfileRepository.findReviewsByServiceId(serviceId);
     }
 }
