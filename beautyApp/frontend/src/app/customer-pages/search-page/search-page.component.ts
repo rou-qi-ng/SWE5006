@@ -24,25 +24,21 @@ export class SearchPageComponent implements OnInit {
      private authenticationService: AuthenticationService,) {}
 
   ngOnInit(): void {
-     this.route.params.subscribe(params => { this.service = params['service']; });
-     this.searchForm = this.formBuilder.group({
+
+    this.searchForm = this.formBuilder.group({
       shopName: ['']
     });
-
-    this.onSubmit();
-    // this.serviceProfileService.getServiceType().subscribe(
-    //   (response) => {
-    //     this. = response; // Assuming response is an array of ServiceProfile objects
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching search results:', error);
-    //     // Handle error response here
-    //   }
-    // );
+    
+     this.route.params.subscribe(params => { this.service = params['service']; 
+     console.log("testttttttttttt", this.service);
+     this.onSubmit();
+    });
+     
   }
 
   routeTo(serviceName: string) {
     this.router.navigate(['service', serviceName]);
+    this.onSubmit();
   }
  
   logout(): void {
