@@ -1,0 +1,37 @@
+  .inline-calendar-card {
+    width: 300px;
+    margin: 0 auto;
+  }
+
+  body, mat-drawer-container{
+    background-color: #D8C2A5;
+    height: 100%;
+  }
+
+  mat-drawer{
+    width: 30%;
+    height: 100%;
+  }
+
+
+  .search-section{
+    margin-top: 2%;
+    width: 70%;
+    margin-left: 15%;
+  }
+  
+  /* CSS to center the <p> element horizontally */
+.selected-date {
+  text-align: center;
+  display: block;
+  margin-top: 10px; /* Adjust as needed for spacing */
+}
+
+.selected-time-slot {
+  text-align: center;
+  display: block;
+  margin-top: 10px; /* Adjust as needed for spacing */
+}
+
+ 
+

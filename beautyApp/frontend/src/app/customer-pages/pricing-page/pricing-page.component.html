@@ -1,0 +1,61 @@
+<body>
+
+  <mat-drawer-container class="example-container" hasBackdrop="false">
+    <mat-drawer #drawer mode="side">
+      <div class="main-content-wrapper">
+        <a style="color: beige; cursor: pointer;" (click)="routeTo('nails'); drawer.toggle()">Nails</a>
+        <a style="color: beige; cursor: pointer;" (click)="routeTo('lash'); drawer.toggle()">Lashes</a>
+        <a style="color: beige; cursor: pointer;" (click)="logout()">Log out</a>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content>
+
+      <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
+      <label for="openSidebarMenu" (click)="drawer.toggle()" class="sidebarIconToggle">
+          <div class="spinner diagonal part-1"></div>
+          <div class="spinner horizontal"></div>
+          <div class="spinner diagonal part-2"></div>
+      </label>
+
+      
+
+      <div class="pricing-card">
+        <div class="pricing-card-header">
+          <div class="pricing-card-title">Catalog</div>
+        </div>
+        
+        <div *ngIf="loading" class="pricing-card-loading">
+          Loading...
+        </div>
+
+        <div class="pricing-card-content" *ngIf="!loading && (regularPricings.length > 0 || addOns.length > 0)">
+          <!-- Regular Pricings -->
+          <div *ngFor="let pricing of regularPricings" class="pricing-row">
+            <div>{{ pricing.pricingName }}</div>
+            <div class="pricing-cost">{{ pricing.pricingCost | number:'1.0-0' }}</div>
+          </div>
+      
+          <!-- Add Ons -->
+          <div *ngIf="addOns.length > 0" class="add-ons">
+            <div class="pricing-card-title">Add Ons</div>
+            <div *ngFor="let pricing of addOns" class="pricing-row">
+              <div>{{ pricing.pricingName }}</div>
+              <div class="pricing-cost">{{ pricing.pricingCost | number:'1.0-0' }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pricing-card-content" *ngIf="!loading && regularPricings.length === 0 && addOns.length === 0">
+          <p class="no-pricing">No pricing available at the moment</p>
+        </div>
+      </div>
+      
+    </mat-drawer-content>
+  </mat-drawer-container>
+
+  
+
+
+
+  
+</body>

@@ -19,8 +19,6 @@ import { LoginPageComponent } from './home-pages/login-page/login-page.component
 import { RegisterPageComponent } from './home-pages/register-page/register-page.component';
 import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.component';
 import { BaseHomeComponent } from './home-pages/base-home/base-home.component';
-import { DashboardPageComponent } from './customer-pages/dashboard-page/dashboard-page.component';
-import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
 // import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 // import {MatFormFieldModule} from '@angular/material/form-field';
@@ -30,6 +28,16 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
 // import { UserUpdateComponent } from './user-update/user-update.component';
 // import { UserDetailsComponent } from './user-details/user-details.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
+import { DashboardPageComponent } from './customer-pages/dashboard-page/dashboard-page.component';
+import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
+import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
+import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page.component';
+import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
+
+
 import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
@@ -43,7 +51,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     BaseHomeComponent,
     DashboardPageComponent,
     SearchPageComponent,
-    ServiceProfilePageComponent
+    ServiceProfilePageComponent,
+    PricingPageComponent,
+    AvailabilityPageComponent
     // UserUpdateComponent,
     // UserDetailsComponent
   ],
@@ -58,12 +68,14 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatFormFieldModule,
     MatCardModule,
     MatInputModule,
-    MatSidenavModule, 
-    MatFormFieldModule, 
-    MatSelectModule, 
+    MatSidenavModule,
+    MatFormFieldModule,
+    MatSelectModule,
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }, provideAnimationsAsync(),],
   bootstrap: [AppComponent]
