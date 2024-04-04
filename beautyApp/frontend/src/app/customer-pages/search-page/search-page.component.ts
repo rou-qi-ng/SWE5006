@@ -10,11 +10,12 @@ import { ServiceProfileService } from '../../services/serviceProfile.service';
 @Component({
   selector: 'app-search-page',
   templateUrl: './search-page.component.html',
-  styleUrl: './search-page.component.css',
+  styleUrls: ['./search-page.component.css']
 })
 export class SearchPageComponent implements OnInit {
   public searchForm!: FormGroup;
-
+  public search: ServiceProfile[] = [];
+  public searchSuccess: Boolean = true;
   service: string | null = null;
   constructor(private router: Router,
     private formBuilder: FormBuilder, 
@@ -47,6 +48,10 @@ export class SearchPageComponent implements OnInit {
     this.serviceProfileService.search(serviceProfile).subscribe(
       (response) => {
         console.log('New ServiceProfile added successfully:', response);
+        this.search = Array.isArray(response) ? response : [response];
+        console.log(this.search);
+        this.searchSuccess = this.search && this.search[0] != null;
+        console.log('test ', this.searchSuccess);
       },
       (error) => {
         console.error('Error adding ServiceProfile:', error);
