@@ -40,6 +40,34 @@ export class AvailabilityPageComponent implements OnInit {
     this.timeSlots = this.generateTimeSlots(); // Generate time slots
   }
 
+  bookAppointment(): void {
+    console.log('Selected Date:', this.selected);
+    console.log('Selected Time Slot:', this.selectedTimeSlot);
+  
+    if (this.selected && this.selectedTimeSlot) {
+      const appointmentData = {
+        appointment_date: this.selected,
+        appointment_time: this.selectedTimeSlot
+      };
+  
+      // Call the bookAppointment method of AvailabilityService to send the appointment data to the backend
+      this.availabilityService.bookAppointment(appointmentData).subscribe(
+        (response) => {
+          console.log('Appointment booked successfully:', response);
+          // Optionally, perform any additional actions after successful booking
+        },
+        (error) => {
+          console.error('Error booking appointment:', error);
+          // Optionally, handle error and display message to the user
+        }
+      );
+    } else {
+      console.error('Please select a date and time slot before booking.');
+      // Optionally, display a message to the user indicating that a date and time slot must be selected before booking
+    }
+  }
+
+
   // Function to generate time slots
   generateTimeSlots(): string[] {
     const timeSlots: string[] = [];
