@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -37,6 +38,13 @@ public class ServiceProfile implements Serializable {
     @Column(name = "service_description")
     private String serviceDescription;
 
+
+    @OneToMany(mappedBy = "serviceProfile")
+    private List<Pricing> pricings;
+
+
+    @OneToMany(mappedBy = "serviceProfile")
+    private List<Pricing> reviews;
 
     // Getters and setters
 

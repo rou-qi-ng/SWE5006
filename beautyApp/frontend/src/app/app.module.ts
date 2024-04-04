@@ -33,6 +33,9 @@ import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-pag
 import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page.component';
 import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ReviewPageComponent } from './customer-pages/review-page/review-page.component';
+
+
 
 @NgModule({
   declarations: [
@@ -47,7 +50,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     SearchPageComponent,
     ServiceProfilePageComponent,
     PricingPageComponent,
-    AvailabilityPageComponent
+    AvailabilityPageComponent,
+    ReviewPageComponent
     // UserUpdateComponent,
     // UserDetailsComponent
   ],
@@ -66,8 +70,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatFormFieldModule,
     MatSelectModule,
     MatButtonModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     MatDatepickerModule,
     MatNativeDateModule
   ],
