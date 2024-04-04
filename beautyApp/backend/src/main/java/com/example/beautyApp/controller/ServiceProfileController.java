@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/serviceProfile")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ServiceProfileController {
     private static final Logger log = LoggerFactory.getLogger(ServiceProfileController.class);
 
@@ -57,9 +57,14 @@ public class ServiceProfileController {
     // Endpoint to insert a new service profile
     @PostMapping("/add")
     public ResponseEntity<ServiceProfile> addServiceProfile(@RequestBody ServiceProfile serviceProfile) {
+
         log.info("Received new service profile: {}", serviceProfile);
         ServiceProfile savedServiceProfile = serviceProfileManager.saveServiceProfile(serviceProfile);
-        return new ResponseEntity<>(savedServiceProfile, HttpStatus.CREATED);
+        if (savedServiceProfile != null) {
+            return new ResponseEntity<>(savedServiceProfile, HttpStatus.CREATED);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 

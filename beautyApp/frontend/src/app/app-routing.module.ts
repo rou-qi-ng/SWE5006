@@ -47,7 +47,7 @@ const routes: Routes = [
       path: 'business',
       component: BusinessPagesComponent,
       canActivate: [authGuard],
-    },
+  },
   {
     path: 'service/:serviceType',
     component: SearchPageComponent,
@@ -72,7 +72,6 @@ const routes: Routes = [
     path: 'serviceProfile/:serviceId/review',
     component: ReviewPageComponent,
     canActivate: [authGuard],
-  },
   }
   // { path: 'update-user/:id', component: UserUpdateComponent },
 ];

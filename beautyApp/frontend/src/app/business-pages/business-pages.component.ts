@@ -18,6 +18,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
+import { PricingService } from '../services/pricing.service';
+import { Pricing } from '../model/pricing.model';
 
 @Component({
   selector: 'app-business-pages',
@@ -30,29 +32,38 @@ import { MatSelectModule } from '@angular/material/select';
 export class BusinessPagesComponent {
   public loginForm!: FormGroup;
   selectedFiles: File | null = null;
-  products: { name: string, price: number, addon: string }[] = [];
-
+  products: Pricing[] = [];
 
   constructor(private authenticationService: AuthenticationService,
     private router: Router, 
     private formBuilder: FormBuilder, 
     private http: HttpClient,
-    private serviceProfileService: ServiceProfileService ) {
+    private serviceProfileService: ServiceProfileService,
+    private pricingService: PricingService ) {
       
 
   }
 
   addProduct(): void {
-    this.products.push({ name: '', price: 0, addon: 'No'});
+    this.products.push({
+      pricingId: 0,
+      pricingServiceId: 0,
+      pricingName: '',
+      pricingCost: 0,
+      pricingAddon: 'No'
+    });
     const index = this.products.length - 1;
     this.loginForm.addControl(`productName${index}`, this.formBuilder.control(''));
     this.loginForm.addControl(`productPrice${index}`, this.formBuilder.control(0));
+    this.loginForm.addControl(`productAddon${index}`, this.formBuilder.control('No'));
+
   }
 
   removeProduct(index: number): void {
     this.products.splice(index, 1);
     this.loginForm.removeControl(`productName${index}`);
     this.loginForm.removeControl(`productPrice${index}`);
+    this.loginForm.removeControl(`productAddon${index}`);
   }
 
  ngOnInit() {
@@ -68,6 +79,7 @@ export class BusinessPagesComponent {
   this.products.forEach((product, index) => {
     this.loginForm.addControl(`productName${index}`, this.formBuilder.control(''));
     this.loginForm.addControl(`productPrice${index}`, this.formBuilder.control(0));
+    this.loginForm.addControl(`productAddon${index}`, this.formBuilder.control('No'));
   });
 }
 
@@ -90,12 +102,11 @@ public onSubmit() {
       serviceType: this.loginForm.get('service_type')?.value,
       serviceLocation: this.loginForm.get('service_location')?.value,
     };
+    console.log(this.selectedFiles);
     this.serviceProfileService.saveServiceDetails(newServiceProfile).subscribe(
-        (response) => {
-          console.log('New ServiceProfile added successfully:', response);
+      (response) => {
+        console.log('New ServiceProfile added successfully:', response);
 
-          this.serviceProfileService.findServiceId(response).subscribe(
-            (response) => {console.log('serviceProfile found:', response);
             if (this.selectedFiles) {
               const formData = new FormData();
               const blob = new Blob([this.selectedFiles], { type: this.selectedFiles.type });
@@ -103,21 +114,35 @@ public onSubmit() {
               formData.append('data', blob, this.selectedFiles?.name); // Append the file
               console.log(formData);
               this.serviceProfileService.saveServiceImages(formData).subscribe(
-                (response) => {console.log('New ServiceProfile added successfully:', response);});
-              }
-              },
-            (error) => {
-              console.error('Error adding ServiceProfile:', error);
-              // Handle error response here
+                (imageResponse) => {
+                  console.log('New ServiceProfile added successfully:', imageResponse);
+                },
+                (imageError) => {
+                  console.error('Error adding service images:', imageError);
+                }
+              );
             }
-          );
-            
-          });
-          
+            // Check if products exist and add them
+            if (this.products && this.products.length > 0) {
+              this.products.forEach((product) => {
+                product.pricingServiceId = response.serviceId;
+              });
+              this.pricingService.addPricings(this.products).subscribe(
+                (pricingResponse) => { console.log('Products added successfully:', pricingResponse); },
+                (pricingError) => { console.error('Error adding products:', pricingError); }
+              );
+            }
+          },
+      (error) => {
+        console.error('Error adding ServiceProfile:', error);
+      }
+    );
   }
 }
 
-logout(){
+logout(): void {
+  this.authenticationService.logout();
+}
 
 }
-}
+
