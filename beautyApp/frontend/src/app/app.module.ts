@@ -24,20 +24,14 @@ import {MatSelectModule} from '@angular/material/select';
 // import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { BusinessPagesComponent } from './business-pages/business-pages.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
 // import { UserUpdateComponent } from './user-update/user-update.component';
 // import { UserDetailsComponent } from './user-details/user-details.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-
 import { DashboardPageComponent } from './customer-pages/dashboard-page/dashboard-page.component';
 import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
 import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
 import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page.component';
 import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
-
-
 import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({

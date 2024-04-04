@@ -85,10 +85,10 @@ public onSubmit() {
     const formValues = this.loginForm.value;
     const newServiceProfile: ServiceProfile = {
       serviceId: 0, // As this is a new service, set ID to 0 or null
-      name: this.loginForm.get('service_name')?.value,
-      description: this.loginForm.get('service_description')?.value,
-      type: this.loginForm.get('service_type')?.value,
-      location: this.loginForm.get('service_location')?.value,
+      serviceName: this.loginForm.get('service_name')?.value,
+      serviceDescription: this.loginForm.get('service_description')?.value,
+      serviceType: this.loginForm.get('service_type')?.value,
+      serviceLocation: this.loginForm.get('service_location')?.value,
     };
     this.serviceProfileService.saveServiceDetails(newServiceProfile).subscribe(
         (response) => {

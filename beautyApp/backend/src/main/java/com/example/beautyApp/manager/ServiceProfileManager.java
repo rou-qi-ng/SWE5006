@@ -22,7 +22,7 @@ public class ServiceProfileManager {
     }
 
     public Optional<ServiceProfile> findServiceId(ServiceProfile s) {
-        return serviceProfileRepository.findByLocationAndTypeAndDescriptionAndName(s.getServiceLocation(), s.getServiceType(), s.getServiceDescription(), s.getServiceName());
+        return serviceProfileRepository.findByServiceLocationAndServiceTypeAndServiceDescriptionAndServiceName(s.getServiceLocation(), s.getServiceType(), s.getServiceDescription(), s.getServiceName());
     }
 
     public ServiceProfile saveServiceProfile(ServiceProfile serviceProfile) {
