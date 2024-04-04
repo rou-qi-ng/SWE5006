@@ -11,6 +11,7 @@ export class AuthenticationClient {
   constructor(private http: HttpClient) {}
 
   public login(username: string, password: string): Observable<string> {
+    localStorage.setItem('username', username );
     return this.http.post(
     //   environment.apiUrl + '/user/login',
         environment.apiUrl + '/login',
@@ -20,6 +21,7 @@ export class AuthenticationClient {
       },
       { responseType: 'text' }
     );
+  
   }
 
   public register(

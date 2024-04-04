@@ -7,6 +7,20 @@
     top: 0px;
     border-radius: 0 0 100% 100%;
 }
+a {
+    color: black;
+    background-color: transparent;
+    text-decoration: none;
+  }
+
+  .img-placehold{
+    background-color: purple;
+    min-width: 30%;
+    width: 30%;
+    min-height: 30%;
+    height: 30%;
+    margin: 5%;
+  }
 
 .welcome-title{
     position: absolute;
@@ -15,6 +29,7 @@
     left: 40%;
     right: 40%;
     top: 25%;
+    margin-top: 5%;
 
     font-family: 'Inter';
     font-style: normal;
@@ -28,16 +43,33 @@
 }
 .container-service{
     position: absolute;
-    width: 20%;
-    height: 57px;
-    left: 40%;
-    right: 40%;
+    width: 100%;
+    /* height: ; */
     top: 110%;
-    align-content: center;
-    text-align: center;
+   
+    margin-bottom: 5%;
 }
 
 button{
-    background-color: green;
+    background-color: green !important;
 }
 
+@media only screen and (max-width: 600px) {
+    .welcome-title{
+      
+        width: 50%;
+        height: 57px;
+        top: 35%;
+        left: 25%;
+        right: 25%;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+    
+        color: #000000;
+    
+    }
+  }

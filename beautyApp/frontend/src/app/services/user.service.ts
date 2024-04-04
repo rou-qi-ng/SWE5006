@@ -9,6 +9,7 @@ import { User } from '../model/user.model';
 export class UserService {
 
   private basUrl = "http://localhost:8401/beautyApp/api/login"
+  private basUrl2 = "http://localhost:8401/beautyApp/api/"
 
   constructor(private httpClient: HttpClient) {
   }
@@ -32,4 +33,11 @@ export class UserService {
   deleteUser(id:number): Observable<Object>{
     return this.httpClient.delete(`${this.basUrl}/${id}`);
   }
+
+  getCode(): Observable<any>{
+    this.basUrl2 = this.basUrl2 + 'getReferralCode';
+    return this.httpClient.get(`${this.basUrl2}`);
+  }
+
+
 }
