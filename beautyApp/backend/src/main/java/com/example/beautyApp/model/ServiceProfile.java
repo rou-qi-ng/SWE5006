@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -22,20 +23,28 @@ public class ServiceProfile implements Serializable {
     private int serviceId;
 
     @NonNull
+    @Column(name = "service_name")
+    private String serviceName;
+
+    @NonNull
     @Column(name = "service_location")
-    private String location;
+    private String serviceLocation;
 
     @NonNull
     @Column(name = "service_type")
-    private String type;
+    private String serviceType;
 
     @NonNull
     @Column(name = "service_description")
-    private String description;
+    private String serviceDescription;
 
-    @Column(name = "service_images")
-    private String images;
+    
+    @OneToMany(mappedBy = "serviceProfile")
+    private List<Pricing> pricings;
 
+
+    @OneToMany(mappedBy = "serviceProfile")
+    private List<Pricing> reviews;
 
     // Getters and setters
 
@@ -47,37 +56,39 @@ public class ServiceProfile implements Serializable {
         this.serviceId = serviceId;
     }
 
-    public String getLocation() {
-        return location;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
-    public String getType() {
-        return type;
+    public String getServiceLocation() {
+        return serviceLocation;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setServiceLocation(String serviceLocation) {
+        this.serviceLocation = serviceLocation;
     }
 
-    public String getDescription() {
-        return description;
+    public String getServiceType() {
+        return serviceType;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
     }
 
-    public String getImages() {
-        return images;
+    public String getServiceDescription() {
+        return serviceDescription;
     }
 
-    public void setImages(String images) {
-        this.images = images;
+    public void setServiceDescription(String serviceDescription) {
+        this.serviceDescription = serviceDescription;
     }
+
+    
 
 }
 

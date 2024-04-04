@@ -9,7 +9,7 @@
     height: 100%;
   }
 
-  .pricing-card {
+  .review-card {
     margin-top: 2%;
     width: 70%;
     margin-left: auto;
@@ -19,14 +19,14 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  .pricing-card-header {
+  .review-card-header {
     text-align: center;
     padding: 16px;
     display: flex;
     justify-content: center;
   }
   
-  .pricing-card-title {
+  .review-card-title {
     text-align: center;
     font-weight: bold;
     color: white;
@@ -34,40 +34,54 @@
     font-size: larger;
   }
   
-  .pricing-card-loading {
+  .review-card-loading {
     padding: 16px;
     color: white;
     text-align: center;
   }
 
-  .pricing-card-content {
+  .review-card-content {
     padding: 16px;
     color: white;
   }
+
+  .review-details {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    line-height: 2;
+  }
+
+  .date {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+  }
   
-  .pricing-row {
+  .review-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 8px;
   }
   
-  .pricing-cost {
+  .review-cost {
     text-align: right;
   }
 
-  .no-pricing {
+  .no-review {
     text-align: center;
   }
 
 
-  .pricing-card-actions {
+  .review-card-actions {
     padding: 16px;
     display: flex;
     justify-content: space-between;
   }
   
-  .pricing-button {
+  .review-button {
     padding: 8px 16px;
     background-color: #4CAF50;
     color: white;
@@ -76,7 +90,7 @@
     cursor: pointer;
   }
   
-  .pricing-button:hover {
+  .review-button:hover {
     background-color: #45a049;
   }
   

@@ -33,6 +33,8 @@ import { SearchPageComponent } from './customer-pages/search-page/search-page.co
 import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
 import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page.component';
 import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
+import { ReviewPageComponent } from './customer-pages/review-page/review-page.component';
+
 
 
 @NgModule({
@@ -48,7 +50,8 @@ import { AvailabilityPageComponent } from './customer-pages/availability-page/av
     SearchPageComponent,
     ServiceProfilePageComponent,
     PricingPageComponent,
-    AvailabilityPageComponent
+    AvailabilityPageComponent,
+    ReviewPageComponent
     // UserUpdateComponent,
     // UserDetailsComponent
   ],
