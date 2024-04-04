@@ -28,6 +28,17 @@ export class SearchPageComponent implements OnInit {
      this.searchForm = this.formBuilder.group({
       shopName: ['']
     });
+
+    this.onSubmit();
+    // this.serviceProfileService.getServiceType().subscribe(
+    //   (response) => {
+    //     this. = response; // Assuming response is an array of ServiceProfile objects
+    //   },
+    //   (error) => {
+    //     console.error('Error fetching search results:', error);
+    //     // Handle error response here
+    //   }
+    // );
   }
 
   routeTo(serviceName: string) {
