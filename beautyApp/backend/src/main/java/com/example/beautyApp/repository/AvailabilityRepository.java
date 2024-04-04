@@ -1,6 +1,7 @@
 package com.example.beautyApp.repository;
 
 import com.example.beautyApp.model.Availability;
+import com.example.beautyApp.model.Appointment;
 // import com.example.beautyApp.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,5 +18,7 @@ public interface AvailabilityRepository extends JpaRepository<Availability, Inte
     // List<Availability> findAll();
 
    List<Availability> findByAvailabilityServiceId(int serviceId);
+
+   Appointment save(Appointment appointmentData);
 
 }

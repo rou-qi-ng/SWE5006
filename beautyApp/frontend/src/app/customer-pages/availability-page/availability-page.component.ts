@@ -44,14 +44,26 @@ export class AvailabilityPageComponent implements OnInit {
     console.log('Selected Date:', this.selected);
     console.log('Selected Time Slot:', this.selectedTimeSlot);
   
-    if (this.selected && this.selectedTimeSlot) {
+     // Retrieve the user_id from the logged-in user
+    // const currentUser = this.authenticationService.getUser();
+    // if (!currentUser) {
+    //   console.error('User not logged in.');
+    //   return;
+    // }
+    // const userid = currentUser.userId;
+
+    if (this.selected && this.selectedTimeSlot && this.serviceId !== null) {
       const appointmentData = {
-        appointment_date: this.selected,
-        appointment_time: this.selectedTimeSlot
+        appointmentServiceId: this.serviceId,
+        appointmentUserId: 1,   // change this to userid, now no login ppl      
+        appointmentDate: this.selected,
+        appointmentTime: this.selectedTimeSlot
       };
+
+      console.log('appointmentData:', appointmentData);
   
       // Call the bookAppointment method of AvailabilityService to send the appointment data to the backend
-      this.availabilityService.bookAppointment(appointmentData).subscribe(
+      this.availabilityService.bookAppointmentService(this.serviceId, appointmentData).subscribe(
         (response) => {
           console.log('Appointment booked successfully:', response);
           // Optionally, perform any additional actions after successful booking

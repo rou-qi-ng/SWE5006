@@ -2,7 +2,9 @@ package com.example.beautyApp.controller;
 
 import com.example.beautyApp.manager.AvailabilityManager;
 import com.example.beautyApp.model.Availability;
+import com.example.beautyApp.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 // import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +38,18 @@ public class AvailabilityController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
+    @PostMapping("/{serviceId}/availability/book-appointment")
+    public ResponseEntity<?> bookAppointment(@RequestBody Appointment appointmentData) {
+
+        try {
+            availabilityManager.save(appointmentData);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
 }

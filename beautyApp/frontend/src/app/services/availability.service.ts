@@ -19,6 +19,9 @@ export class AvailabilityService {
   getAvailabilities(serviceId: number): Observable<Availability[]> {
     return this.httpClient.get<Availability[]>(`${this.baseUrl}/serviceProfile/${serviceId}/availability`);
   }
-  bookAppointment(appointmentData: any): Observable<any> {
-    return this.httpClient.post<any>(`${this.baseUrl}/appointment`, appointmentData);
-}}
+
+  bookAppointmentService(serviceId: number, appointmentData: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/serviceProfile/${serviceId}/availability/book-appointment`, appointmentData);
+  }
+
+}

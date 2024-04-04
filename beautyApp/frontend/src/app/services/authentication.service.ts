@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationClient } from '../clients/authentication.client';
+import { User } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
   private tokenKey = 'token';
+  private user: User | null = null;
 
   constructor(
     private authenticationClient: AuthenticationClient,
@@ -29,6 +31,10 @@ export class AuthenticationService {
       });
   }
 
+  public getUser(): User | null {
+    return this.user;
+  }
+  
   public logout() {
     localStorage.removeItem(this.tokenKey);
     this.router.navigate(['/home']);
