@@ -103,7 +103,14 @@ public onSubmit() {
       serviceLocation: this.loginForm.get('service_location')?.value,
     };
     console.log(this.selectedFiles);
-    this.serviceProfileService.saveServiceDetails(newServiceProfile).subscribe(
+    if (this.products && this.products.length > 0) {
+      this.products.forEach((product) => {
+      product.pricingServiceId = 1;
+      product.pricingAddon = product.pricingAddon === 'Yes' ? 'Y' : 'N'; // Convert 'yes' to 'Y' and 'no' to 'N'
+         console.log(product);     
+      });
+    }
+    this.serviceProfileService.saveServiceDetails(newServiceProfile, this.products).subscribe(
       (response) => {
         console.log('New ServiceProfile added successfully:', response);
 
@@ -123,15 +130,15 @@ public onSubmit() {
               );
             }
             // Check if products exist and add them
-            if (this.products && this.products.length > 0) {
-              this.products.forEach((product) => {
-                product.pricingServiceId = response.serviceId;
-              });
-              this.pricingService.addPricings(this.products).subscribe(
-                (pricingResponse) => { console.log('Products added successfully:', pricingResponse); },
-                (pricingError) => { console.error('Error adding products:', pricingError); }
-              );
-            }
+            // if (this.products && this.products.length > 0) {
+            //   this.products.forEach((product) => {
+            //     product.pricingServiceId = response.serviceId;
+            //   });
+            //   this.pricingService.addPricings(this.products).subscribe(
+            //     (pricingResponse) => { console.log('Products added successfully:', pricingResponse); },
+            //     (pricingError) => { console.error('Error adding products:', pricingError); }
+            //   );
+            // }
           },
       (error) => {
         console.error('Error adding ServiceProfile:', error);

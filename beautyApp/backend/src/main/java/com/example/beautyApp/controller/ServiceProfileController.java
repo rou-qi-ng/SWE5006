@@ -1,5 +1,6 @@
 package com.example.beautyApp.controller;
 
+import com.example.beautyApp.model.ServiceProfileWithPricing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.beautyApp.manager.ServiceProfileManager;
@@ -56,10 +57,17 @@ public class ServiceProfileController {
 
     // Endpoint to insert a new service profile
     @PostMapping("/add")
-    public ResponseEntity<ServiceProfile> addServiceProfile(@RequestBody ServiceProfile serviceProfile) {
-
+    public ResponseEntity<ServiceProfile> addServiceProfile(@RequestBody ServiceProfileWithPricing combinedData) {
+        ServiceProfile serviceProfile = combinedData.getServiceProfile();
+        List<Pricing> pricingList = combinedData.getPricingList();
+        for (Pricing pricing : pricingList) {
+            pricing.setServiceProfile(serviceProfile);
+        }
+        log.info("Received new service profile: {}", combinedData.toString());
         log.info("Received new service profile: {}", serviceProfile);
-        ServiceProfile savedServiceProfile = serviceProfileManager.saveServiceProfile(serviceProfile);
+        log.info("Received new service profile pricing: {}", pricingList);
+
+        ServiceProfile savedServiceProfile = serviceProfileManager.saveServiceProfile(serviceProfile, pricingList);
         if (savedServiceProfile != null) {
             return new ResponseEntity<>(savedServiceProfile, HttpStatus.CREATED);
         } else {

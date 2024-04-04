@@ -56,13 +56,14 @@ public class Pricing implements Serializable {
         this.pricingId = pricingId;
     }
 
-    // public int getPricingServiceId() {
-    //     return pricingServiceId;
-    // }
+    public ServiceProfile getServiceProfile() {
+        return serviceProfile;
+    }
 
-    // public void setPricingServiceId(int pricingServiceId) {
-    //     this.pricingServiceId = pricingServiceId;
-    // }
+    // Setter for serviceProfile
+    public void setServiceProfile(ServiceProfile serviceProfile) {
+        this.serviceProfile = serviceProfile;
+    }
 
     public String getPricingName() {
         return pricingName;

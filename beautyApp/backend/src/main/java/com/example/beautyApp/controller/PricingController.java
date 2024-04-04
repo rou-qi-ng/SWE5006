@@ -21,13 +21,13 @@ public class PricingController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addPricing(@RequestBody List<Pricing> pricingList) {
-        try{
-        log.info(pricingList.toString());
-        pricingManager.saveAllPricing(pricingList);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Pricing records added successfully");
+        try {
+            log.info(pricingList.toString());
+            pricingManager.saveAllPricing(pricingList);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Pricing records added successfully");
 
-    }
-        catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
+    }
 }

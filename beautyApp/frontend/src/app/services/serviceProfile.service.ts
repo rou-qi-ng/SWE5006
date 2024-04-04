@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ServiceProfile } from '../model/serviceProfile.model';
 import { Portfolio } from '../model/portfolio.model';
+import { Pricing } from '../model/pricing.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +22,10 @@ export class ServiceProfileService {
     return this.httpClient.get<ServiceProfile>(`${this.baseUrl}/serviceProfile/${serviceId}`);
   }
 
-  saveServiceDetails(serviceProfile: ServiceProfile): Observable<ServiceProfile> {
-    return this.httpClient.post<ServiceProfile>(`${this.baseUrl}/serviceProfile/add`, serviceProfile);
-  }
+  saveServiceDetails(serviceProfile: ServiceProfile, pricingList: Pricing[]): Observable<ServiceProfile> {
+    const combinedData = { serviceProfile, pricingList };
+    return this.httpClient.post<ServiceProfile>(`${this.baseUrl}/serviceProfile/add`, combinedData);
+  }  
 
   saveServiceImages(portfolio: FormData): Observable<ServiceProfile> {
     return this.httpClient.post<ServiceProfile>(`${this.baseUrl}/portfolio/upload`, portfolio);
