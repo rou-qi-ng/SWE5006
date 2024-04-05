@@ -5,9 +5,11 @@ import com.example.beautyApp.manager.ServiceManager;
 import com.example.beautyApp.manager.UserManager;
 import com.example.beautyApp.model.TB_Service;
 import com.example.beautyApp.model.TB_User;
+import com.example.beautyApp.model.TB_UserSession;
 import com.example.beautyApp.repository.ReferralRepository;
 import com.example.beautyApp.repository.UserRepository;
 import com.example.beautyApp.request.LoginRequest;
+import com.example.beautyApp.request.SessionRequest;
 import com.example.beautyApp.request.SignUpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -41,7 +42,29 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception {
         Optional<TB_User> user = userManager.login(loginRequest);
         System.out.println(user);
+        String uuid = UUID.randomUUID().toString();
 
+        String timeStamp = uuid + new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        if (user.isEmpty()){
+
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
+                    "statusCode", "200",
+                    "message", "No existing functions"
+            ));
+        } else{
+            return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+                    "token", timeStamp
+            ));
+        }
+
+    }
+
+    @PostMapping(path = "/saveSession")
+    public ResponseEntity<?> saveSession(@RequestBody SessionRequest sessionRequest) throws Exception {
+        System.out.println("hello");
+        Optional<TB_UserSession> user = userManager.saveSession(sessionRequest);
+        System.out.println(user);
+        System.out.println("hello");
         if (user.isEmpty()){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
                     "statusCode", "200",

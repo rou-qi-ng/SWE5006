@@ -39,4 +39,21 @@ export class AuthenticationClient {
       { responseType: 'text' }
     );
   }
+
+  
+  public saveSession(
+    token: string,
+    username: string,
+  ): Observable<string> {
+    return this.http.post(
+      environment.apiUrl + '/saveSession',
+      {
+        token: token,
+        username: username,
+      },
+      { responseType: 'text' }
+    );
+  }
+
+
 }

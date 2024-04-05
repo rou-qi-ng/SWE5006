@@ -35,6 +35,7 @@ import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-pag
 import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page.component';
 import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
 import { ReviewPageComponent } from './customer-pages/review-page/review-page.component';
+import { SettingsPageComponent } from './settings-page/settings-page.component';
 
 
 
@@ -54,6 +55,7 @@ import { ReviewPageComponent } from './customer-pages/review-page/review-page.co
     AvailabilityPageComponent,
     ReviewPageComponent,
     PortfolioPageComponent,
+    SettingsPageComponent,
     // UserUpdateComponent,
     // UserDetailsComponent
   ],

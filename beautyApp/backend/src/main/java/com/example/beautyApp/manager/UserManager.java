@@ -1,8 +1,11 @@
 package com.example.beautyApp.manager;
 
 import com.example.beautyApp.model.TB_User;
+import com.example.beautyApp.model.TB_UserSession;
 import com.example.beautyApp.repository.UserRepository;
+import com.example.beautyApp.repository.UserSessionRepository;
 import com.example.beautyApp.request.LoginRequest;
+import com.example.beautyApp.request.SessionRequest;
 import com.example.beautyApp.request.SignUpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +18,29 @@ public class UserManager {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserSessionRepository userSessionRepository;
+
     public Optional<TB_User> login(LoginRequest loginRequest) {
         Optional<TB_User> user= userRepository.findUser(loginRequest.getUsername(),loginRequest.getPassword());
         System.out.println(user);
         return user;
 
+    }
+
+    public Optional<TB_UserSession> saveSession(SessionRequest sessionRequest) {
+        Optional<TB_User> user= userRepository.findByUsername(sessionRequest.getUsername());
+        System.out.println("rch here");
+        if (user.isPresent()){
+            TB_UserSession preSaveUserSession = new TB_UserSession();
+            preSaveUserSession.setToken(sessionRequest.getToken());
+            preSaveUserSession.setUserId(user.get().getUserId());
+            TB_UserSession saveUser = userSessionRepository.save(preSaveUserSession);
+            System.out.println(saveUser);
+            return Optional.of(preSaveUserSession);
+        }
+
+        return null;
     }
 
     public Optional<TB_User> register(SignUpRequest signUpRequest) {
