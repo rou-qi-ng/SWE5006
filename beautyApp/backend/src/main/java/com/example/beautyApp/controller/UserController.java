@@ -9,6 +9,7 @@ import com.example.beautyApp.model.TB_UserSession;
 import com.example.beautyApp.repository.ReferralRepository;
 import com.example.beautyApp.repository.UserRepository;
 import com.example.beautyApp.request.LoginRequest;
+import com.example.beautyApp.request.RoleRequest;
 import com.example.beautyApp.request.SessionRequest;
 import com.example.beautyApp.request.SignUpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +106,16 @@ public class UserController {
         Collection<TB_User> user = userManager.login2();
         System.out.println(user);
 
+        return user;
+    }
+
+    @PostMapping(path = "/findRole")
+    public String findRole(@RequestBody RoleRequest roleRequest) throws Exception {
+        System.out.println("----LOG: START FINDROLE------");
+        String user = userManager.findRole(roleRequest.getToken());
+//        System.out.println(user);
+        System.out.println(user);
+        System.out.println("----LOG: END FINDROLE------");
         return user;
     }
 

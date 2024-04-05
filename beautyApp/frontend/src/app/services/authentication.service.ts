@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationClient } from '../clients/authentication.client';
 import { HttpClient } from '@angular/common/http';
@@ -12,6 +12,7 @@ import { throwError } from 'rxjs';
 })
 export class AuthenticationService {
   private tokenKey = 'token';
+  private roleAs = "";
 
 
   constructor(
@@ -20,6 +21,8 @@ export class AuthenticationService {
     private http: HttpClient
   ) {}
   tokenValue: string = '';
+  // roleAs: string = '';
+  // this.roleAs = '';
   public login(username: string, password: string): void {
     this.authenticationClient.login(username, password).subscribe((token) => {
 
@@ -29,7 +32,7 @@ export class AuthenticationService {
       // Output token
       console.log(tokenSubstring);
       localStorage.setItem(this.tokenKey, tokenSubstring);
-      this.router.navigate(['/']);
+    
       console.log("rches here");
       const storedToken = localStorage.getItem(this.tokenKey);
       console.log(storedToken);
@@ -38,19 +41,32 @@ export class AuthenticationService {
       
           console.log("rches here 2");
           console.log(message);
+
+
+          this.router.navigate(['/']);
         
         });
+        // this.router.navigate(['/']);
       }
+
+      // this.router.navigate(['/']);
     
     });
-  
-    
-
-    
-    
-   
   }
 
+  
+  public getRole(token: string) {
+    
+    this.authenticationClient.saveRole(token).subscribe((resp) => {
+        console.log(resp);
+        console.log("test here did it get any resp")
+        return resp;
+    });
+
+    
+ 
+    // return this.roleAs;
+  }
 
 
   public register(username: string, userType: string, password: string): void {

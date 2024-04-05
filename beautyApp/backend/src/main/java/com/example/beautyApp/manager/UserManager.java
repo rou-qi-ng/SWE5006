@@ -28,6 +28,18 @@ public class UserManager {
 
     }
 
+    public String findRole(String token) {
+        Optional<TB_UserSession> user= userSessionRepository.findByToken(token);
+        if (user.isPresent()){
+            Optional<TB_User> userRole= userRepository.findById(user.get().getUserId());
+            if (userRole.isPresent()){
+                return userRole.get().getUserType();
+            }
+        }
+        return "not found";
+
+    }
+
     public Optional<TB_UserSession> saveSession(SessionRequest sessionRequest) {
         Optional<TB_User> user= userRepository.findByUsername(sessionRequest.getUsername());
         System.out.println("rch here");

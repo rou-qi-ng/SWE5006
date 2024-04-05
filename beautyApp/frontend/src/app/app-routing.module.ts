@@ -39,42 +39,66 @@ const routes: Routes = [
     path: '',
     component: DashboardPageComponent,
     canActivate: [authGuard],
+    data: {
+      role: ['admin','customer']
+    }
   },
   {
     path: 'users',
     component: UserListComponent,
     canActivate: [authGuard],
+    data: {
+      role:  ['admin']
+    }
   },
   {
     path: 'service/:serviceType',
     component: SearchPageComponent,
     canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
   },
   {
     path: 'serviceProfile/:serviceId',
     component: ServiceProfilePageComponent,
     canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
   },
   {
     path: 'serviceProfile/:serviceId/pricing',
     component: PricingPageComponent,
     canActivate: [authGuard],
+    data: {
+      role:  ['admin', 'customer']
+    }
   },
   {
     path: 'serviceProfile/:serviceId/availability',
     component: AvailabilityPageComponent,
     canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
   },
   {
     path: 'serviceProfile/:serviceId/review',
     component: ReviewPageComponent,
     canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
   },
 
   {
     path: 'portfolio',
     component: PortfolioPageComponent,
     canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
 
   }
   // { path: 'update-user/:id', component: UserUpdateComponent },

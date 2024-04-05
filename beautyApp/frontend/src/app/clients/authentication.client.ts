@@ -56,4 +56,20 @@ export class AuthenticationClient {
   }
 
 
+  public saveRole(token: string): Observable<string> {
+    console.log("it went here");
+    console.log(token);
+    // localStorage.setItem('username', username );
+    return this.http.post(
+    //   environment.apiUrl + '/user/login',
+      environment.apiUrl + '/findRole',
+      {
+        token: token,
+      },
+      { responseType: 'text'}
+    );
+  
+  }
+
+
 }
