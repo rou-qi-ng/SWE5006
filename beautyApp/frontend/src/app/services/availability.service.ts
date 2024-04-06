@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { Availability } from '../model/availability.model';
+import { Appointment } from '../model/appointment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,4 +20,13 @@ export class AvailabilityService {
   getAvailabilities(serviceId: number): Observable<Availability[]> {
     return this.httpClient.get<Availability[]>(`${this.baseUrl}/serviceProfile/${serviceId}/availability`);
   }
+
+  getAppointments(serviceId: number): Observable<Appointment[]> {
+    return this.httpClient.get<Appointment[]>(`${this.baseUrl}/serviceProfile/${serviceId}/appointment`);
+  }
+
+  bookAppointmentService(serviceId: number, appointmentData: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/serviceProfile/${serviceId}/availability/book-appointment`, appointmentData);
+  }
+
 }

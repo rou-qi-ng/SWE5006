@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { AvailabilityService } from '../../services/availability.service'; // Import the service
 import { Availability } from '../../model/availability.model';
 import { DateAdapter } from '@angular/material/core';
+import { Appointment } from '../../model/appointment.model';
 
 @Component({
   selector: 'app-availability-page',
@@ -20,6 +21,8 @@ export class AvailabilityPageComponent implements OnInit {
   selected: Date | null; // Initialize selected property
   selectedTimeSlot: string | null;
   timeSlots: string[]; // Array to hold time slots
+  appointments: Appointment[] = [];
+  
   
   addHour(timeSlot: string): string {
     const [hour, minute] = timeSlot.split(':').map(Number);
@@ -39,6 +42,38 @@ export class AvailabilityPageComponent implements OnInit {
     this.selectedTimeSlot = null;
     this.timeSlots = this.generateTimeSlots(); // Generate time slots
   }
+
+  bookAppointment(): void {
+    console.log('Selected Date:', this.selected);
+    console.log('Selected Time Slot:', this.selectedTimeSlot);
+
+    if (this.selected && this.selectedTimeSlot && this.serviceId !== null) {
+      const appointmentData = {
+        appointmentServiceId: this.serviceId,
+        appointmentUserId: 1,   // change this to userid, now no login ppl      
+        appointmentDate: this.selected,
+        appointmentTime: this.selectedTimeSlot
+      };
+
+      console.log('appointmentData:', appointmentData);
+  
+      // Call the bookAppointment method of AvailabilityService to send the appointment data to the backend
+      this.availabilityService.bookAppointmentService(this.serviceId, appointmentData).subscribe(
+        (response) => {
+          console.log('Appointment booked successfully:', response);
+          // Optionally, perform any additional actions after successful booking
+        },
+        (error) => {
+          console.error('Error booking appointment:', error);
+          // Optionally, handle error and display message to the user
+        }
+      );
+    } else {
+      console.error('Please select a date and time slot before booking.');
+      // Optionally, display a message to the user indicating that a date and time slot must be selected before booking
+    }
+  }
+
 
   // Function to generate time slots
   generateTimeSlots(): string[] {
@@ -80,6 +115,7 @@ export class AvailabilityPageComponent implements OnInit {
         this.serviceId = parseInt(serviceIdString, 10); // Convert string to number
         // Fetch availability details based on service ID
         this.getAvailabilityDetails();
+        this.getAppointmentDetails();
       } else {
         // Handle the case when 'serviceId' is null
         console.error('Service ID is null');
@@ -101,6 +137,20 @@ export class AvailabilityPageComponent implements OnInit {
     }
   }
 
+  getAppointmentDetails(): void {
+    if (this.serviceId) {
+      this.availabilityService.getAppointments(this.serviceId).subscribe(
+        (data: Appointment[]) => {
+          this.appointments = data;
+          console.log('Appointment Details:', this.appointments);
+        },
+        (error: any) => {
+          console.error('Error fetching appointment:', error);
+        }
+      );
+    }
+  }
+  
   // getAllAvailabilitys(): void {
   //   this.availabilityService.getAllAvailabilitys().subscribe(
   //     (data: Availability[]) => {

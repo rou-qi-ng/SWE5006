@@ -78,6 +78,7 @@ export class AuthenticationService {
       });
   }
 
+  
   public logout() {
     localStorage.removeItem(this.tokenKey);
     this.router.navigate(['/home']);
