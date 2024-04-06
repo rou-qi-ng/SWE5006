@@ -4,6 +4,17 @@
     height: 100%;
     background-color: #D8C2A5;
     }
+
+    mat-drawer{
+        width: 30%;
+        height: 100%;
+        background-color: #C6B4B4;
+      }
+    
+      a{
+        background-color: #C6B4B4;
+        border-color: #C6B4B4;
+      }
     
     #sidebarMenu {
         height: 171px; /*change here related your menu height*/

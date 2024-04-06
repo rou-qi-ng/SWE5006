@@ -1,14 +1,15 @@
 package com.example.beautyApp.manager;
 
+import com.example.beautyApp.model.Pricing;
+import com.example.beautyApp.model.Review;
 import com.example.beautyApp.model.ServiceProfile;
-import com.example.beautyApp.model.User;
+//import com.example.beautyApp.model.User;
 import com.example.beautyApp.repository.ServiceProfileRepository;
-import com.example.beautyApp.request.SignUpRequest;
+//import com.example.beautyApp.request.SignUpRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// import java.util.List;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,5 +43,12 @@ public class ServiceProfileManager {
         // }
         
 
+    public List<Pricing> getAllPricingsByServiceId(int serviceId) {
+        return serviceProfileRepository.findPricingsByServiceId(serviceId);
+    }
+
+
+    public List<Review> getAllReviewsByServiceId(int serviceId) {
+        return serviceProfileRepository.findReviewsByServiceId(serviceId);
     }
 }

@@ -8,9 +8,14 @@ import { LoginPageComponent } from './home-pages/login-page/login-page.component
 import { authGuard } from './helpers/auth.guard';
 import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.component';
 import { BaseHomeComponent } from './home-pages/base-home/base-home.component';
+
 import { DashboardPageComponent } from './customer-pages/dashboard-page/dashboard-page.component';
-import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
 import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
+import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
+import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page.component';
+import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
+import { ReviewPageComponent } from './customer-pages/review-page/review-page.component';
+import { PortfolioPageComponent } from './portfolio-page/portfolio-page.component';
 
 
 
@@ -34,21 +39,67 @@ const routes: Routes = [
     path: '',
     component: DashboardPageComponent,
     canActivate: [authGuard],
+    data: {
+      role: ['admin','customer']
+    }
   },
   {
     path: 'users',
     component: UserListComponent,
     canActivate: [authGuard],
+    data: {
+      role:  ['admin']
+    }
   },
   {
-    path: 'service/:service',
+    path: 'service/:serviceType',
     component: SearchPageComponent,
     canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
   },
   {
     path: 'serviceProfile/:serviceId',
     component: ServiceProfilePageComponent,
     canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
+  },
+  {
+    path: 'serviceProfile/:serviceId/pricing',
+    component: PricingPageComponent,
+    canActivate: [authGuard],
+    data: {
+      role:  ['admin', 'customer']
+    }
+  },
+  {
+    path: 'serviceProfile/:serviceId/availability',
+    component: AvailabilityPageComponent,
+    canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
+  },
+  {
+    path: 'serviceProfile/:serviceId/review',
+    component: ReviewPageComponent,
+    canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
+  },
+
+  {
+    path: 'portfolio',
+    component: PortfolioPageComponent,
+    canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
+
   }
   // { path: 'update-user/:id', component: UserUpdateComponent },
 ];
