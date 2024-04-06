@@ -21,7 +21,7 @@ export class PricingService {
   }
 
   addPricings(pricing: Pricing[]): Observable<any> {
-    return this.httpClient.post<Pricing[]>(`${this.baseUrl}/pricing`, pricing);
+    return this.httpClient.post<Pricing[]>(`${this.baseUrl}/pricing/add`, pricing);
   }
 
 }

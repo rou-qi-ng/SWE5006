@@ -17,6 +17,7 @@ import java.util.List;
 public class ServiceProfile implements Serializable {
 
     @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // @NonNull                         // not needed as int in java will not hold null values
     @Column(name = "service_id")

@@ -54,7 +54,7 @@ const routes: Routes = [
       component: BusinessPagesComponent,
       canActivate: [authGuard],
     data: {
-      role:  ['admin']
+      role:  ['admin','customer']
     }
   },
   {
@@ -107,7 +107,7 @@ const routes: Routes = [
     }
 
   }
-  }
+  
   // { path: 'update-user/:id', component: UserUpdateComponent },
 ];
 

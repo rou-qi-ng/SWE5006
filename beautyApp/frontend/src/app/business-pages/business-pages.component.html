@@ -64,6 +64,7 @@
               </mat-form-field> -->
               <mat-card-header> <mat-card-subtitle>Service Menu (Pricing List)</mat-card-subtitle></mat-card-header>
               <div class="example-container" *ngFor="let product of products; let i = index">
+               <p>{{i}}</p> 
                 <mat-form-field>
                   <input matInput placeholder="Service Name" formControlName="productName{{i}}">
                 </mat-form-field>

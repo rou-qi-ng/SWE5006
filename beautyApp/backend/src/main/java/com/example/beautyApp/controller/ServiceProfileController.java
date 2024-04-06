@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -58,11 +59,12 @@ public class ServiceProfileController {
         }
     }
 
+
     // Endpoint to insert a new service profile
     @PostMapping("/add")
     public ResponseEntity<ServiceProfile> addServiceProfile(@RequestBody ServiceProfileWithPricing combinedData) {
         ServiceProfile serviceProfile = combinedData.getServiceProfile();
-        List<Pricing> pricingList = combinedData.getPricingList();
+        List<Pricing> pricingList = new ArrayList<>();
         for (Pricing pricing : pricingList) {
             pricing.setServiceProfile(serviceProfile);
         }
@@ -99,4 +101,15 @@ public class ServiceProfileController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/getServiceList")
+    public ResponseEntity<List<ServiceProfile>> getServiceList(@RequestBody int userId) {
+        List<ServiceProfile> serviceProfile = serviceProfileManager.getServiceList(userId);
+        if (!serviceProfile.isEmpty()) {
+            return new ResponseEntity<>(serviceProfile, HttpStatus.OK);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

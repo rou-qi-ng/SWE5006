@@ -22,6 +22,7 @@ public class PricingController {
     @PostMapping("/add")
     public ResponseEntity<String> addPricing(@RequestBody List<Pricing> pricingList) {
         try {
+            log.info("**************************");
             log.info(pricingList.toString());
             pricingManager.saveAllPricing(pricingList);
             return ResponseEntity.status(HttpStatus.CREATED).body("Pricing records added successfully");

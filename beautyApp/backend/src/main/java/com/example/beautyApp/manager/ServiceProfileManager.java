@@ -44,4 +44,8 @@ public class ServiceProfileManager {
     public List<Review> getAllReviewsByServiceId(int serviceId) {
         return serviceProfileRepository.findReviewsByServiceId(serviceId);
     }
+
+    public List<ServiceProfile> getServiceList(int userId) {
+        return serviceProfileRepository.findServiceProfilesByUserId(userId);
+    }
 }
