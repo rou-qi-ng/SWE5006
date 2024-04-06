@@ -34,4 +34,11 @@ export class ServiceProfileService {
   findServiceId(serviceProfile: ServiceProfile): Observable<ServiceProfile> {
     return this.httpClient.post<ServiceProfile>(`${this.baseUrl}/serviceProfile/find`, serviceProfile);
   }
+  getServiceList(userId: number): Observable<ServiceProfile[]> {
+    return this.httpClient.get<ServiceProfile[]>(`${this.baseUrl}/serviceProfile/getServiceList?userId=${userId}`);
+  }  
+
+  deleteService(userId: number, serviceId: number): Observable<ServiceProfile> {
+    return this.httpClient.delete<ServiceProfile>(`${this.baseUrl}/service/delete?userId=${userId}&serviceId=${serviceId}`);
+  }
 }

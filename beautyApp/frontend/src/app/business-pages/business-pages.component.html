@@ -1,22 +1,3 @@
-
-<mat-drawer-container class="example-container" hasBackdrop="false">
-    <mat-drawer #drawer mode="side">
-      <div class="main-content-wrapper">
-        <a  style="color: beige; cursor: pointer;" (click)= "routeTo('nails')" (click)="drawer.toggle()">Nails</a>
-        <a  style="color: beige; cursor: pointer;"  (click) = "routeTo('lash')" (click)="drawer.toggle()">Lashes</a>
-        <a  style="color: beige; cursor: pointer;"  (click)="logout()">Log out</a>
-      </div>
-    </mat-drawer>
-    <mat-drawer-content>
-
-      <input type="checkbox"  class="openSidebarMenu" id="openSidebarMenu">
-      <label for="openSidebarMenu" (click)="drawer.toggle()" class="sidebarIconToggle">
-          <div class="spinner diagonal part-1"></div>
-          <div class="spinner horizontal"></div>
-          <div class="spinner diagonal part-2"></div>
-      </label>
-      </mat-drawer-content>
-  </mat-drawer-container>
   <div class="background">
         <div
         class="authentication-card-container"
@@ -24,8 +5,13 @@
         fxLayoutAlign="center"
       >
         <mat-card class="authentication-card">
-          <mat-card-header> <mat-card-title>Business Registration</mat-card-title></mat-card-header>
-          <mat-card-header> <mat-card-subtitle>Details</mat-card-subtitle></mat-card-header>
+          <ng-container *ngIf="serviceId !== null">
+            <mat-card-header> <mat-card-title>Update Service</mat-card-title></mat-card-header>
+          </ng-container>
+          <ng-container *ngIf="serviceId === null">
+            <mat-card-header> <mat-card-title>Create Service</mat-card-title></mat-card-header>
+          </ng-container>
+           <mat-card-header> <mat-card-subtitle>Details</mat-card-subtitle></mat-card-header>
           <mat-card-content>
             <form
               [formGroup]="loginForm"
@@ -64,12 +50,11 @@
               </mat-form-field> -->
               <mat-card-header> <mat-card-subtitle>Service Menu (Pricing List)</mat-card-subtitle></mat-card-header>
               <div class="example-container" *ngFor="let product of products; let i = index">
-               <p>{{i}}</p> 
                 <mat-form-field>
                   <input matInput placeholder="Service Name" formControlName="productName{{i}}">
                 </mat-form-field>
                 <mat-form-field>
-                  <span matPrefix>$&nbsp;</span>
+                  <span matPrefix style="color: white;">$&nbsp;</span>
                   <input matInput type="number" placeholder="Service Price" formControlName="productPrice{{i}}">
                 </mat-form-field>
                 <mat-form-field>

@@ -17,6 +17,7 @@ import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page
 import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
 import { ReviewPageComponent } from './customer-pages/review-page/review-page.component';
 import { PortfolioPageComponent } from './portfolio-page/portfolio-page.component';
+import { ManageBusinessPagesComponent } from './manage-business-pages/manage-business-pages.component';
 
 
 
@@ -52,6 +53,22 @@ const routes: Routes = [
   {
       path: 'business',
       component: BusinessPagesComponent,
+      canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
+  },
+  {
+    path: 'business/:serviceId',
+    component: BusinessPagesComponent,
+    canActivate: [authGuard],
+  data: {
+    role:  ['admin','customer']
+  }
+},
+  {
+      path: 'manage',
+      component: ManageBusinessPagesComponent,
       canActivate: [authGuard],
     data: {
       role:  ['admin','customer']

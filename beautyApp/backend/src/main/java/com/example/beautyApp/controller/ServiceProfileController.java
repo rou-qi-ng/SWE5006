@@ -103,11 +103,25 @@ public class ServiceProfileController {
     }
 
     @GetMapping("/getServiceList")
-    public ResponseEntity<List<ServiceProfile>> getServiceList(@RequestBody int userId) {
+    public ResponseEntity<List<ServiceProfile>> getServiceList(@RequestParam int userId) {
+        log.info("User ID: " + userId);
         List<ServiceProfile> serviceProfile = serviceProfileManager.getServiceList(userId);
         if (!serviceProfile.isEmpty()) {
             return new ResponseEntity<>(serviceProfile, HttpStatus.OK);
         } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/delete")
+    public ResponseEntity<String> deleteService(@RequestParam int userId, @RequestParam int serviceId) {
+        try {
+            log.info("ID: " + serviceId);
+            serviceProfileManager.deleteService(userId, serviceId);
+            return ResponseEntity.status(HttpStatus.OK).body("Service with ID " + serviceId + " deleted successfully");
+        }
+        catch (Exception e)
+        {
             return ResponseEntity.notFound().build();
         }
     }

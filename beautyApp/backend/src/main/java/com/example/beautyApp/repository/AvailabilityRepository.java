@@ -18,4 +18,5 @@ public interface AvailabilityRepository extends JpaRepository<Availability, Inte
 
    List<Availability> findByAvailabilityServiceId(int serviceId);
 
+   void deleteByAvailabilityServiceId(int availabilityServiceId);
 }

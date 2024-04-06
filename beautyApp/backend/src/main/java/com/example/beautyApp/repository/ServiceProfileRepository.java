@@ -38,4 +38,5 @@ public interface ServiceProfileRepository extends JpaRepository<ServiceProfile, 
             "WHERE b.UserId = :userId", nativeQuery = true)
     List<ServiceProfile> findServiceProfilesByUserId(int userId);
 
+
 }

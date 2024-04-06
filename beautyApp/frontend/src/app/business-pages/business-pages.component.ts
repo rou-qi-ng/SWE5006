@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatFormFieldModule} from '@angular/material/form-field';
@@ -34,9 +34,11 @@ export class BusinessPagesComponent {
   selectedFiles: File | null = null;
   products: Pricing[] = [];
   count: number = 0;
+  serviceId: number | null = null; 
 
   constructor(private authenticationService: AuthenticationService,
     private router: Router, 
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder, 
     private http: HttpClient,
     private serviceProfileService: ServiceProfileService,
@@ -46,6 +48,15 @@ export class BusinessPagesComponent {
   }
 
  ngOnInit() {
+  this.route.paramMap.subscribe(params => {
+    const serviceIdString = params.get('serviceId');
+    if (serviceIdString) {
+      this.serviceId = parseInt(serviceIdString, 10); // Convert string to number
+    } else {
+      // Handle the case when 'serviceId' is null
+      console.error('Service ID is null');
+    }
+  });
    // Initialize the form with form controls
    this.loginForm = this.formBuilder.group({
     service_name: ['', Validators.required],
