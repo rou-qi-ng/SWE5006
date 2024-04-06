@@ -23,6 +23,11 @@ public interface ServiceProfileRepository extends JpaRepository<ServiceProfile, 
 
     Optional<ServiceProfile> findByServiceId(int serviceId);
 
+    Optional<ServiceProfile> findByType(String serviceType);
+
+    @Query("SELECT sp FROM ServiceProfile sp WHERE sp.name LIKE %:name% AND sp.type = :type")
+    List<ServiceProfile> findByNameAndType(@Param("type") String type, @Param("name") String name);
+
     @Query("SELECT p FROM Pricing p WHERE p.serviceProfile.serviceId = :serviceId")
     List<Pricing> findPricingsByServiceId(@Param("serviceId") int serviceId);
 

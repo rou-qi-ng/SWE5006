@@ -26,9 +26,27 @@ public class ServiceProfileManager {
         return serviceProfileRepository.findByServiceId(serviceId);
     }
 
+    public Optional<ServiceProfile> getServiceProfileByType(String serviceType) {
+        return serviceProfileRepository.findByType(serviceType);
+    }
+    
+    public List<ServiceProfile> search(String serviceType, String serviceName) {
+        System.out.println("serviceType1: " + serviceType);
+        System.out.println("serviceName1: " + serviceName);
+        System.out.println(serviceProfileRepository.findByNameAndType(serviceType, serviceName));
+        return serviceProfileRepository.findByNameAndType(serviceType, serviceName);
+        // if (serviceType.equals("Nails")){
+        //     return serviceProfileRepository.findServiceName("Nails", serviceName);  
+        // }
+        // else if (serviceType.equals("Lash")){
+        //     return serviceProfileRepository.findServiceName("Lash", serviceName);
+        // }
+        
+
     public List<Pricing> getAllPricingsByServiceId(int serviceId) {
         return serviceProfileRepository.findPricingsByServiceId(serviceId);
     }
+
 
     public List<Review> getAllReviewsByServiceId(int serviceId) {
         return serviceProfileRepository.findReviewsByServiceId(serviceId);
