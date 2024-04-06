@@ -24,6 +24,10 @@ public class AvailabilityManager {
         return availabilityRepository.findByAvailabilityServiceId(serviceId);
     }
 
+    public List<Appointment> getAppointmentsById(int serviceId) {
+        return availabilityRepository.findByAppointmentServiceId(serviceId);
+    }
+
     public void save(Appointment appointmentData) {
         availabilityRepository.save(appointmentData);
     }

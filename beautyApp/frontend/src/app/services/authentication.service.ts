@@ -78,9 +78,6 @@ export class AuthenticationService {
       });
   }
 
-  public getUser(): User | null {
-    return this.user;
-  }
   
   public logout() {
     localStorage.removeItem(this.tokenKey);

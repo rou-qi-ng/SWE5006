@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { AvailabilityService } from '../../services/availability.service'; // Import the service
 import { Availability } from '../../model/availability.model';
 import { DateAdapter } from '@angular/material/core';
+import { Appointment } from '../../model/appointment.model';
 
 @Component({
   selector: 'app-availability-page',
@@ -20,6 +21,8 @@ export class AvailabilityPageComponent implements OnInit {
   selected: Date | null; // Initialize selected property
   selectedTimeSlot: string | null;
   timeSlots: string[]; // Array to hold time slots
+  appointments: Appointment[] = [];
+  
   
   addHour(timeSlot: string): string {
     const [hour, minute] = timeSlot.split(':').map(Number);
@@ -43,14 +46,6 @@ export class AvailabilityPageComponent implements OnInit {
   bookAppointment(): void {
     console.log('Selected Date:', this.selected);
     console.log('Selected Time Slot:', this.selectedTimeSlot);
-  
-     // Retrieve the user_id from the logged-in user
-    // const currentUser = this.authenticationService.getUser();
-    // if (!currentUser) {
-    //   console.error('User not logged in.');
-    //   return;
-    // }
-    // const userid = currentUser.userId;
 
     if (this.selected && this.selectedTimeSlot && this.serviceId !== null) {
       const appointmentData = {
@@ -120,6 +115,7 @@ export class AvailabilityPageComponent implements OnInit {
         this.serviceId = parseInt(serviceIdString, 10); // Convert string to number
         // Fetch availability details based on service ID
         this.getAvailabilityDetails();
+        this.getAppointmentDetails();
       } else {
         // Handle the case when 'serviceId' is null
         console.error('Service ID is null');
@@ -141,6 +137,20 @@ export class AvailabilityPageComponent implements OnInit {
     }
   }
 
+  getAppointmentDetails(): void {
+    if (this.serviceId) {
+      this.availabilityService.getAppointments(this.serviceId).subscribe(
+        (data: Appointment[]) => {
+          this.appointments = data;
+          console.log('Appointment Details:', this.appointments);
+        },
+        (error: any) => {
+          console.error('Error fetching appointment:', error);
+        }
+      );
+    }
+  }
+  
   // getAllAvailabilitys(): void {
   //   this.availabilityService.getAllAvailabilitys().subscribe(
   //     (data: Availability[]) => {

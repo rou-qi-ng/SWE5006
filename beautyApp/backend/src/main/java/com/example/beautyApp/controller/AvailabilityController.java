@@ -39,6 +39,16 @@ public class AvailabilityController {
         }
     }
 
+    @GetMapping("/{serviceId}/appointment")
+    public ResponseEntity<List<Appointment>> getAppointmentsById(@PathVariable("serviceId") int serviceId) {
+        List<Appointment> appointments = availabilityManager.getAppointmentsById(serviceId);
+        if (!appointments.isEmpty()) {
+            return ResponseEntity.ok(appointments);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     @PostMapping("/{serviceId}/availability/book-appointment")
     public ResponseEntity<?> bookAppointment(@RequestBody Appointment appointmentData) {
