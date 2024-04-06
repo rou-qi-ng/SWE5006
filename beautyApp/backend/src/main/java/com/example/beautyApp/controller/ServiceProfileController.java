@@ -43,6 +43,12 @@ public class ServiceProfileController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @GetMapping("/type/{serviceType}")
+    public ResponseEntity<ServiceProfile> getServiceProfileByType(@PathVariable("serviceType") String serviceType) {
+        Optional<ServiceProfile> serviceProfile = serviceProfileManager.getServiceProfileByType(serviceType);
+        if (serviceProfile.isPresent()) {
+            return ResponseEntity.ok(serviceProfile.get());
 
     @GetMapping("/{serviceId}/pricing")
     public ResponseEntity<List<Pricing>> getAllPricingsByServiceId(@PathVariable("serviceId") int serviceId) {
@@ -53,6 +59,16 @@ public class ServiceProfileController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
+    @PostMapping(path = "/search")
+    public ResponseEntity<List<ServiceProfile>> search(@RequestBody ServiceProfile s) throws Exception {
+        List<ServiceProfile> serviceProfile = serviceProfileManager.search(s.getType(), s.getName());
+        System.out.println("serviceType: " + s.getType());
+        System.out.println("serviceName: " +  s.getName());
+        System.out.println(serviceProfile);
+        if (!serviceProfile.isEmpty()) {
+            return ResponseEntity.ok(serviceProfile);
     
     @GetMapping("/{serviceId}/review")
     public ResponseEntity<List<Review>> getAllReviewsByServiceId(@PathVariable("serviceId") int serviceId) {
@@ -60,7 +76,7 @@ public class ServiceProfileController {
         if (!reviews.isEmpty()) {
             return ResponseEntity.ok(reviews);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(null);
         }
     }
 }

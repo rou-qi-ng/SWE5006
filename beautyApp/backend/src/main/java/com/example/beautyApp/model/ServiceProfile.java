@@ -13,18 +13,13 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-@Table(name = "service") 
+@Table(name = "service")
 public class ServiceProfile implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // @NonNull                         // not needed as int in java will not hold null values
     @Column(name = "service_id")
     private int serviceId;
-
-    @NonNull
-    @Column(name = "service_name")
-    private String serviceName;
 
     @NonNull
     @Column(name = "service_location")
@@ -38,6 +33,11 @@ public class ServiceProfile implements Serializable {
     @Column(name = "service_description")
     private String serviceDescription;
 
+//    @Column(name = "service_images")
+//    private String images;
+
+    @Column(name = "service_name")
+    private String name;
     
     @OneToMany(mappedBy = "serviceProfile")
     private List<Pricing> pricings;
@@ -69,6 +69,7 @@ public class ServiceProfile implements Serializable {
 
     public String getServiceLocation() {
         return serviceLocation;
+
     }
 
     public void setServiceLocation(String serviceLocation) {
@@ -91,10 +92,13 @@ public class ServiceProfile implements Serializable {
         this.serviceDescription = serviceDescription;
     }
 
-    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }
-
-
-
 
