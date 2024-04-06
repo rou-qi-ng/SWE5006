@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 
 public interface PortfolioRepository extends JpaRepository<Portfolio, String>{
+    void deleteByServiceId(int serviceId);
 }

@@ -34,8 +34,8 @@ public interface ServiceProfileRepository extends JpaRepository<ServiceProfile, 
 
     @Query(value = "SELECT s.service_id, s.service_name, s.service_location, s.service_type, s.service_description " +
             "FROM service s " +
-            "JOIN Business b ON s.service_id = b.ServiceId " +
-            "WHERE b.UserId = :userId", nativeQuery = true)
+            "JOIN business b ON s.service_id = b.service_id " +
+            "WHERE b.user_id = :userId", nativeQuery = true)
     List<ServiceProfile> findServiceProfilesByUserId(int userId);
 
 

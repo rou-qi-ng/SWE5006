@@ -1,11 +1,9 @@
 package com.example.beautyApp.manager;
 
-import com.example.beautyApp.controller.ServiceProfileController;
 import com.example.beautyApp.model.*;
-import com.example.beautyApp.repository.AvailabilityRepository;
-import com.example.beautyApp.repository.BusinessRepository;
-import com.example.beautyApp.repository.PricingRepository;
-import com.example.beautyApp.repository.ServiceProfileRepository;
+import com.example.beautyApp.repository.*;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +20,11 @@ public class ServiceProfileManager {
     private PricingRepository pricingRepository;
     @Autowired
     private BusinessRepository businessRepository;
+    @Autowired
+    private PortfolioRepository portfolioRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
     @Autowired
     private final AvailabilityRepository availabilityRepository;
 
@@ -45,10 +48,31 @@ public class ServiceProfileManager {
     }
 
     public ServiceProfile saveServiceProfile(ServiceProfile serviceProfile,  List<Pricing> pricingList) {
+        ServiceProfile newService  = serviceProfileRepository.save(serviceProfile);
+        log.info(String.valueOf(newService));
         if (pricingList != null){
-            pricingRepository.saveAll(pricingList);
+            for (Pricing price : pricingList ){
+                if (price.getPricingName() != "" && price.getPricingName() !=null ){
+                    price.getServiceProfile().setServiceId(newService.getServiceId());
+//                    log.info(String.valueOf(price));
+                    Integer lastPriceId= pricingRepository.findLastPrice().getPricingId();
+                    price.getServiceProfile().setServiceId(newService.getServiceId());
+
+                    price.setPricingId(lastPriceId + 1);
+                    log.info(String.valueOf(price));
+//                    TB_User saveUser = userRepository.save(preSaveUser);
+                    pricingRepository.save(price);
+                }
+                else{
+                    System.out.println("this was skipped");
+                    log.info(String.valueOf(price));
+                }
+
+
+            }
+
         }
-        return serviceProfileRepository.save(serviceProfile);
+        return newService;
     }
 
     public List<Pricing> getAllPricingsByServiceId(int serviceId) {
@@ -63,12 +87,27 @@ public class ServiceProfileManager {
         return serviceProfileRepository.findServiceProfilesByUserId(userId);
     }
 
+    @Transactional
     public void deleteService(int userId, int serviceId) {
         BusinessId businessId = new BusinessId(userId, serviceId);
+        Optional<ServiceProfile> newService  = serviceProfileRepository.findByServiceId(serviceId);
+//        newService.setServiceId(newService.getServiceId());
+
+        log.info("rches here");
         availabilityRepository.deleteByAvailabilityServiceId(serviceId);
-        log.info("done");
+        log.info("done1");
         businessRepository.deleteById(businessId);
-        log.info("done");
+        log.info("done2");
+        portfolioRepository.deleteByServiceId(serviceId);
+        log.info("done3");
+        if (newService.isPresent()){
+            reviewRepository.deleteByServiceProfile(newService.get());
+            log.info("done4");
+
+            pricingRepository.deleteByServiceProfile(newService.get());
+            log.info("done5");
+        }
+
         serviceProfileRepository.deleteById(serviceId);
         log.info("done");
     }

@@ -64,7 +64,8 @@ public class ServiceProfileController {
     @PostMapping("/add")
     public ResponseEntity<ServiceProfile> addServiceProfile(@RequestBody ServiceProfileWithPricing combinedData) {
         ServiceProfile serviceProfile = combinedData.getServiceProfile();
-        List<Pricing> pricingList = new ArrayList<>();
+        //List<Pricing> pricingList = new ArrayList<>();
+        List<Pricing> pricingList = combinedData.getPricingList();
         for (Pricing pricing : pricingList) {
             pricing.setServiceProfile(serviceProfile);
         }
@@ -78,6 +79,7 @@ public class ServiceProfileController {
         } else {
             return ResponseEntity.notFound().build();
         }
+
     }
 
 
@@ -113,6 +115,7 @@ public class ServiceProfileController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/delete")
     public ResponseEntity<String> deleteService(@RequestParam int userId, @RequestParam int serviceId) {
         try {

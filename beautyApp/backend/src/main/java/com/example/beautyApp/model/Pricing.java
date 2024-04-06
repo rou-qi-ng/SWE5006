@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Pricing implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     // @NonNull                         // not needed as int in java will not hold null values
     @Column(name = "pricing_id")
     private int pricingId;
@@ -44,8 +44,8 @@ public class Pricing implements Serializable {
     @ManyToOne
     @JoinColumn(name = "pricing_service_id", referencedColumnName = "service_id")
     private ServiceProfile serviceProfile;
-    
-    
+
+
     // Getters and setters
 
     public int getPricingId() {
