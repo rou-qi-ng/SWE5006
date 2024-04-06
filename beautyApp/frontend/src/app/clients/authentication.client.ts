@@ -11,6 +11,7 @@ export class AuthenticationClient {
   constructor(private http: HttpClient) {}
 
   public login(username: string, password: string): Observable<string> {
+    localStorage.setItem('username', username );
     return this.http.post(
     //   environment.apiUrl + '/user/login',
         environment.apiUrl + '/login',
@@ -20,6 +21,7 @@ export class AuthenticationClient {
       },
       { responseType: 'text' }
     );
+  
   }
 
   public register(
@@ -37,4 +39,37 @@ export class AuthenticationClient {
       { responseType: 'text' }
     );
   }
+
+  
+  public saveSession(
+    token: string,
+    username: string,
+  ): Observable<string> {
+    return this.http.post(
+      environment.apiUrl + '/saveSession',
+      {
+        token: token,
+        username: username,
+      },
+      { responseType: 'text' }
+    );
+  }
+
+
+  public saveRole(token: string): Observable<string> {
+    console.log("it went here");
+    console.log(token);
+    // localStorage.setItem('username', username );
+    return this.http.post(
+    //   environment.apiUrl + '/user/login',
+      environment.apiUrl + '/findRole',
+      {
+        token: token,
+      },
+      { responseType: 'text'}
+    );
+  
+  }
+
+
 }

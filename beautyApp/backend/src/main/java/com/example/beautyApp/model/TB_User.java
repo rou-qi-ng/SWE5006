@@ -1,7 +1,6 @@
 package com.example.beautyApp.model;
 import jakarta.persistence.*; // for Spring Boot 3
 import lombok.*;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.io.Serializable;
 
@@ -13,7 +12,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @Table(name="user")
-public class User implements Serializable {
+public class TB_User implements Serializable {
 
 
     @Id
