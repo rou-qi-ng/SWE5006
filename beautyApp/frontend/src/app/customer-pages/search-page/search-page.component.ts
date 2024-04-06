@@ -30,6 +30,7 @@ export class SearchPageComponent implements OnInit {
    ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.serviceType = params['serviceType'];
+      this.service = params["serviceType"];
       if (this.serviceType) {
         // Call your search method here, assuming you have one
         this.startingSearch();
@@ -56,6 +57,10 @@ export class SearchPageComponent implements OnInit {
 
   routeTo(serviceName: string) {
     this.router.navigate(['service', serviceName]);
+  }
+
+  returnToDashBoard():void{
+    this.router.navigate([""]);
   }
  
   logout(): void {

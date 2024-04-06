@@ -1,30 +1,25 @@
 package com.example.beautyApp.repository;
 
-import com.example.beautyApp.model.User;
-import lombok.Builder;
+import com.example.beautyApp.model.TB_User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
-    List<User> findAll();
+public interface UserRepository extends JpaRepository<TB_User, Integer> {
+    List<TB_User> findAll();
 
-    @Query("SELECT u FROM User u ORDER BY u.userId DESC LIMIT 1")
-    User findLastUser();
+    @Query("SELECT u FROM TB_User u ORDER BY u.userId DESC LIMIT 1")
+    TB_User findLastUser();
 
-    Optional<User> findByUsername(String username);
+    Optional<TB_User> findByUsername(String username);
 
-    @Query("SELECT u FROM User u WHERE (u.username = :username) AND (u.password = :password)")
-    Optional<User> findUser(@Param("username") String username,
-                            @Param("password") String password);
+    @Query("SELECT u FROM TB_User u WHERE (u.username = :username) AND (u.password = :password)")
+    Optional<TB_User> findUser(@Param("username") String username,
+                               @Param("password") String password);
 }

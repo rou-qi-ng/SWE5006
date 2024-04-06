@@ -2,9 +2,11 @@
 
   <mat-drawer-container class="example-container" hasBackdrop="false">
     <mat-drawer #drawer mode="side">
+      <img style="height: auto; width:60%; margin-left:20%;" src="logo.png" > 
       <div class="main-content-wrapper">
         <a  style="color: beige; cursor: pointer;" (click)= "routeTo('nails')" (click)="drawer.toggle()">Nails</a>
         <a  style="color: beige; cursor: pointer;"  (click) = "routeTo('lash')" (click)="drawer.toggle()">Lashes</a>
+        <a  style="color: beige; cursor: pointer;"  (click) = "returnToDashBoard()" (click)="drawer.toggle()">Home</a>
         <a  style="color: beige; cursor: pointer;"  (click)="logout()">Log out</a>
       </div>
     </mat-drawer>

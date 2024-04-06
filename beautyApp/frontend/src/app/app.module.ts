@@ -23,6 +23,7 @@ import { BaseHomeComponent } from './home-pages/base-home/base-home.component';
 import {MatSelectModule} from '@angular/material/select';
 // import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { PortfolioPageComponent } from './portfolio-page/portfolio-page.component';
 // import { UserUpdateComponent } from './user-update/user-update.component';
 // import { UserDetailsComponent } from './user-details/user-details.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -34,6 +35,7 @@ import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-pag
 import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page.component';
 import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
 import { ReviewPageComponent } from './customer-pages/review-page/review-page.component';
+import { SettingsPageComponent } from './settings-page/settings-page.component';
 
 
 
@@ -51,7 +53,9 @@ import { ReviewPageComponent } from './customer-pages/review-page/review-page.co
     ServiceProfilePageComponent,
     PricingPageComponent,
     AvailabilityPageComponent,
-    ReviewPageComponent
+    ReviewPageComponent,
+    PortfolioPageComponent,
+    SettingsPageComponent,
     // UserUpdateComponent,
     // UserDetailsComponent
   ],

@@ -59,9 +59,12 @@ constructor(
       newRequest = request.clone({
         setHeaders: {
           Authorization: `Bearer ${this.authenticationService.getToken()}`,
+          'Access-Control-Allow-Origin': '*'
+
         },
       }
       );
+      
     
     }
   
