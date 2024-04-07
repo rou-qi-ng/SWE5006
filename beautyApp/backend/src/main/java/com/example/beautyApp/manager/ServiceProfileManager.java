@@ -124,7 +124,7 @@ public class ServiceProfileManager {
         log.info("done1");
         businessRepository.deleteById(businessId);
         log.info("done2");
-        portfolioRepository.deleteByServiceId(serviceId);
+        portfolioRepository.deleteByPortfolioServiceId(serviceId);
         log.info("done3");
         if (newService.isPresent()){
             reviewRepository.deleteByServiceProfile(newService.get());
