@@ -42,7 +42,7 @@ export class SearchPageComponent implements OnInit {
       if (this.serviceType) {
         console.log("testttttttttttt", this.service);
         // Call your search method here, assuming you have one
-        // this.startingSearch();
+        this.startingSearch();
         // this.onSubmit();
       }
     });
@@ -50,17 +50,19 @@ export class SearchPageComponent implements OnInit {
 
 
   startingSearch(): void {
-    // if (this.serviceType) {
-    //   this.searchService.getResultsByType(this.serviceType).subscribe(
-    //     (data: ServiceProfile[]) => {
-    //       this.searchResults = data;
-    //       console.log('Service Details:', this.searchResults);
-    //     },
-    //     (error: any) => {
-    //       console.error('Error fetching service profile:', error);
-    //     }
-    //   );
-    // }
+    if (this.serviceType) {
+      this.searchService.getResultsByType(this.serviceType).subscribe(
+        (data: ServiceProfile[]) => {
+          this.searchResults = data;
+          this.search = Array.isArray(data) ? data : [data];
+          this.searchSuccess = this.search && this.search[0] != null;
+          console.log('Service Details:', this.searchResults);
+        },
+        (error: any) => {
+          console.error('Error fetching service profile:', error);
+        }
+      );
+    }
   }
 
 
