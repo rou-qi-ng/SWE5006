@@ -1,5 +1,6 @@
 package com.example.beautyApp.repository;
 
+import com.example.beautyApp.model.Portfolio;
 import com.example.beautyApp.model.Pricing;
 import com.example.beautyApp.model.Review;
 import com.example.beautyApp.model.ServiceProfile;
@@ -25,6 +26,9 @@ public interface ServiceProfileRepository extends JpaRepository<ServiceProfile, 
     Optional<ServiceProfile> findByServiceLocationAndServiceTypeAndServiceDescriptionAndServiceName(
             String serviceLocation, String serviceType, String serviceDescription, String serviceName);
 
+
+    @Query("SELECT i FROM Portfolio i JOIN ServiceProfile sp ON i.portfolioServiceId = sp.serviceId WHERE i.portfolioServiceId = :serviceId")
+    List<Portfolio> findImagesByServiceId(@Param("serviceId") int serviceId);
 
     @Query("SELECT p FROM Pricing p WHERE p.serviceProfile.serviceId = :serviceId")
     List<Pricing> findPricingsByServiceId(@Param("serviceId") int serviceId);

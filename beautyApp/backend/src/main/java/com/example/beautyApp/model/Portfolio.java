@@ -1,6 +1,5 @@
 package com.example.beautyApp.model;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,31 +12,43 @@ import java.io.Serializable;
 @Entity
 @Setter
 @Getter
-@Table(name = "Portfolio")
+@Table(name = "portfolio") 
 public class Portfolio implements Serializable {
+
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "service_id")
-    private int serviceId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "portfolio_id")
+    private int portfolioId;
 
-    @Lob
-    @Nullable
-    @Column(name = "Data")
-    private byte[] data;
+    @Column(name = "portfolio_service_id")
+    private int portfolioServiceId;
 
-    public int getServiceId() {
-        return serviceId;
+    @Column(name = "portfolio_data")
+    private byte[] portfolioData;
+
+    // Getters and setters
+
+    public int getPortfolioId() {
+        return portfolioId;
     }
 
-    public void setServiceId(int serviceId) {
-        this.serviceId = serviceId;
+    public void setPortfolioId(int portfolioId) {
+        this.portfolioId = portfolioId;
     }
 
-    public byte[] getData() {
-        return data;
+    public int getPortfolioServiceId() {
+        return portfolioServiceId;
     }
 
-    public void setData(byte[] data) {
-        this.data = data;
+    public void setPortfolioServiceId(int portfolioServiceId) {
+        this.portfolioServiceId = portfolioServiceId;
+    }
+
+    public byte[] getPortfolioData() {
+        return portfolioData;
+    }
+
+    public void setPortfolioData(byte[] portfolioData) {
+        this.portfolioData = portfolioData;
     }
 }

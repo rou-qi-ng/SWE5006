@@ -1,5 +1,6 @@
 package com.example.beautyApp.manager;
 
+import com.example.beautyApp.model.Portfolio;
 import com.example.beautyApp.model.*;
 import com.example.beautyApp.repository.*;
 import org.springframework.beans.factory.ObjectProvider;
@@ -80,6 +81,11 @@ public class ServiceProfileManager {
         return newService;
     }
 
+
+
+    public List<Portfolio> getAllImagesByServiceId(int serviceId) {
+        return serviceProfileRepository.findImagesByServiceId(serviceId);
+    }
     public List<Pricing> getAllPricingsByServiceId(int serviceId) {
         return serviceProfileRepository.findPricingsByServiceId(serviceId);
     }
@@ -118,7 +124,7 @@ public class ServiceProfileManager {
         log.info("done1");
         businessRepository.deleteById(businessId);
         log.info("done2");
-        portfolioRepository.deleteByServiceId(serviceId);
+        portfolioRepository.deleteByPortfolioServiceId(serviceId);
         log.info("done3");
         if (newService.isPresent()){
             reviewRepository.deleteByServiceProfile(newService.get());

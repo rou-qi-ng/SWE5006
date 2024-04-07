@@ -23,12 +23,12 @@ public class PortfolioManager {
         log.info("Service ID: {}", serviceId);
         Portfolio portfolio = new Portfolio();
         if (serviceId != null) {
-            portfolio.setServiceId(serviceId);
-            log.info("Service ID: {}", portfolio.getServiceId());
-            portfolio.setData(file.getBytes());
+            portfolio.setPortfolioServiceId(serviceId);
+            log.info("Service ID: {}", portfolio.getPortfolioServiceId());
+            portfolio.setPortfolioData(file.getBytes());
             portfolioRepository.save(portfolio);
         } else {
-            portfolio.setServiceId(0);
+            portfolio.setPortfolioServiceId(0);
         }
 
     }

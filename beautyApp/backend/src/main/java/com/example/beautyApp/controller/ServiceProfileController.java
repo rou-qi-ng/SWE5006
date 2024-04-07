@@ -4,6 +4,11 @@ import com.example.beautyApp.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.beautyApp.manager.ServiceProfileManager;
+import com.example.beautyApp.model.Portfolio;
+import com.example.beautyApp.model.Pricing;
+import com.example.beautyApp.model.Review;
+import com.example.beautyApp.model.ServiceProfile;
+import com.example.beautyApp.model.TB_User;
 import com.example.beautyApp.request.LoginRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +28,6 @@ public class ServiceProfileController {
 
     @Autowired
     private ServiceProfileManager serviceProfileManager;
-
-    // @GetMapping // Handles GET requests to /api/serviceProfile
-    // public ResponseEntity<List<ServiceProfile>> getAllServiceProfiles() {
-    //     // Retrieves all service profiles from the manager
-    //     List<ServiceProfile> serviceProfiles = serviceProfileManager.getAllServiceProfiles();
-    //     // Returns the retrieved service profiles in the response with HTTP status 200 (OK)
-    //     return ResponseEntity.ok(serviceProfiles);
-    // }
 
     @GetMapping("/{serviceId}")
     public ResponseEntity<ServiceProfile> getServiceProfileById(@PathVariable("serviceId") int serviceId) {
@@ -76,6 +73,16 @@ public class ServiceProfileController {
     }
 
 
+
+    @GetMapping("/{serviceId}/portfolio")
+    public ResponseEntity<List<Portfolio>> getAllImagesByServiceId(@PathVariable("serviceId") int serviceId) {
+        List<Portfolio> images = serviceProfileManager.getAllImagesByServiceId(serviceId);
+        if (!images.isEmpty()) {
+            return ResponseEntity.ok(images);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping("/{serviceId}/pricing")
     public ResponseEntity<List<Pricing>> getAllPricingsByServiceId(@PathVariable("serviceId") int serviceId) {
