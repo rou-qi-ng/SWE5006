@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class Availability implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     // @NonNull                         // not needed as int in java will not hold null values
     @Column(name = "availability_id")
     private int availabilityId;

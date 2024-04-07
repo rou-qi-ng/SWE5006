@@ -1,13 +1,9 @@
 package com.example.beautyApp.controller;
 
-import com.example.beautyApp.model.ServiceProfileWithPricing;
+import com.example.beautyApp.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.beautyApp.manager.ServiceProfileManager;
-import com.example.beautyApp.model.Pricing;
-import com.example.beautyApp.model.Review;
-import com.example.beautyApp.model.ServiceProfile;
-import com.example.beautyApp.model.TB_User;
 import com.example.beautyApp.request.LoginRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 // import java.util.List;
 
 @RestController
@@ -128,5 +121,32 @@ public class ServiceProfileController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/getServiceStatus")
+    public ResponseEntity<Map<String, String>> getServiceStatus(@RequestParam int serviceId) {
+        log.info("ID: " + serviceId);
+        Optional<Availability> s = serviceProfileManager.getServiceStatus(serviceId);
+        log.info(String.valueOf(s));
+        log.info(s.get().getAvailabilityStatus());
+        if (s.isPresent()) {
+            Map<String, String> response = new HashMap<>();
+            response.put("availabilityStatus", s.get().getAvailabilityStatus());
+            return new ResponseEntity<>(response, HttpStatus.OK);} else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/updateServiceStatus")
+    public ResponseEntity<String> updateServiceStatus(@RequestParam int serviceId) {
+        try {
+            log.info("ID: " + serviceId);
+            serviceProfileManager.updateServiceStatus(serviceId);
+            return ResponseEntity.status(HttpStatus.OK).body("Service with ID " + serviceId + " updated successfully");
+        }
+            catch (Exception e)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        }
 
 }

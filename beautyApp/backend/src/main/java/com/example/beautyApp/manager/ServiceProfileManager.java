@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -22,7 +23,8 @@ public class ServiceProfileManager {
     private BusinessRepository businessRepository;
     @Autowired
     private PortfolioRepository portfolioRepository;
-
+    @Autowired
+    private AppointmentRepository appointmentRepository;
     @Autowired
     private ReviewRepository reviewRepository;
     @Autowired
@@ -57,7 +59,6 @@ public class ServiceProfileManager {
 //                    log.info(String.valueOf(price));
                     Integer lastPriceId= pricingRepository.findLastPrice().getPricingId();
                     price.getServiceProfile().setServiceId(newService.getServiceId());
-
                     price.setPricingId(lastPriceId + 1);
                     log.info(String.valueOf(price));
 //                    TB_User saveUser = userRepository.save(preSaveUser);
@@ -67,11 +68,15 @@ public class ServiceProfileManager {
                     System.out.println("this was skipped");
                     log.info(String.valueOf(price));
                 }
-
-
             }
-
         }
+        Integer lastAvailabilityId = availabilityRepository.findLastAvailabilityId();
+        log.info("id is here "+String.valueOf(lastAvailabilityId));
+        Availability availability = new Availability();
+        availability.setAvailabilityId(lastAvailabilityId != null ? lastAvailabilityId + 1 : 1);
+        availability.setAvailabilityServiceId(newService.getServiceId());
+        availability.setAvailabilityStatus("Y");
+        availabilityRepository.save(availability);
         return newService;
     }
 
@@ -87,13 +92,28 @@ public class ServiceProfileManager {
         return serviceProfileRepository.findServiceProfilesByUserId(userId);
     }
 
+    public Optional<Availability> getServiceStatus(int serviceId) {
+        return availabilityRepository.findFirstByAvailabilityServiceId(serviceId);
+    }
+
+    @Transactional
+    public void updateServiceStatus(int serviceId) {
+        Optional<Availability> a = availabilityRepository.findFirstByAvailabilityServiceId(serviceId);
+        log.info(a.get().getAvailabilityStatus());
+        if (a.isPresent() && Objects.equals(a.get().getAvailabilityStatus(), "N"))
+            availabilityRepository.updateAvailabilityStatusById(serviceId, "Y");
+        else {
+            availabilityRepository.updateAvailabilityStatusById(serviceId, "N");
+        }
+    }
+
     @Transactional
     public void deleteService(int userId, int serviceId) {
         BusinessId businessId = new BusinessId(userId, serviceId);
         Optional<ServiceProfile> newService  = serviceProfileRepository.findByServiceId(serviceId);
-//        newService.setServiceId(newService.getServiceId());
-
         log.info("rches here");
+        appointmentRepository.deleteByAppointmentServiceId(serviceId);
+        log.info("done0");
         availabilityRepository.deleteByAvailabilityServiceId(serviceId);
         log.info("done1");
         businessRepository.deleteById(businessId);
@@ -103,11 +123,9 @@ public class ServiceProfileManager {
         if (newService.isPresent()){
             reviewRepository.deleteByServiceProfile(newService.get());
             log.info("done4");
-
             pricingRepository.deleteByServiceProfile(newService.get());
             log.info("done5");
         }
-
         serviceProfileRepository.deleteById(serviceId);
         log.info("done");
     }

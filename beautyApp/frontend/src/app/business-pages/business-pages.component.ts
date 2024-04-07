@@ -57,6 +57,7 @@ export class BusinessPagesComponent {
       console.error('Service ID is null');
     }
   });
+  console.log(this.serviceId);
    // Initialize the form with form controls
    this.loginForm = this.formBuilder.group({
     service_name: ['', Validators.required],
@@ -125,7 +126,7 @@ public onSubmit() {
       serviceType: this.loginForm.get('service_type')?.value,
       serviceLocation: this.loginForm.get('service_location')?.value,
     };
-    console.log(newServiceProfile); 
+    console.log(newServiceProfile ); 
     console.log(this.selectedFiles);
     this.products.shift();
     console.log(this.products); 
