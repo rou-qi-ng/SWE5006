@@ -3,6 +3,7 @@ package com.example.beautyApp.manager;
 import com.example.beautyApp.model.ServiceProfile;
 //import com.example.beautyApp.model.User;
 import com.example.beautyApp.repository.SearchRepository;
+import com.example.beautyApp.repository.ServiceProfileRepository;
 //import com.example.beautyApp.request.SignUpRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,22 @@ public class SearchManager {
         return searchRepository.findByServiceType(type);
     }
     
-    // public Optional<Search> search(String serviceType, String serviceName) {
-    //     System.out.println("serviceType: " + serviceType);
-    //     System.out.println("serviceName: " + serviceName);
-    //     return searchRepository.findServiceName(serviceType, serviceName);
+    public List<ServiceProfile> searchByServiceTypeAndServiceName(String serviceType, String serviceName) {
+        System.out.println("serviceType: " + serviceType);
+        System.out.println("serviceName: " + serviceName);
+        return searchRepository.findByServiceTypeAndServiceName(serviceType, serviceName);
+    }
+
+    // public List<ServiceProfile> search( String serviceName, String serviceType) {
+    //     System.out.println("serviceType1: " + serviceType);
+    //     System.out.println("serviceName1: " + serviceName);
+    //     System.out.println(searchRepository.findByNameAndType(serviceName, serviceType));
+    //     return searchRepository.findByNameAndType(serviceName, serviceType);
     //     // if (serviceType.equals("Nails")){
-    //     //     return searchRepository.findServiceName("Nails", serviceName);  
+    //     //     return serviceProfileRepository.findServiceName("Nails", serviceName);  
     //     // }
     //     // else if (serviceType.equals("Lash")){
-    //     //     return searchRepository.findServiceName("Lash", serviceName);
+    //     //     return serviceProfileRepository.findServiceName("Lash", serviceName);
     //     // }
-        
-
     // }
 }

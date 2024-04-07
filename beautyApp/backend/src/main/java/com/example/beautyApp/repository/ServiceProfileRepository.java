@@ -39,4 +39,5 @@ public interface ServiceProfileRepository extends JpaRepository<ServiceProfile, 
     List<ServiceProfile> findServiceProfilesByUserId(int userId);
 
 
+    // List<ServiceProfile> findByServiceNameAndServiceType(String serviceName, String serviceType);
 }
