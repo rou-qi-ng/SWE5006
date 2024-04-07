@@ -16,11 +16,11 @@ export class SearchService {
   //   return this.httpClient.get<Search[]>(`${this.baseUrl}/search`);
   // }
 
-  // getResultsByType(serviceType: string): Observable<ServiceProfile[]> {
-  //   return this.httpClient.get<ServiceProfile[]>(`${this.baseUrl}/service/${serviceType}`);
-  // }
+  getResultsByType(serviceType: string): Observable<ServiceProfile[]> {
+    return this.httpClient.get<ServiceProfile[]>(`${this.baseUrl}/service/${serviceType}`);
+  }
 
   search(serviceName: String, serviceType: String): Observable<ServiceProfile[]> {
-    return this.httpClient.get<ServiceProfile[]>(`${this.baseUrl}/service/search/${serviceName}`);
+    return this.httpClient.get<ServiceProfile[]>(`${this.baseUrl}/service/${serviceType}/search/${serviceName}`);
   }
 }

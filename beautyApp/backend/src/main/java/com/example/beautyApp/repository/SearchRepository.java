@@ -28,7 +28,14 @@ public interface SearchRepository extends JpaRepository<ServiceProfile, Integer>
     // Optional<Search> findServiceName( @Param("serviceType") String serviceType,
     //                                           @Param("serviceName") String serviceName);
 
-    @Query("SELECT sp FROM ServiceProfile sp WHERE sp.serviceName LIKE %:serviceName% AND sp.serviceType = :serviceType")
-    List<ServiceProfile> findByNameAndType(@Param("serviceName") String serviceName, @Param("serviceType") String serviceType);
+    // @Query("SELECT sp FROM ServiceProfile sp WHERE sp.serviceName LIKE %:serviceName% AND sp.serviceType = :serviceType")
+    // List<ServiceProfile> findByNameAndType(@Param("serviceName") String serviceName, @Param("serviceType") String serviceType);
 
+    @Query("SELECT sp FROM ServiceProfile sp WHERE sp.serviceName LIKE %:serviceName% AND sp.serviceType = :serviceType")
+    List<ServiceProfile> findByServiceTypeAndServiceName(@Param("serviceType") String serviceType, @Param("serviceName") String serviceName);
+
+
+
+
+    // List<ServiceProfile> findByServiceTypeAndServiceName(String serviceType, String serviceName);
 }

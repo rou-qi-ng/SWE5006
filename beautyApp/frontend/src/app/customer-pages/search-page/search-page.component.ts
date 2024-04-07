@@ -42,8 +42,8 @@ export class SearchPageComponent implements OnInit {
       if (this.serviceType) {
         console.log("testttttttttttt", this.service);
         // Call your search method here, assuming you have one
-        this.startingSearch();
-        this.onSubmit();
+        // this.startingSearch();
+        // this.onSubmit();
       }
     });
   }
