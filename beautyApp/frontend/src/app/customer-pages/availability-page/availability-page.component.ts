@@ -7,6 +7,7 @@ import { AvailabilityService } from '../../services/availability.service'; // Im
 import { Availability } from '../../model/availability.model';
 import { DateAdapter } from '@angular/material/core';
 import { Appointment } from '../../model/appointment.model';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-availability-page',
@@ -22,6 +23,7 @@ export class AvailabilityPageComponent implements OnInit {
   selectedTimeSlot: string | null;
   timeSlots: string[]; // Array to hold time slots
   appointments: Appointment[] = [];
+  existingAppointments: Appointment[] = []; 
   
   
   addHour(timeSlot: string): string {
@@ -35,7 +37,8 @@ export class AvailabilityPageComponent implements OnInit {
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private availabilityService: AvailabilityService, // Inject the service
-    private dateAdapter: DateAdapter<Date> // Inject DateAdapter
+    private dateAdapter: DateAdapter<Date>, // Inject DateAdapter
+    private cdr: ChangeDetectorRef 
   ) {
     this.selected = null; // Initialize selected property
     this.dateAdapter.setLocale('en'); // Set locale
@@ -48,12 +51,20 @@ export class AvailabilityPageComponent implements OnInit {
     console.log('Selected Time Slot:', this.selectedTimeSlot);
 
     if (this.selected && this.selectedTimeSlot && this.serviceId !== null) {
+      // Convert the selected date to UTC timezone
+      //const utcDate = new Date(this.selected.toISOString());
+      const localDate = new Date(this.selected);
+      // Format the date to exclude time and timezone
+      //const formattedDate = utcDate.toISOString().split('T')[0];
+      const formattedDate = this.formatDate(localDate);
       const appointmentData = {
         appointmentServiceId: this.serviceId,
         appointmentUserId: 1,   // change this to userid, now no login ppl      
-        appointmentDate: this.selected,
+        //appointmentDate: this.selected,
+        appointmentDate: formattedDate,
         appointmentTime: this.selectedTimeSlot
       };
+
 
       console.log('appointmentData:', appointmentData);
   
@@ -73,7 +84,13 @@ export class AvailabilityPageComponent implements OnInit {
       // Optionally, display a message to the user indicating that a date and time slot must be selected before booking
     }
   }
-
+  // Function to format the date to exclude time and timezone
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
   // Function to generate time slots
   generateTimeSlots(): string[] {
@@ -109,6 +126,8 @@ export class AvailabilityPageComponent implements OnInit {
 
   ngOnInit(): void {
     // Extract service ID from route parameters
+    this.selected = new Date();
+    this.cdr.detectChanges();
     this.route.paramMap.subscribe(params => {
       const serviceIdString = params.get('serviceId');
       if (serviceIdString) {
@@ -143,6 +162,8 @@ export class AvailabilityPageComponent implements OnInit {
         (data: Appointment[]) => {
           this.appointments = data;
           console.log('Appointment Details:', this.appointments);
+          // Now that we have appointments data, mark unavailable time slots
+        this.markUnavailableTimeSlots();
         },
         (error: any) => {
           console.error('Error fetching appointment:', error);
@@ -150,7 +171,47 @@ export class AvailabilityPageComponent implements OnInit {
       );
     }
   }
+
+  // Function to handle selection of date
+  selectDate(selectedDate: Date): void {
+    // Set time to 00:00:00 to ignore time component
+    selectedDate.setHours(0, 0, 0, 0);
+    console.log('Selected date:', selectedDate);
+    this.selected = selectedDate;
+    console.log('Updated selected date:', this.selected);
+    this.markUnavailableTimeSlots();
+  }
   
+  
+  // Function to mark unavailable time slots
+  
+
+  markUnavailableTimeSlots(): void {
+    if (this.appointments.length > 0 && this.selected) {
+      const selectedDate = this.formatDate(this.selected); // Format the selected date
+      this.timeSlots.forEach(timeSlot => {
+        const slotExists = this.appointments.some(appointment => {
+          const appointmentDate = this.formatDate(new Date(appointment.appointmentDate)); // Format the appointment date
+          return appointmentDate === selectedDate && appointment.appointmentTime === timeSlot;
+        });
+        if (slotExists) {
+          console.log('Time slot not available:', timeSlot);
+        }
+      });
+    }
+  }
+  // Function to check if a time slot is unavailable
+  isTimeSlotUnavailable(timeSlot: string): boolean {
+    if (this.appointments.length > 0 && this.selected) {
+      const selectedDate = this.formatDate(this.selected);
+      return this.appointments.some(appointment => {
+        const appointmentDate = this.formatDate(new Date(appointment.appointmentDate));
+        return appointmentDate === selectedDate && appointment.appointmentTime === timeSlot;
+      });
+    }
+    return false;
+  }
+
   // getAllAvailabilitys(): void {
   //   this.availabilityService.getAllAvailabilitys().subscribe(
   //     (data: Availability[]) => {
