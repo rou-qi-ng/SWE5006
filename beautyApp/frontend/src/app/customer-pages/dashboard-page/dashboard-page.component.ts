@@ -14,19 +14,19 @@ export class DashboardPageComponent {
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute) {
-      route.params.subscribe(val => {
-        this.getCode();
-      });
+      // route.params.subscribe(val => {
+      //   this.getCode();
+      // });
 
  }
   public refCode! : undefined;
   public user = localStorage.getItem('username');
   
 
-  // ngOnInit(): void {
-  //   this.getCode();
+  ngOnInit(): void {
+    this.getCode();
     
-  // }
+  }
 
 
   private getCode() {
@@ -47,6 +47,9 @@ export class DashboardPageComponent {
   }
   returnToDashBoard():void{
     this.router.navigate([""]);
+  }
+  settingsPage():void{
+    this.router.navigate(["settings"]);
   }
 
  logout(): void {

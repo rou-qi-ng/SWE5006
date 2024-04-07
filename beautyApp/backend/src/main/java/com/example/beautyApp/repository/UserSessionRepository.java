@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserSessionRepository extends JpaRepository<TB_UserSession, Integer> {
+//    Optional<TB_UserSession> findByToken(String sessionId);
 
     @Query("SELECT u FROM TB_UserSession u WHERE (u.token = :token)")
     Optional<TB_UserSession> findByToken(@Param("token") String token);

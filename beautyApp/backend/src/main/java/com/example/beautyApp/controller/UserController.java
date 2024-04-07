@@ -3,16 +3,15 @@ package com.example.beautyApp.controller;
 import com.example.beautyApp.manager.ReferralManager;
 import com.example.beautyApp.manager.ServiceManager;
 import com.example.beautyApp.manager.UserManager;
+import com.example.beautyApp.model.TB_Customer;
 import com.example.beautyApp.model.TB_Service;
 import com.example.beautyApp.model.TB_User;
 import com.example.beautyApp.model.TB_UserSession;
 import com.example.beautyApp.repository.ReferralRepository;
 import com.example.beautyApp.repository.UserRepository;
-import com.example.beautyApp.request.LoginRequest;
-import com.example.beautyApp.request.RoleRequest;
-import com.example.beautyApp.request.SessionRequest;
-import com.example.beautyApp.request.SignUpRequest;
+import com.example.beautyApp.request.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -30,6 +29,9 @@ import java.util.*;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+
+//    @Autowired
+//    private UserRepository userRepository;
 
     @Autowired
     private UserManager userManager;
@@ -99,6 +101,30 @@ public class UserController {
 
     }
 
+    @PostMapping(path = "/updateCustomer")
+    public ResponseEntity<?> updateCustomer(@RequestBody CustomerRequest customerRequest) throws Exception {
+        Optional<TB_Customer> user = userManager.updateCustomer(customerRequest);
+        System.out.println(user);
+
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+                "statusCode", "200",
+                "message", "No existing functions"
+        ));
+
+//        if (user.isEmpty()){
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
+//                    "statusCode", "200",
+//                    "message", "No existing functions"
+//            ));
+//        } else{
+//            return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+//                    "statusCode", "200",
+//                    "message", "Success"
+//            ));
+//        }
+
+    }
+
 
 
     @GetMapping(path = "/login")
@@ -123,6 +149,21 @@ public class UserController {
     public ResponseEntity<?> getReferralCode() throws Exception {
 
         String code = referralManager.getCode("test");
+        System.out.println(code);
+
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+                "statusCode", "200",
+                "message", "Success",
+                "data", code
+        ));
+//        return code;
+    }
+
+
+    @GetMapping(path = "/getSetting")
+    public ResponseEntity<?> getSetting(@Param("token") String token) throws Exception {
+
+        Optional<TB_Customer> code = userManager.getSetting(token);
         System.out.println(code);
 
         return ResponseEntity.status(HttpStatus.OK).body(Map.of(
