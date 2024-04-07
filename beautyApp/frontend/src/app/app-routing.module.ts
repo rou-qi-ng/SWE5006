@@ -55,7 +55,7 @@ const routes: Routes = [
       component: BusinessPagesComponent,
       canActivate: [authGuard],
     data: {
-      role:  ['admin','customer']
+      role:  ['admin','customer','business']
     }
   },
   {
@@ -63,7 +63,7 @@ const routes: Routes = [
     component: BusinessPagesComponent,
     canActivate: [authGuard],
   data: {
-    role:  ['admin','customer']
+    role:  ['admin','customer','business']
   }
 },
   {
@@ -71,7 +71,7 @@ const routes: Routes = [
       component: ManageBusinessPagesComponent,
       canActivate: [authGuard],
     data: {
-      role:  ['admin','customer']
+      role:  ['admin','customer','business']
     }
   },
   {

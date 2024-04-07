@@ -45,7 +45,10 @@ public class ServiceProfile implements Serializable {
 
 
     @OneToMany(mappedBy = "serviceProfile")
-    private List<Pricing> reviews;
+    private List<Review> reviews;
+
+    // @OneToMany(mappedBy = "serviceProfile")
+    // private List<Appointment> appointments;
 
     // Getters and setters
 
