@@ -10,12 +10,14 @@ import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.componen
 import { BaseHomeComponent } from './home-pages/base-home/base-home.component';
 
 import { DashboardPageComponent } from './customer-pages/dashboard-page/dashboard-page.component';
-import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
 import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
+import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
+import { BusinessPagesComponent } from './business-pages/business-pages.component';
 import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page.component';
 import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
 import { ReviewPageComponent } from './customer-pages/review-page/review-page.component';
 import { PortfolioPageComponent } from './portfolio-page/portfolio-page.component';
+import { ManageBusinessPagesComponent } from './manage-business-pages/manage-business-pages.component';
 
 
 
@@ -47,8 +49,29 @@ const routes: Routes = [
     path: 'users',
     component: UserListComponent,
     canActivate: [authGuard],
+  },
+  {
+      path: 'business',
+      component: BusinessPagesComponent,
+      canActivate: [authGuard],
     data: {
-      role:  ['admin']
+      role:  ['admin','customer','business']
+    }
+  },
+  {
+    path: 'business/:serviceId',
+    component: BusinessPagesComponent,
+    canActivate: [authGuard],
+  data: {
+    role:  ['admin','customer','business']
+  }
+},
+  {
+      path: 'manage',
+      component: ManageBusinessPagesComponent,
+      canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer','business']
     }
   },
   {
@@ -101,6 +124,7 @@ const routes: Routes = [
     }
 
   }
+  
   // { path: 'update-user/:id', component: UserUpdateComponent },
 ];
 

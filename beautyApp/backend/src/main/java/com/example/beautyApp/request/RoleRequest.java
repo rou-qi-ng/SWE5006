@@ -8,4 +8,5 @@ import lombok.Data;
 public class RoleRequest {
     public interface RoleGroup{}
     private String token;
+
 }
