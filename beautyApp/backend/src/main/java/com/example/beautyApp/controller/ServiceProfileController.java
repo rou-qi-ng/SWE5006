@@ -1,27 +1,25 @@
 package com.example.beautyApp.controller;
 
+import com.example.beautyApp.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.example.beautyApp.manager.ServiceProfileManager;
-import com.example.beautyApp.model.Pricing;
-import com.example.beautyApp.model.Review;
-import com.example.beautyApp.model.ServiceProfile;
-import com.example.beautyApp.model.TB_User;
 import com.example.beautyApp.request.LoginRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 // import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 // import java.util.List;
 
 @RestController
 @RequestMapping("/api/serviceProfile")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ServiceProfileController {
+    private static final Logger log = LoggerFactory.getLogger(ServiceProfileController.class);
 
     @Autowired
     private ServiceProfileManager serviceProfileManager;
@@ -44,6 +42,41 @@ public class ServiceProfileController {
         }
     }
 
+    @GetMapping("/find")
+    public ResponseEntity<Optional<ServiceProfile>> findServiceId(@RequestBody ServiceProfile serviceProfile) {
+        Optional<ServiceProfile> serviceProfile2 = serviceProfileManager.findServiceId(serviceProfile);
+        if (serviceProfile2.isPresent()) {
+            return new ResponseEntity<>(serviceProfile2, HttpStatus.OK);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    // Endpoint to insert a new service profile
+    @PostMapping("/add")
+    public ResponseEntity<ServiceProfile> addServiceProfile(@RequestBody ServiceProfileWithPricing combinedData) {
+        ServiceProfile serviceProfile = combinedData.getServiceProfile();
+        //List<Pricing> pricingList = new ArrayList<>();
+        List<Pricing> pricingList = combinedData.getPricingList();
+        for (Pricing pricing : pricingList) {
+            pricing.setServiceProfile(serviceProfile);
+        }
+        log.info("Received new service profile: {}", combinedData.toString());
+        log.info("Received new service profile: {}", serviceProfile);
+        log.info("Received new service profile pricing: {}", pricingList);
+
+        ServiceProfile savedServiceProfile = serviceProfileManager.saveServiceProfile(serviceProfile, pricingList);
+        if (savedServiceProfile != null) {
+            return new ResponseEntity<>(savedServiceProfile, HttpStatus.CREATED);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+
+
     @GetMapping("/{serviceId}/pricing")
     public ResponseEntity<List<Pricing>> getAllPricingsByServiceId(@PathVariable("serviceId") int serviceId) {
         List<Pricing> pricings = serviceProfileManager.getAllPricingsByServiceId(serviceId);
@@ -53,7 +86,7 @@ public class ServiceProfileController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     @GetMapping("/{serviceId}/review")
     public ResponseEntity<List<Review>> getAllReviewsByServiceId(@PathVariable("serviceId") int serviceId) {
         List<Review> reviews = serviceProfileManager.getAllReviewsByServiceId(serviceId);
@@ -64,27 +97,56 @@ public class ServiceProfileController {
         }
     }
 
-    // @GetMapping("/type/{serviceType}")
-    // public ResponseEntity<ServiceProfile> getServiceProfileByType(@PathVariable("serviceType") String serviceType) {
-    //     Optional<ServiceProfile> serviceProfile = serviceProfileManager.getServiceProfileByType(serviceType);
-    //     if (serviceProfile.isPresent()) {
-    //         return ResponseEntity.ok(serviceProfile.get());
-    //     } else {
-    //         return ResponseEntity.notFound().build();
-    //     }
-    // }
+    @GetMapping("/getServiceList")
+    public ResponseEntity<List<ServiceProfile>> getServiceList(@RequestParam int userId) {
+        log.info("User ID: " + userId);
+        List<ServiceProfile> serviceProfile = serviceProfileManager.getServiceList(userId);
+        if (!serviceProfile.isEmpty()) {
+            return new ResponseEntity<>(serviceProfile, HttpStatus.OK);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-    // @GetMapping(path = "/search")
-    // public ResponseEntity<List<ServiceProfile>> search(@RequestParam String serviceName, @RequestParam String serviceType) throws Exception {
-    //     List<ServiceProfile> serviceProfile = serviceProfileManager.search(serviceName, serviceType);
-    //     System.out.println("serviceType: " + serviceType);
-    //     System.out.println("serviceName: " + serviceName);
-    //     System.out.println(serviceProfile);
-    //     if (!serviceProfile.isEmpty()) {
-    //         return ResponseEntity.ok(serviceProfile);
-    //     } else {
-    //         return ResponseEntity.notFound().build();
-    //     }
-    // }
+    @CrossOrigin(origins = "*")
+    @GetMapping("/delete")
+    public ResponseEntity<String> deleteService(@RequestParam int userId, @RequestParam int serviceId) {
+        try {
+            log.info("ID: " + serviceId);
+            serviceProfileManager.deleteService(userId, serviceId);
+            return ResponseEntity.status(HttpStatus.OK).body("Service with ID " + serviceId + " deleted successfully");
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/getServiceStatus")
+    public ResponseEntity<Map<String, String>> getServiceStatus(@RequestParam int serviceId) {
+        log.info("ID: " + serviceId);
+        Optional<Availability> s = serviceProfileManager.getServiceStatus(serviceId);
+        log.info(String.valueOf(s));
+        log.info(s.get().getAvailabilityStatus());
+        if (s.isPresent()) {
+            Map<String, String> response = new HashMap<>();
+            response.put("availabilityStatus", s.get().getAvailabilityStatus());
+            return new ResponseEntity<>(response, HttpStatus.OK);} else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/updateServiceStatus")
+    public ResponseEntity<String> updateServiceStatus(@RequestParam int serviceId) {
+        try {
+            log.info("ID: " + serviceId);
+            serviceProfileManager.updateServiceStatus(serviceId);
+            return ResponseEntity.status(HttpStatus.OK).body("Service with ID " + serviceId + " updated successfully");
+        }
+            catch (Exception e)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        }
 
 }
