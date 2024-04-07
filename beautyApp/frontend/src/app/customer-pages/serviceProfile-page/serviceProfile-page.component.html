@@ -17,23 +17,41 @@
           <div class="spinner diagonal part-2"></div>
       </label>
       
-      <div class="search-section">
+      <div class="service-card">
+        
+        <!-- <div *ngIf="loading" class="service-card-loading">
+          Loading...
+        </div> -->
 
+        <div class="service-card-content">
           <div *ngIf="serviceDetails">
-            <!-- <h1 class = "title">{{ serviceDetails.location }}</h1> -->
-
-            <p>Service Id: {{ serviceDetails.serviceId }}</p>
-            <p>Location: {{ serviceDetails.location }}</p>
-            <p>Type: {{ serviceDetails.type }}</p>
-            <p>Description: {{ serviceDetails.description }}</p>
-
+            <!-- <h1 class="title">{{ serviceDetails.location }}</h1> -->
+            
+            <div *ngFor="let image of images" class="profile-image-container">
+              <img [src]="getBlobUrl(image.portfolioData)" alt="Image" class="profile-image">
+            </div>
+            <p class="service-name">{{ serviceDetails.serviceName | uppercase }}</p>
+            <p>{{ serviceDetails.serviceLocation }}</p>
+            <p><a class="google-maps-link" href="https://www.google.com/maps/search/?api=1&query={{ serviceDetails.serviceLocation }}">See Maps</a></p>
           </div>
+        
           
-          <div *ngIf="!serviceDetails">
-            <p>Loading...</p>
-          </div>
+      
+          <!-- Add Ons
+          <div *ngIf="addOns.length > 0" class="add-ons">
+            <div class="service-card-title">Add Ons</div>
+            <div *ngFor="let service of addOns" class="service-row">
+              <div>{{ service.serviceName }}</div>
+              <div class="service-cost">{{ service.serviceCost | number:'1.0-0' }}</div>
+            </div>
+          </div> -->
+        </div>
 
+        <!-- <div class="service-card-content">
+          <p class="no-service">No service available at the moment</p>
+        </div> -->
       </div>
+      
     </mat-drawer-content>
   </mat-drawer-container>
 

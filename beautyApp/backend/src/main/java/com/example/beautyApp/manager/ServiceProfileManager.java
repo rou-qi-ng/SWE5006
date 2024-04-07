@@ -1,5 +1,6 @@
 package com.example.beautyApp.manager;
 
+import com.example.beautyApp.model.Portfolio;
 import com.example.beautyApp.model.Pricing;
 import com.example.beautyApp.model.Review;
 import com.example.beautyApp.model.ServiceProfile;
@@ -18,14 +19,13 @@ public class ServiceProfileManager {
     @Autowired
     private ServiceProfileRepository serviceProfileRepository;
 
-    // public List<ServiceProfile> getAllServiceProfiles() {
-    //     return serviceProfileRepository.findAll();
-    // }
-
     public Optional<ServiceProfile> getServiceProfileById(int serviceId) {
         return serviceProfileRepository.findByServiceId(serviceId);
     }
 
+    public List<Portfolio> getAllImagesByServiceId(int serviceId) {
+        return serviceProfileRepository.findImagesByServiceId(serviceId);
+    }
     public List<Pricing> getAllPricingsByServiceId(int serviceId) {
         return serviceProfileRepository.findPricingsByServiceId(serviceId);
     }

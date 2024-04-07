@@ -11,36 +11,106 @@
 
 
 
-  .search-section{
+  .service-card {
     margin-top: 2%;
     width: 70%;
-    margin-left: 15%;
-  }
- 
-  .logo {
-    float: right;
-  }
-
-  h1.title {
-    text-align: center;
-    margin-top: 2%;
-    width: 70%;
-    margin-left: 15%;
-  }
-
-  p.address {
-    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #C6B4B4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  .image-container {
+  .service-card-header {
+    text-align: center;
+    padding: 16px;
     display: flex;
-    justify-content: space-between;
-    filter: blur(5px); /* Apply a blur effect */
-  }
-  .image-container img {
-    width: 100px; /* Adjust the size as needed */
+    justify-content: center;
   }
 
+  .profile-image-container {
+    width: 150px; /* Adjust the width as needed */
+    height: 150px; /* Adjust the height as needed */
+    margin-right: 10px; /* Add margin between images */
+    overflow: hidden; /* Hide overflow to ensure square shape */
+}
+
+  .profile-image {
+    width: 100%; /* Make the image fill the container */
+    height: auto; /* Automatically adjust height */
+    object-fit: cover; /* Cover the entire container */
+  }
+
+  .service-name {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: larger; 
+  }
+
+  .google-maps-link {
+    font-size: x-small;
+    color: white;
+    text-decoration: underline;
+  }
+
+  .google-maps-link:hover {
+    color: black;
+  }
+  
+  .service-card-title {
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    font-family: sans-serif;
+    font-size: larger;
+  }
+  
+  .service-card-loading {
+    padding: 16px;
+    color: white;
+    text-align: center;
+  }
+
+  .service-card-content {
+    padding: 16px;
+    color: white;
+  }
+  
+  .service-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+  }
+  
+  .service-cost {
+    text-align: right;
+  }
+
+  .no-service {
+    text-align: center;
+  }
+
+
+  .service-card-actions {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .service-button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .service-button:hover {
+    background-color: #45a049;
+  }
+  
   
 
 

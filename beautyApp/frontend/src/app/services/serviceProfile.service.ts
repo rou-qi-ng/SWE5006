@@ -19,4 +19,8 @@ export class ServiceProfileService {
   getServiceDetails(serviceId: number): Observable<ServiceProfile> {
     return this.httpClient.get<ServiceProfile>(`${this.baseUrl}/serviceProfile/${serviceId}`);
   }
+
+  getImagesBlob(serviceId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/serviceProfile/${serviceId}/portfolio`);
+  }
 }
