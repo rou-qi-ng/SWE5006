@@ -4,7 +4,6 @@ import com.example.beautyApp.model.Pricing;
 import com.example.beautyApp.model.Review;
 import com.example.beautyApp.model.ServiceProfile;
 // import com.example.beautyApp.model.User;
-//import com.example.beautyApp.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,11 +22,21 @@ public interface ServiceProfileRepository extends JpaRepository<ServiceProfile, 
 
     Optional<ServiceProfile> findByServiceId(int serviceId);
 
+    Optional<ServiceProfile> findByServiceLocationAndServiceTypeAndServiceDescriptionAndServiceName(
+            String serviceLocation, String serviceType, String serviceDescription, String serviceName);
+
+
     @Query("SELECT p FROM Pricing p WHERE p.serviceProfile.serviceId = :serviceId")
     List<Pricing> findPricingsByServiceId(@Param("serviceId") int serviceId);
 
     @Query("SELECT r FROM Review r WHERE r.serviceProfile.serviceId = :serviceId")
     List<Review> findReviewsByServiceId(@Param("serviceId") int serviceId);
+
+    @Query(value = "SELECT s.service_id, s.service_name, s.service_location, s.service_type, s.service_description " +
+            "FROM service s " +
+            "JOIN business b ON s.service_id = b.service_id " +
+            "WHERE b.user_id = :userId", nativeQuery = true)
+    List<ServiceProfile> findServiceProfilesByUserId(int userId);
 
 
 }
