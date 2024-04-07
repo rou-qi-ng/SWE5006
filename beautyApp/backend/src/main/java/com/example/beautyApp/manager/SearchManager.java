@@ -41,4 +41,17 @@ public class SearchManager {
         
 
     // }
+
+    public List<ServiceProfile> search( String serviceName, String serviceType) {
+        System.out.println("serviceType1: " + serviceType);
+        System.out.println("serviceName1: " + serviceName);
+        System.out.println(searchRepository.findByNameAndType(serviceName, serviceType));
+        return searchRepository.findByNameAndType(serviceName, serviceType);
+        // if (serviceType.equals("Nails")){
+        //     return serviceProfileRepository.findServiceName("Nails", serviceName);  
+        // }
+        // else if (serviceType.equals("Lash")){
+        //     return serviceProfileRepository.findServiceName("Lash", serviceName);
+        // }
+    }
 }

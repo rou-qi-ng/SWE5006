@@ -19,4 +19,12 @@ export class ServiceProfileService {
   getServiceDetails(serviceId: number): Observable<ServiceProfile> {
     return this.httpClient.get<ServiceProfile>(`${this.baseUrl}/serviceProfile/${serviceId}`);
   }
+
+  // search(serviceName: String, serviceType: String): Observable<ServiceProfile[]> {
+  //   return this.httpClient.get<ServiceProfile[]>(`${this.baseUrl}/serviceProfile/search?serviceName=${serviceName}&serviceType=${serviceType}`);
+  // }
+
+  // getServiceType(serviceType: String): Observable<ServiceProfile> {
+  //   return this.httpClient.get<ServiceProfile>(`${this.baseUrl}/serviceProfile/type/${serviceType}` );
+  // }
 }

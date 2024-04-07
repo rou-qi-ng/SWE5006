@@ -63,4 +63,28 @@ public class ServiceProfileController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    // @GetMapping("/type/{serviceType}")
+    // public ResponseEntity<ServiceProfile> getServiceProfileByType(@PathVariable("serviceType") String serviceType) {
+    //     Optional<ServiceProfile> serviceProfile = serviceProfileManager.getServiceProfileByType(serviceType);
+    //     if (serviceProfile.isPresent()) {
+    //         return ResponseEntity.ok(serviceProfile.get());
+    //     } else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
+
+    // @GetMapping(path = "/search")
+    // public ResponseEntity<List<ServiceProfile>> search(@RequestParam String serviceName, @RequestParam String serviceType) throws Exception {
+    //     List<ServiceProfile> serviceProfile = serviceProfileManager.search(serviceName, serviceType);
+    //     System.out.println("serviceType: " + serviceType);
+    //     System.out.println("serviceName: " + serviceName);
+    //     System.out.println(serviceProfile);
+    //     if (!serviceProfile.isEmpty()) {
+    //         return ResponseEntity.ok(serviceProfile);
+    //     } else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
+
 }

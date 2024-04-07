@@ -42,15 +42,15 @@ public class SearchController {
     // }
 
 
-    @GetMapping("/{serviceType}")
-    public ResponseEntity<List<ServiceProfile>> getSearchByType(@PathVariable("serviceType") String type) {
-        List<ServiceProfile> search = searchManager.searchByType(type);
-        if (!search.isEmpty()) {
-            return ResponseEntity.ok(search);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+    // @GetMapping("/{serviceType}")
+    // public ResponseEntity<List<ServiceProfile>> getSearchByType(@PathVariable("serviceType") String type) {
+    //     List<ServiceProfile> searchByType = searchManager.searchByType(type);
+    //     if (!searchByType.isEmpty()) {
+    //         return ResponseEntity.ok(searchByType);
+    //     } else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
 
     // @PostMapping(path = "/{serviceType}")
     // public ResponseEntity<?> search(@PathVariable("serviceType") String serviceType, @RequestBody String serviceName) throws Exception {
@@ -64,5 +64,18 @@ public class SearchController {
     //     }
 
     // }
+
+    @GetMapping(path = "/search/{serviceProfile}")
+    public ResponseEntity<List<ServiceProfile>> search(@PathVariable("serviceProfile") ServiceProfile serviceProfile) throws Exception {
+        List<ServiceProfile> search = searchManager.search(serviceProfile.getServiceName(), serviceProfile.getServiceType());
+        System.out.println("serviceType: " + serviceProfile.getServiceType());
+        System.out.println("serviceName: " +  serviceProfile.getServiceName());
+        System.out.println(search);
+        if (!search.isEmpty()) {
+            return ResponseEntity.ok(search);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }
