@@ -129,4 +129,9 @@ public class ServiceProfileManager {
         serviceProfileRepository.deleteById(serviceId);
         log.info("done");
     }
+
+    @Transactional
+    public void updateServiceProfile(ServiceProfile serviceProfile) {
+        serviceProfileRepository.save(serviceProfile);
+    }
 }

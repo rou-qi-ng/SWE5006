@@ -38,9 +38,21 @@ public class ServiceProfileController {
         if (serviceProfile.isPresent()) {
             return ResponseEntity.ok(serviceProfile.get());
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(null);
         }
     }
+
+    @PostMapping("/update")
+    public ResponseEntity<String> updateServiceProfile(@RequestBody ServiceProfile serviceProfile) {
+        try {
+            log.info("************************** updating");
+            serviceProfileManager.updateServiceProfile(serviceProfile);
+            return ResponseEntity.ok("Success");
+        } catch (Exception e) {
+            return ResponseEntity.ok("");
+        }
+    }
+
 
     @GetMapping("/find")
     public ResponseEntity<Optional<ServiceProfile>> findServiceId(@RequestBody ServiceProfile serviceProfile) {
@@ -53,7 +65,8 @@ public class ServiceProfileController {
     }
 
 
-    // Endpoint to insert a new service profile
+
+// Endpoint to insert a new service profile
     @PostMapping("/add")
     public ResponseEntity<ServiceProfile> addServiceProfile(@RequestBody ServiceProfileWithPricing combinedData) {
         ServiceProfile serviceProfile = combinedData.getServiceProfile();

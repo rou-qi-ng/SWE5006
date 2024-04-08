@@ -42,4 +42,8 @@ export class ServiceProfileService {
   deleteService(userId: number, serviceId: number): Observable<ServiceProfile> {
     return this.httpClient.get<ServiceProfile>(`${this.baseUrl}/serviceProfile/delete?userId=${userId}&serviceId=${serviceId}`);
   }
+
+  updateServiceDetails(serviceProfile: ServiceProfile): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/serviceProfile/update`, serviceProfile);
+  }
 }

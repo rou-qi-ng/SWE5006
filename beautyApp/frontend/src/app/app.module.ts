@@ -38,6 +38,7 @@ import { AvailabilityPageComponent } from './customer-pages/availability-page/av
 import { ReviewPageComponent } from './customer-pages/review-page/review-page.component';
 import { SettingsPageComponent } from './settings-page/settings-page.component';
 import { ManageBusinessPagesComponent } from './manage-business-pages/manage-business-pages.component';
+import { UpdatePricingPageComponent } from './business-pages/update-pricing-page/update-pricing-page.component';
 
 
 
@@ -59,6 +60,7 @@ import { ManageBusinessPagesComponent } from './manage-business-pages/manage-bus
     PortfolioPageComponent,
     SettingsPageComponent,
     ManageBusinessPagesComponent,
+    UpdatePricingPageComponent,
     // UserUpdateComponent,
     // UserDetailsComponent
   ],
