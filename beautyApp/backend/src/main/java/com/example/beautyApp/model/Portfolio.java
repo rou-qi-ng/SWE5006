@@ -26,6 +26,10 @@ public class Portfolio implements Serializable {
     @Column(name = "portfolio_data")
     private byte[] portfolioData;
 
+    @Column(name = "portfolio_logo")
+    private int portfolioLogo;
+
+    
     // Getters and setters
 
     public int getPortfolioId() {
@@ -50,5 +54,13 @@ public class Portfolio implements Serializable {
 
     public void setPortfolioData(byte[] portfolioData) {
         this.portfolioData = portfolioData;
+    }
+
+    public int getPortfolioLogo() {
+        return portfolioLogo;
+    }
+
+    public void setPortfolioLogo(int portfolioLogo) {
+        this.portfolioLogo = portfolioLogo;
     }
 }

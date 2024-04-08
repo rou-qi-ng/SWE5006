@@ -28,17 +28,6 @@ export class ServiceProfilePageComponent implements OnInit {
     
   ) {}
 
-  // ngOnInit(): void {
-  //   this.getAllServiceProfiles();
-
-  //   // this.route.params.subscribe((params) => {
-  //   //   this.serviceId = params['serviceId'];
-  //   //   if (this.serviceId) {
-  //   //     this.getServiceDetails(this.serviceId);
-  //   //   }
-  //   // });
-  // }
-
   ngOnInit(): void {
     // Extract service ID from route parameters
     this.route.paramMap.subscribe(params => {
@@ -100,25 +89,9 @@ export class ServiceProfilePageComponent implements OnInit {
   }
 
 
-  // getAllServiceProfiles(): void {
-  //   this.serviceProfileService.getAllServiceProfiles().subscribe(
-  //     (data: ServiceProfile[]) => {
-  //       this.serviceProfiles = data;
-  //       console.log('Service Profiles:', this.serviceProfiles);
-  //     },
-  //     (error: any) => {
-  //       console.error('Error fetching service profiles:', error);
-  //     }
-  //   );
-  // }
-
   routeTo(serviceName: string) {
     this.router.navigate(['service', serviceName]);
   }
-
-  // routeToProfile(serviceId: number) {
-  //   this.router.navigate(['/serviceProfile', serviceId]);
-  // }
 
   logout(): void {
     this.authenticationService.logout();
