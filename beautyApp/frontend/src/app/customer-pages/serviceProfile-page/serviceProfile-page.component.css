@@ -28,17 +28,28 @@
     justify-content: center;
   }
 
+  .service-card-content {
+    padding: 16px;
+    color: white;
+    display: flex; /* Use flexbox to align image and details */
+    justify-content: flex-start; /* Align items from start (left) */
+  }
+  
   .profile-image-container {
     width: 150px; /* Adjust the width as needed */
     height: 150px; /* Adjust the height as needed */
-    margin-right: 10px; /* Add margin between images */
+    margin-right: 50px; /* Increase the margin between image and details */
     overflow: hidden; /* Hide overflow to ensure square shape */
-}
-
+  }
+  
   .profile-image {
     width: 100%; /* Make the image fill the container */
     height: auto; /* Automatically adjust height */
     object-fit: cover; /* Cover the entire container */
+  }
+  
+  .service-details {
+    flex: 1; /* Allow details to take remaining space */
   }
 
   .service-name {
@@ -71,10 +82,6 @@
     text-align: center;
   }
 
-  .service-card-content {
-    padding: 16px;
-    color: white;
-  }
   
   .service-row {
     display: flex;

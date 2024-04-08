@@ -1,4 +1,6 @@
 export class Portfolio {
-    serviceId!: number;
-    data: File | null = null;
+    portfolioId!: number;
+    portfolioServiceId!: number;
+    portfolioData: File | null = null;
+    portfolioLogo!: number; 
 }
