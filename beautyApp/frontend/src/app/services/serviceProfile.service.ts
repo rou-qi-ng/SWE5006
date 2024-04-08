@@ -50,4 +50,12 @@ export class ServiceProfileService {
   updateServiceDetails(serviceProfile: ServiceProfile): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/serviceProfile/update`, serviceProfile);
   }
+
+  getPortfolioByServiceId(serviceId: number): Observable<Portfolio[]> {
+    return this.httpClient.get<Portfolio[]>(`${this.baseUrl}/serviceProfile/${serviceId}/portfolio`);
+  }
+
+  deletePortfolioPhoto(photoId: number): Observable<any> {
+    return this.httpClient.delete<any>(`${this.baseUrl}/serviceProfile/portfolio/${photoId}`);
+  }
 }

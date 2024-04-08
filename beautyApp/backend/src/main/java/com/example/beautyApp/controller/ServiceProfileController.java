@@ -169,4 +169,14 @@ public class ServiceProfileController {
         }
         }
 
+    @DeleteMapping("/portfolio/{photoId}")
+    public ResponseEntity<String> deletePortfolioPhoto(@PathVariable("photoId") int photoId) {
+        try {
+            log.info(String.valueOf(photoId));
+            serviceProfileManager.deletePortfolioPhoto(photoId);
+            return ResponseEntity.ok("Portfolio photo deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete portfolio photo");
+        }
+    }
 }
