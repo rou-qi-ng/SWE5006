@@ -20,5 +20,7 @@ export class SearchService {
     return this.httpClient.get<ServiceProfile[]>(`${this.baseUrl}/service/${serviceType}`);
   }
 
-
+  search(serviceName: String, serviceType: String): Observable<ServiceProfile[]> {
+    return this.httpClient.get<ServiceProfile[]>(`${this.baseUrl}/service/${serviceType}/search/${serviceName}`);
+  }
 }

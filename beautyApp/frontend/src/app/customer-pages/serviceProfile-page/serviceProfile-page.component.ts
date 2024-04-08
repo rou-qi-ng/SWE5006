@@ -1,5 +1,5 @@
 // serviceProfile-page.component.ts
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { FormGroup } from '@angular/forms';
@@ -16,12 +16,15 @@ export class ServiceProfilePageComponent implements OnInit {
   serviceId: number | null = null; 
   serviceDetails: any; // Variable to store service details
   serviceProfiles: ServiceProfile[] = [];
+  images: any[] = [];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private serviceProfileService: ServiceProfileService // Inject the service
+    private serviceProfileService: ServiceProfileService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
     
   ) {}
 
@@ -44,6 +47,7 @@ export class ServiceProfilePageComponent implements OnInit {
         this.serviceId = parseInt(serviceIdString, 10); // Convert string to number
         // Fetch service profile based on service ID
         this.getServiceDetails();
+        this.getImagesBlob();
       } else {
         // Handle the case when 'serviceId' is null
         console.error('Service ID is null');
@@ -64,6 +68,37 @@ export class ServiceProfilePageComponent implements OnInit {
       );
     }
   }
+
+  getImagesBlob(): void {
+    if (this.serviceId) {
+        this.serviceProfileService.getImagesBlob(this.serviceId).subscribe(
+            (data: any[]) => {
+                this.images = data;
+                console.log('Images Details:', this.images);
+
+                // Run change detection within ngZone
+                this.ngZone.run(() => {
+                    this.cdr.detectChanges();
+                });
+            },
+            (error: any) => {
+                console.error('Error fetching Images:', error);
+            }
+        );
+    }
+  }
+
+  getBlobUrl(base64Data: string): string {
+    if (base64Data) {
+        const binaryData = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+        const blob = new Blob([binaryData], { type: 'image/png' });
+        return URL.createObjectURL(blob);
+    } else {
+        console.error("Base64 data is null or empty");
+        return "";
+    }
+  }
+
 
   // getAllServiceProfiles(): void {
   //   this.serviceProfileService.getAllServiceProfiles().subscribe(
