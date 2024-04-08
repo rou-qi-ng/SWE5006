@@ -102,5 +102,9 @@ export class SearchPageComponent implements OnInit {
     );
   }
 
+  shopPath(serviceId: number) {
+    this.router.navigate(['serviceProfile', serviceId]);
+  }
+
 
 }
