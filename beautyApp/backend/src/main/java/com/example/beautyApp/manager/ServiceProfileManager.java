@@ -135,4 +135,19 @@ public class ServiceProfileManager {
         serviceProfileRepository.deleteById(serviceId);
         log.info("done");
     }
+
+    @Transactional
+    public void updateServiceProfile(ServiceProfile serviceProfile) {
+        serviceProfileRepository.save(serviceProfile);
+    }
+
+    @Transactional
+    public List<Portfolio> getAllPortfolioByServiceId(int serviceId) {
+        return portfolioRepository.findByPortfolioServiceId(serviceId);
+    }
+
+    @Transactional
+    public void deletePortfolioPhoto(int photoId) {
+        portfolioRepository.deleteByPortfolioId(photoId);
+    }
 }

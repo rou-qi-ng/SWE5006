@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
@@ -31,10 +31,14 @@ import { Pricing } from '../model/pricing.model';
 })
 export class BusinessPagesComponent {
   public loginForm!: FormGroup;
-  selectedFiles: File | null = null;
+  selectedFiles: File[] | null = null;
   products: Pricing[] = [];
   count: number = 0;
   serviceId: number | null = null; 
+  serviceDetails: ServiceProfile | null = null;
+  pricing: Pricing[] | null = null;
+  portfolioData: Portfolio[] = [];
+  images: any[] = [];
 
   constructor(private authenticationService: AuthenticationService,
     private router: Router, 
@@ -42,7 +46,9 @@ export class BusinessPagesComponent {
     private formBuilder: FormBuilder, 
     private http: HttpClient,
     private serviceProfileService: ServiceProfileService,
-    private pricingService: PricingService ) {
+    private pricingService: PricingService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone ) {
       
 
   }
@@ -58,14 +64,42 @@ export class BusinessPagesComponent {
     }
   });
   console.log(this.serviceId);
-   // Initialize the form with form controls
-   this.loginForm = this.formBuilder.group({
+  this.loginForm = this.formBuilder.group({
     service_name: ['', Validators.required],
     service_description: ['', Validators.required],
     service_type: ['', Validators.required],
     service_location: ['', Validators.required],
     //date: [''], // Date field
   });
+  if (this.serviceId) {
+    this.loadPortfolioData();
+  }
+  
+  this.serviceProfileService.getServiceDetails(this.serviceId ?? 1).subscribe(
+    (response) => {
+      console.log(response);
+      this.serviceDetails = response;
+        // Initialize the form with form controls
+        if (this.serviceId != null){
+          //console.log("hello"+this.serviceDetails?.serviceName ?? '');
+        this.loginForm = this.formBuilder.group({
+          service_name: [this.serviceDetails?.serviceName ?? '', Validators.required],
+          service_description: [this.serviceDetails?.serviceDescription ?? '', Validators.required],
+          service_type: [this.serviceDetails?.serviceType ?? '', Validators.required],
+          service_location: [this.serviceDetails?.serviceLocation ?? '', Validators.required],
+          //date: [''], // Date field
+        });
+        }
+
+        // this.pricingService.getPricings(this.serviceId ?? 1).subscribe(
+        //   (response) => {
+        //     console.log(response);  
+        //     this.products = response;
+        //   });
+
+});
+
+
 
   // this.products.forEach((product, index) => {
   //   this.loginForm.addControl(`productName${index}`, this.formBuilder.control(''));
@@ -74,6 +108,59 @@ export class BusinessPagesComponent {
   // });
 
   this.addProduct();
+}
+
+getBlobUrl(base64Data: string): string {
+  if (base64Data) {
+      const binaryData = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+      const blob = new Blob([binaryData], { type: 'image/png' });
+      return URL.createObjectURL(blob);
+  } else {
+      console.error("Base64 data is null or empty");
+      return "";
+  }
+}
+
+loadPortfolioData(): void {
+  this.serviceProfileService.getPortfolioByServiceId(this.serviceId ?? 1).subscribe(
+    (response) => {
+      console.log(response)
+      this.portfolioData = response;
+    },
+    (error) => {
+      console.error('Error fetching portfolio data:', error);
+    }
+  );
+  if (this.serviceId) {
+    this.serviceProfileService.getImagesBlob(this.serviceId).subscribe(
+        (data: any[]) => {
+            this.images = data;
+            console.log('Images Details:', this.images);
+
+            // Run change detection within ngZone
+            this.ngZone.run(() => {
+                this.cdr.detectChanges();
+            });
+        },
+        (error: any) => {
+            console.error('Error fetching Images:', error);
+        }
+    );
+}
+}
+
+deletePhoto(photoId: number): void {
+  console.log(photoId);
+  this.serviceProfileService.deletePortfolioPhoto(photoId).subscribe(
+    (response) => {
+      // Reload the portfolio data after deletion
+      console.log(response);
+      this.loadPortfolioData();
+    },
+    (error) => {
+      console.error('Error deleting portfolio photo:', error);
+    }
+  );
 }
 
 addProduct(): void {
@@ -111,74 +198,114 @@ routeTo(serviceName: string) {
 }
 
 onFileSelected(event: any) {
-  this.selectedFiles = event.target.files[0];
+  this.selectedFiles = event.target.files;
 }
 
 public onSubmit() {
   console.log("submitinggggggg");
   if (this.loginForm.valid) {
-    // Access the form values
-    const formValues = this.loginForm.value;
-    const newServiceProfile: ServiceProfile = {
-      serviceId: 0, // As this is a new service, set ID to 0 or null
-      serviceName: this.loginForm.get('service_name')?.value,
-      serviceDescription: this.loginForm.get('service_description')?.value,
-      serviceType: this.loginForm.get('service_type')?.value,
-      serviceLocation: this.loginForm.get('service_location')?.value,
-    };
-    console.log(newServiceProfile ); 
-    console.log(this.selectedFiles);
-    this.products.shift();
-    console.log(this.products); 
-    if (this.products && this.products.length > 0) {
-      this.products.forEach((product) => {
-      product.pricingServiceId = 1;
-      product.pricingAddon = product.pricingAddon === 'Yes' ? 'Y' : 'N'; // Convert 'yes' to 'Y' and 'no' to 'N'
-         console.log(product);     
-      });
-    }
-    this.serviceProfileService.saveServiceDetails(newServiceProfile, this.products).subscribe(
-      (response) => {
-        console.log('New ServiceProfile added successfully:', response);
-
-            if (this.selectedFiles) {
-              const formData = new FormData();
-              const blob = new Blob([this.selectedFiles], { type: this.selectedFiles.type });
-              formData.append('serviceId', response.serviceId.toString());
-              formData.append('data', blob, this.selectedFiles?.name); // Append the file
-              console.log(formData);
-              this.serviceProfileService.saveServiceImages(formData).subscribe(
-                (imageResponse) => {
-                  console.log('New ServiceProfile added successfully:', imageResponse);
-                },
-                (imageError) => {
-                  console.error('Error adding service images:', imageError);
-                }
-              );
-            }
-            // Check if products exist and add them
-            // if (this.products && this.products.length > 0) {
-            //   this.products.forEach((product) => {
-            //     product.pricingServiceId = response.serviceId;
-            //     product.pricingAddon = product.pricingAddon === 'Yes' ? 'Y' : 'N'; // Convert 'yes' to 'Y' and 'no' to 'N'
-            //     console.log(product); 
-            //   });
-            //   this.pricingService.addPricings(this.products).subscribe(
-            //     (pricingResponse) => { console.log('Products added successfully:', pricingResponse); },
-            //     (pricingError) => { console.error('Error adding products:', pricingError); }
-            //   );
-            // }
-          },
-      (error) => {
-        console.error('Error adding ServiceProfile:', error);
+    if (this.serviceId == null) {
+      console.log("inserting");
+      const formValues = this.loginForm.value;
+      const newServiceProfile: ServiceProfile = {
+        serviceId: 0, // As this is a new service, set ID to 0 or null
+        serviceName: this.loginForm.get('service_name')?.value,
+        serviceDescription: this.loginForm.get('service_description')?.value,
+        serviceType: this.loginForm.get('service_type')?.value,
+        serviceLocation: this.loginForm.get('service_location')?.value,
+      };
+      console.log(newServiceProfile ); 
+      console.log(this.selectedFiles);
+      this.products.shift();
+      console.log(this.products); 
+      if (this.products && this.products.length > 0) {
+        this.products.forEach((product) => {
+        product.pricingServiceId = 1;
+        product.pricingAddon = product.pricingAddon === 'Yes' ? 'Y' : 'N'; // Convert 'yes' to 'Y' and 'no' to 'N'
+          console.log(product);     
+        });
       }
-    );
-  }
-  this.loginForm.reset();
+      this.serviceProfileService.saveServiceDetails(newServiceProfile, this.products).subscribe(
+        (response) => {
+          console.log('New ServiceProfile added successfully:', response);
+
+              if (this.selectedFiles && this.selectedFiles.length > 0) {
+                console.log(this.selectedFiles.length)
+                for (let i = 0; i < this.selectedFiles.length; i++) {
+                  const formData = new FormData();
+                  const blob = new Blob([this.selectedFiles[i]], { type: this.selectedFiles[i].type });
+                  formData.append('serviceId', response.serviceId.toString());
+                  formData.append('data', blob, this.selectedFiles[i]?.name); // Append the file
+                  console.log(formData);
+                  this.serviceProfileService.saveServiceImages(formData).subscribe(
+                    (imageResponse) => {
+                      console.log('New ServiceProfile added successfully:', imageResponse);
+                    },
+                    (imageError) => {
+                      console.error('Error adding service images:', imageError);
+                    }
+                  );
+                }
+              }
+              // Check if products exist and add them
+              // if (this.products && this.products.length > 0) {
+              //   this.products.forEach((product) => {
+              //     product.pricingServiceId = response.serviceId;
+              //     product.pricingAddon = product.pricingAddon === 'Yes' ? 'Y' : 'N'; // Convert 'yes' to 'Y' and 'no' to 'N'
+              //     console.log(product); 
+              //   });
+              //   this.pricingService.addPricings(this.products).subscribe(
+              //     (pricingResponse) => { console.log('Products added successfully:', pricingResponse); },
+              //     (pricingError) => { console.error('Error adding products:', pricingError); }
+              //   );
+              // }
+            },
+        (error) => {
+          console.error('Error adding ServiceProfile:', error);
+        }
+      );
+        //this.loginForm.reset();
+        this.router.navigate(['manage']);
+    }
+    else{
+      console.log("updatinggg");
+      const newServiceProfile: ServiceProfile = {
+        serviceId: this.serviceId ?? 1,
+        serviceName: this.loginForm.get('service_name')?.value,
+        serviceDescription: this.loginForm.get('service_description')?.value,
+        serviceType: this.loginForm.get('service_type')?.value,
+        serviceLocation: this.loginForm.get('service_location')?.value,
+      };
+      console.log(newServiceProfile ); 
+      this.serviceProfileService.updateServiceDetails(newServiceProfile).subscribe(
+        (response) => {
+          console.log('New ServiceProfile added successfully:', response);
+        },
+        (error) => {
+          console.error('Error adding ServiceProfile:', error);
+        }
+      );
+      //this.loginForm.reset();
+      window.location.reload(); 
+    }
 }
+}
+
 
 logout(): void {
   this.authenticationService.logout();
+}
+
+deletePricing(id: number) {
+  this.pricingService.deletePricing(id).subscribe(data => {
+    console.log(data);
+  });
+  window.location.reload(); 
+
+}
+
+updatePricing(id: number) {
+  this.router.navigate(['updatePricing', id]);
 }
 
 }

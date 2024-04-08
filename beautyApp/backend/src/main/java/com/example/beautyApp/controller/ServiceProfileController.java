@@ -35,9 +35,21 @@ public class ServiceProfileController {
         if (serviceProfile.isPresent()) {
             return ResponseEntity.ok(serviceProfile.get());
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(null);
         }
     }
+
+    @PostMapping("/update")
+    public ResponseEntity<String> updateServiceProfile(@RequestBody ServiceProfile serviceProfile) {
+        try {
+            log.info("************************** updating");
+            serviceProfileManager.updateServiceProfile(serviceProfile);
+            return ResponseEntity.ok("Success");
+        } catch (Exception e) {
+            return ResponseEntity.ok("");
+        }
+    }
+
 
     @GetMapping("/find")
     public ResponseEntity<Optional<ServiceProfile>> findServiceId(@RequestBody ServiceProfile serviceProfile) {
@@ -50,7 +62,8 @@ public class ServiceProfileController {
     }
 
 
-    // Endpoint to insert a new service profile
+
+// Endpoint to insert a new service profile
     @PostMapping("/add")
     public ResponseEntity<ServiceProfile> addServiceProfile(@RequestBody ServiceProfileWithPricing combinedData) {
         ServiceProfile serviceProfile = combinedData.getServiceProfile();
@@ -156,4 +169,14 @@ public class ServiceProfileController {
         }
         }
 
+    @DeleteMapping("/portfolio/{photoId}")
+    public ResponseEntity<String> deletePortfolioPhoto(@PathVariable("photoId") int photoId) {
+        try {
+            log.info(String.valueOf(photoId));
+            serviceProfileManager.deletePortfolioPhoto(photoId);
+            return ResponseEntity.ok("Portfolio photo deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete portfolio photo");
+        }
+    }
 }

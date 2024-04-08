@@ -29,3 +29,20 @@ button{
 mat-card-title{
     color: white;
 }
+
+.image-container {
+    width: 150px; /* Adjust the width as needed */
+    height: auto; /* Let the height adjust automatically based on the content */
+    margin-right: 20px; /* Adjust the margin between image containers */
+    float: left; /* Float the containers to ensure they align horizontally */
+  }
+  
+  .profile-image {
+    width: 100%; /* Make the image fill the container */
+    height: auto; /* Automatically adjust height to maintain aspect ratio */
+    object-fit: cover; /* Cover the entire container */
+  }
+
+  .delete-button {
+    margin-left: right; /* Push the button to the right */
+  }

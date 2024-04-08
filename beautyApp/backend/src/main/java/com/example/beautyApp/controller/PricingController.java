@@ -31,4 +31,28 @@ public class PricingController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<String> deletePricing(@RequestBody int pricingId) {
+        try {
+            log.info("**************************");
+            log.info(String.valueOf(pricingId));
+            pricingManager.deletePricing(pricingId);
+            return ResponseEntity.ok("Success");
+        } catch (Exception e) {
+            return ResponseEntity.ok("");
+        }
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<String> updatePricing(@RequestBody Pricing pricing) {
+        try {
+            log.info("**************************");
+            log.info(String.valueOf(pricing));
+            pricingManager.updatePricing(pricing);
+            return ResponseEntity.ok("Success");
+        } catch (Exception e) {
+            return ResponseEntity.ok("");
+        }
+    }
 }
