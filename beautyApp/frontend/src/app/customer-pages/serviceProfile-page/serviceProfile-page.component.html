@@ -24,8 +24,18 @@
         <div class="service-card-content">
           <div *ngIf="serviceDetails" class="service-row">
             <div class="profile-image-container">
-              <img *ngFor="let image of images" [src]="getBlobUrl(image.portfolioData)" alt="Image" class="profile-image">
+
+              <ng-container *ngIf="profileLogos">
+                <img *ngFor="let profileLogo of profileLogos" [src]="getBlobUrl(profileLogo.portfolioData)" alt="Image" class="profile-image">
+              </ng-container>
+              <ng-container *ngIf="!profileLogos">
+                <img src="logo.png" alt="Image" class="profile-image">
+              </ng-container>
+
             </div>
+
+
+            
             <div class="service-details">
               <p class="service-name">{{ serviceDetails.serviceName | uppercase }}</p>
               <p>{{ serviceDetails.serviceLocation }}</p>
@@ -34,7 +44,33 @@
           </div>
         </div>
       </div>
+
+
+      <div class="service-card">
+        <div class="service-card-content">
+          <div *ngIf="serviceDetails" class="service-row">
+            <div class="portfolio-image-container">
       
+              <ng-container *ngIf="portfolioImages">
+                <div class="image-wrapper" *ngFor="let portfolioImage of portfolioImages">
+                  <img [src]="getBlobUrl(portfolioImage.portfolioData)" alt="Image" class="portfolio-image">
+                </div>
+              </ng-container>
+              <ng-container *ngIf="!portfolioImages">
+                <img src="logo.png" alt="Image" class="portfolio-image">
+              </ng-container>
+      
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+
+
+
+
+
     </mat-drawer-content>
   </mat-drawer-container>
 
