@@ -1,10 +1,12 @@
 // pricing-page.component.ts
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { FormGroup } from '@angular/forms';
 import { PricingService } from '../../services/pricing.service'; // Import the service
 import { Pricing } from '../../model/pricing.model';
+import { ServiceProfileService } from '../../services/serviceProfile.service';
+import { ServiceProfile } from '../../model/serviceProfile.model';
 
 @Component({
   selector: 'app-pricing-page',
@@ -14,7 +16,8 @@ import { Pricing } from '../../model/pricing.model';
 export class PricingPageComponent implements OnInit {
   public pricingForm!: FormGroup;
   serviceId: number | null = null; 
-  // serviceDetails: any; // Variable to store service details
+  serviceDetails: any;
+  profileLogos: any[] = [];
   pricings: Pricing[] = [];
   regularPricings: Pricing[] = [];
   addOns: Pricing[] = [];
@@ -24,7 +27,10 @@ export class PricingPageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private pricingService: PricingService // Inject the service
+    private pricingService: PricingService,
+    private serviceProfileService: ServiceProfileService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
     
   ) {}
 
@@ -36,6 +42,8 @@ export class PricingPageComponent implements OnInit {
         this.serviceId = parseInt(serviceIdString, 10); // Convert string to number
         // Fetch pricing details based on service ID
         this.getPricingDetails();
+        this.getServiceDetails();
+        this.getProfileImageBlob();
       } else {
         // Handle the case when 'serviceId' is null
         console.error('Service ID is null');
@@ -44,6 +52,48 @@ export class PricingPageComponent implements OnInit {
   }
   
 
+  getServiceDetails(): void {
+    if (this.serviceId) {
+      this.serviceProfileService.getServiceDetails(this.serviceId).subscribe(
+        (data: ServiceProfile) => {
+          this.serviceDetails = data;
+          console.log('Service Details:', this.serviceDetails);
+        },
+        (error: any) => {
+          console.error('Error fetching service profile:', error);
+        }
+      );
+    }
+  }
+
+  getProfileImageBlob(): void {
+    if (this.serviceId) {
+        this.serviceProfileService.getProfileImageBlob(this.serviceId).subscribe(
+            (data: any[]) => {
+                this.profileLogos = data;
+                console.log('Profile Details:', this.profileLogos);
+
+                this.ngZone.run(() => {
+                    this.cdr.detectChanges();
+                });
+            },
+            (error: any) => {
+                console.error('Error fetching Profile Images:', error);
+            }
+        );
+    }
+  }
+
+  getBlobUrl(base64Data: string): string {
+    if (base64Data) {
+        const binaryData = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+        const blob = new Blob([binaryData], { type: 'image/png' });
+        return URL.createObjectURL(blob);
+    } else {
+        console.error("Base64 data is null or empty");
+        return "";
+    }
+  }
 
   getPricingDetails(): void {
     this.loading = true; // Set loading to true before fetching data

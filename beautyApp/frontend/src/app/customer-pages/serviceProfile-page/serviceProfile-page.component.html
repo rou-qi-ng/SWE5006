@@ -23,30 +23,39 @@
       <div class="service-card">
         <div class="service-card-content">
           <div *ngIf="serviceDetails" class="service-row">
-            <div class="profile-image-container">
 
-              <ng-container *ngIf="profileLogos">
-                <img *ngFor="let profileLogo of profileLogos" [src]="getBlobUrl(profileLogo.portfolioData)" alt="Image" class="profile-image">
-              </ng-container>
-              <ng-container *ngIf="!profileLogos">
-                <img src="logo.png" alt="Image" class="profile-image">
-              </ng-container>
+              <div class="profile-image-container">
+                <ng-container *ngIf="profileLogos">
+                  <img *ngFor="let profileLogo of profileLogos" [src]="getBlobUrl(profileLogo.portfolioData)" alt="Image" class="profile-image">
+                </ng-container>
+                <ng-container *ngIf="!profileLogos">
+                  <img src="logo.png" alt="Image" class="profile-image">
+                </ng-container>
+              </div>
+              
+              <div class="service-details">
+                <p class="service-name">{{ serviceDetails.serviceName | uppercase }}</p>
+                <p>{{ serviceDetails.serviceLocation }}</p>
+                <p><a class="google-maps-link" href="https://www.google.com/maps/search/?api=1&query={{ serviceDetails.serviceLocation }}">See Maps</a></p>
+              </div>
 
             </div>
-
-
-            
-            <div class="service-details">
-              <p class="service-name">{{ serviceDetails.serviceName | uppercase }}</p>
-              <p>{{ serviceDetails.serviceLocation }}</p>
-              <p><a class="google-maps-link" href="https://www.google.com/maps/search/?api=1&query={{ serviceDetails.serviceLocation }}">See Maps</a></p>
-            </div>
-          </div>
         </div>
+      </div>
+
+      <div class="tab-bar" *ngIf="serviceDetails">
+        <button [routerLink]="['/serviceProfile', serviceDetails.serviceId]" class="service-button">Portfolio</button>
+        <button [routerLink]="['/serviceProfile', serviceDetails.serviceId, 'pricing']" class="service-button">Pricing</button>
+        <button [routerLink]="['/serviceProfile', serviceDetails.serviceId, 'availability']" class="service-button">Availability</button>
+        <button [routerLink]="['/serviceProfile', serviceDetails.serviceId, 'review']" class="service-button">Review</button>
       </div>
 
 
       <div class="service-card">
+        <div class="portfolio-card-header">
+          <div class="portfolio-card-title">Portfolio</div>
+        </div>
+    
         <div class="service-card-content">
           <div *ngIf="serviceDetails" class="service-row">
             <div class="portfolio-image-container">
@@ -56,14 +65,15 @@
                   <img [src]="getBlobUrl(portfolioImage.portfolioData)" alt="Image" class="portfolio-image">
                 </div>
               </ng-container>
-              <ng-container *ngIf="!portfolioImages">
-                <img src="logo.png" alt="Image" class="portfolio-image">
-              </ng-container>
+
+  
       
             </div>
           </div>
         </div>
       </div>
+
+     
       
 
 
