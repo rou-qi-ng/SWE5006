@@ -1,5 +1,5 @@
 // availability-page.component.ts
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { FormGroup } from '@angular/forms';
@@ -7,10 +7,11 @@ import { AvailabilityService } from '../../services/availability.service'; // Im
 import { Availability } from '../../model/availability.model';
 import { DateAdapter } from '@angular/material/core';
 import { Appointment } from '../../model/appointment.model';
-import { ChangeDetectorRef } from '@angular/core';
 import { MatCalendarCellClassFunction, MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ServiceProfileService } from '../../services/serviceProfile.service';
+import { ServiceProfile } from '../../model/serviceProfile.model';
 
 @Component({
   selector: 'app-availability-page',
@@ -20,7 +21,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class AvailabilityPageComponent implements OnInit {
   public availabilityForm!: FormGroup;
   serviceId: number | null = null; 
-  serviceDetails: any; // Variable to store service details
+  serviceDetails: any;
+  profileLogos: any[] = [];
   availabilities: Availability[] = [];
   selected: Date | null; // Initialize selected property
   selectedTimeSlot: string | null;
@@ -40,8 +42,10 @@ export class AvailabilityPageComponent implements OnInit {
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private availabilityService: AvailabilityService, // Inject the service
-    private dateAdapter: DateAdapter<Date>, // Inject DateAdapter
+    private dateAdapter: DateAdapter<Date>,
+    private serviceProfileService: ServiceProfileService,
     private cdr: ChangeDetectorRef,
+    private ngZone: NgZone,
     private snackBar: MatSnackBar,
     private sanitizer: DomSanitizer
   ) {
@@ -151,6 +155,8 @@ export class AvailabilityPageComponent implements OnInit {
         // Fetch availability details based on service ID
         this.getAvailabilityDetails();
         this.getAppointmentDetails();
+        this.getServiceDetails();
+        this.getProfileImageBlob();
       } else {
         // Handle the case when 'serviceId' is null
         console.error('Service ID is null');
@@ -240,18 +246,54 @@ export class AvailabilityPageComponent implements OnInit {
     return false;
   }
 
-  // getAllAvailabilitys(): void {
-  //   this.availabilityService.getAllAvailabilitys().subscribe(
-  //     (data: Availability[]) => {
-  //       this.availabilitys = data;
-  //       console.log('Service Profiles:', this.availabilitys);
-  //     },
-  //     (error: any) => {
-  //       console.error('Error fetching service profiles:', error);
-  //     }
-  //   );
-  // }
+  getServiceDetails(): void {
+    if (this.serviceId) {
+      this.serviceProfileService.getServiceDetails(this.serviceId).subscribe(
+        (data: ServiceProfile) => {
+          this.serviceDetails = data;
+          console.log('Service Details:', this.serviceDetails);
+        },
+        (error: any) => {
+          console.error('Error fetching service profile:', error);
+        }
+      );
+    }
+  }
 
+  getProfileImageBlob(): void {
+    if (this.serviceId) {
+        this.serviceProfileService.getProfileImageBlob(this.serviceId).subscribe(
+            (data: any[]) => {
+                this.profileLogos = data;
+                console.log('Profile Details:', this.profileLogos);
+
+                this.ngZone.run(() => {
+                    this.cdr.detectChanges();
+                });
+            },
+            (error: any) => {
+                console.error('Error fetching Profile Images:', error);
+            }
+        );
+    }
+  }
+
+
+  getBlobUrl(base64Data: string): string {
+    if (base64Data) {
+        const binaryData = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+        const blob = new Blob([binaryData], { type: 'image/png' });
+        return URL.createObjectURL(blob);
+    } else {
+        console.error("Base64 data is null or empty");
+        return "";
+    }
+  }
+
+  returnToDashBoard():void{
+    this.router.navigate([""]);
+  }
+  
   routeTo(serviceName: string) {
     this.router.navigate(['service', serviceName]);
   }

@@ -20,4 +20,16 @@ export class PricingService {
     return this.httpClient.get<Pricing[]>(`${this.baseUrl}/serviceProfile/${serviceId}/pricing`);
   }
 
+  addPricings(pricing: Pricing[]): Observable<any> {
+    return this.httpClient.post<Pricing[]>(`${this.baseUrl}/pricing/add`, pricing);
+  }
+
+  deletePricing(pricingId: number): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/pricing/delete`, pricingId);
+  }
+
+  updatePricing(pricing: Pricing): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/pricing/update`, pricing);
+  }
+
 }

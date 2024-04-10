@@ -23,6 +23,7 @@ import { BaseHomeComponent } from './home-pages/base-home/base-home.component';
 import {MatSelectModule} from '@angular/material/select';
 // import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { BusinessPagesComponent } from './business-pages/business-pages.component';
 import { PortfolioPageComponent } from './portfolio-page/portfolio-page.component';
 // import { UserUpdateComponent } from './user-update/user-update.component';
 // import { UserDetailsComponent } from './user-details/user-details.component';
@@ -36,6 +37,8 @@ import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page
 import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
 import { ReviewPageComponent } from './customer-pages/review-page/review-page.component';
 import { SettingsPageComponent } from './settings-page/settings-page.component';
+import { ManageBusinessPagesComponent } from './manage-business-pages/manage-business-pages.component';
+import { UpdatePricingPageComponent } from './business-pages/update-pricing-page/update-pricing-page.component';
 
 
 
@@ -56,6 +59,8 @@ import { SettingsPageComponent } from './settings-page/settings-page.component';
     ReviewPageComponent,
     PortfolioPageComponent,
     SettingsPageComponent,
+    ManageBusinessPagesComponent,
+    UpdatePricingPageComponent,
     // UserUpdateComponent,
     // UserDetailsComponent
   ],
@@ -70,9 +75,9 @@ import { SettingsPageComponent } from './settings-page/settings-page.component';
     MatFormFieldModule,
     MatCardModule,
     MatInputModule,
-    MatSidenavModule, 
-    MatFormFieldModule, 
-    MatSelectModule, 
+    MatSidenavModule,
+    MatFormFieldModule,
+    MatSelectModule,
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule

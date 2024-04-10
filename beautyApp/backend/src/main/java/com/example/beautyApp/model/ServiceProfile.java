@@ -13,10 +13,11 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-@Table(name = "service") 
+@Table(name = "service")
 public class ServiceProfile implements Serializable {
 
     @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // @NonNull                         // not needed as int in java will not hold null values
     @Column(name = "service_id")
@@ -38,7 +39,7 @@ public class ServiceProfile implements Serializable {
     @Column(name = "service_description")
     private String serviceDescription;
 
-    
+
     @OneToMany(mappedBy = "serviceProfile")
     private List<Pricing> pricings;
 
