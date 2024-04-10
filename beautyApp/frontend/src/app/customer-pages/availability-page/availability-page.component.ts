@@ -9,6 +9,7 @@ import { DateAdapter } from '@angular/material/core';
 import { Appointment } from '../../model/appointment.model';
 import { ServiceProfileService } from '../../services/serviceProfile.service';
 import { ServiceProfile } from '../../model/serviceProfile.model';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-availability-page',
@@ -25,6 +26,7 @@ export class AvailabilityPageComponent implements OnInit {
   selectedTimeSlot: string | null;
   timeSlots: string[]; // Array to hold time slots
   appointments: Appointment[] = [];
+  userId: number | null = null; 
   
   
   addHour(timeSlot: string): string {
@@ -41,7 +43,8 @@ export class AvailabilityPageComponent implements OnInit {
     private dateAdapter: DateAdapter<Date>,
     private serviceProfileService: ServiceProfileService,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private userService: UserService,
   ) {
     this.selected = null; // Initialize selected property
     this.dateAdapter.setLocale('en'); // Set locale
@@ -56,7 +59,7 @@ export class AvailabilityPageComponent implements OnInit {
     if (this.selected && this.selectedTimeSlot && this.serviceId !== null) {
       const appointmentData = {
         appointmentServiceId: this.serviceId,
-        appointmentUserId: 1,   // change this to userid, now no login ppl      
+        appointmentUserId: this.userId,   // change this to userid, now no login ppl      
         appointmentDate: this.selected,
         appointmentTime: this.selectedTimeSlot
       };
@@ -114,6 +117,22 @@ export class AvailabilityPageComponent implements OnInit {
   // }
 
   ngOnInit(): void {
+
+    const token = localStorage.getItem("token");
+    console.log('token:', token);
+    if (token) {
+      this.userService.getUserIdByToken(token).subscribe(
+        (userId: number) => {
+          this.userId = userId;
+          console.log('User ID:', userId);
+          
+        },
+        (error: any) => {
+          console.error('Error fetching user ID:', error);
+        }
+      );
+    }
+
     // Extract service ID from route parameters
     this.route.paramMap.subscribe(params => {
       const serviceIdString = params.get('serviceId');
