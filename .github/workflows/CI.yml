@@ -19,6 +19,8 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - name: Build the Docker image
       run: docker build -t swe5006 .
+    - name: Tage image
+      run: docker tag swe5006 sangasangasanga/swe5006
     - name: Push to Dockerhub
       run: docker push sangasangasanga/swe5006:latest
       
