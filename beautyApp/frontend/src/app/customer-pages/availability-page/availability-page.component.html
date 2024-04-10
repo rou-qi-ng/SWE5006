@@ -52,33 +52,15 @@
 
       
       <div class="search-section">
-
-          <!--<mat-card class="inline-calendar-card">
-            <mat-calendar 
-              [(selected)]="selected" 
-              (selectedChange)="selectDate($event)" 
-              [dateClass]="dateClassPredicate">
-            </mat-calendar>
-          </mat-card>
-          
-          <div *ngIf="!serviceDetails">
-            <p>AVAILABILITY HELLO</p>
-          </div>
-
-          
-
-          <!--<div class="time-slots">
-            <button *ngFor="let timeSlot of timeSlots" (click)="selectTimeSlot(timeSlot)" [class.selected]="timeSlot === selectedTimeSlot">
-              {{ timeSlot }} - {{ addHour(timeSlot) }}
-            </button>
-          </div>-->
+        <ng-container *ngIf="isServiceAvailable(); else noService">
+          <!-- Show calendar and time slots -->
           <mat-card class="inline-calendar-card">
             <mat-calendar
               [(selected)]="selected"
               [dateFilter]="isPastDate"
             ></mat-calendar>
           </mat-card>
-          <p>Selected date: {{selected | date: 'longDate' }}</p>
+          <p>Selected date: {{ selected | date: 'longDate' }}</p>
           <div class="time-slots">
             <button *ngFor="let timeSlot of timeSlots"
                     [disabled]="isTimeSlotUnavailable(timeSlot)"
@@ -90,7 +72,13 @@
           
           <p class="selected-time-slot">Selected time slot: {{ selectedTimeSlot }}</p>
           <button (click)="bookAppointment()">Book</button>
-        </div>
+        </ng-container>
+        <ng-template #noService>
+          <!-- Show message when no service available -->
+          <p>No available service at the moment!</p>
+        </ng-template>
+      </div>
+            
     </mat-drawer-content>
   </mat-drawer-container>
   

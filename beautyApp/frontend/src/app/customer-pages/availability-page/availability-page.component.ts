@@ -278,7 +278,9 @@ export class AvailabilityPageComponent implements OnInit {
     }
   }
 
-
+  isServiceAvailable(): boolean {
+    return this.availabilities && this.availabilities.every(availability => availability.availabilityStatus !== 'N');
+  }
   getBlobUrl(base64Data: string): string {
     if (base64Data) {
         const binaryData = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
