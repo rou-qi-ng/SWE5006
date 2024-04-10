@@ -147,6 +147,15 @@ public class UserController {
 
     }
 
+    @GetMapping("/getUserId")
+    public ResponseEntity<Optional<Integer>> getUserSessionByToken(@RequestParam("token") String token) {
+        Optional<Integer> userSession = userManager.getUserSessionByToken(token);
+        if (userSession.isPresent()) {
+            return ResponseEntity.ok(userSession);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 //    public TB_Service store(MultipartFile file) throws IOException {
 //        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
