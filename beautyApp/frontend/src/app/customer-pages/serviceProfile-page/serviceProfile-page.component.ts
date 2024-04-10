@@ -16,7 +16,10 @@ export class ServiceProfilePageComponent implements OnInit {
   serviceId: number | null = null; 
   serviceDetails: any; // Variable to store service details
   serviceProfiles: ServiceProfile[] = [];
+  portfolioData: string = ''
   images: any[] = [];
+  profileLogos: any[] = [];
+  portfolioImages: any[] = [];
 
   constructor(
     private router: Router,
@@ -36,7 +39,8 @@ export class ServiceProfilePageComponent implements OnInit {
         this.serviceId = parseInt(serviceIdString, 10); // Convert string to number
         // Fetch service profile based on service ID
         this.getServiceDetails();
-        this.getImagesBlob();
+        this.getProfileImageBlob();
+        this.getPortfolioImagesBlob();
       } else {
         // Handle the case when 'serviceId' is null
         console.error('Service ID is null');
@@ -58,6 +62,7 @@ export class ServiceProfilePageComponent implements OnInit {
     }
   }
 
+  // for business-page
   getImagesBlob(): void {
     if (this.serviceId) {
         this.serviceProfileService.getImagesBlob(this.serviceId).subscribe(
@@ -76,6 +81,43 @@ export class ServiceProfilePageComponent implements OnInit {
         );
     }
   }
+
+  getProfileImageBlob(): void {
+    if (this.serviceId) {
+        this.serviceProfileService.getProfileImageBlob(this.serviceId).subscribe(
+            (data: any[]) => {
+                this.profileLogos = data;
+                console.log('Profile Details:', this.profileLogos);
+
+                this.ngZone.run(() => {
+                    this.cdr.detectChanges();
+                });
+            },
+            (error: any) => {
+                console.error('Error fetching Profile Images:', error);
+            }
+        );
+    }
+  }
+
+  getPortfolioImagesBlob(): void {
+    if (this.serviceId) {
+        this.serviceProfileService.getPortfolioImagesBlob(this.serviceId).subscribe(
+            (data: any[]) => {
+                this.portfolioImages = data;
+                console.log('Portfolio Images Details:', this.portfolioImages);
+
+                this.ngZone.run(() => {
+                    this.cdr.detectChanges();
+                });
+            },
+            (error: any) => {
+                console.error('Error fetching Portfolio Images:', error);
+            }
+        );
+    }
+  }
+
 
   getBlobUrl(base64Data: string): string {
     if (base64Data) {

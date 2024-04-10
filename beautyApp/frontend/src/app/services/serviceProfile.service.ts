@@ -18,12 +18,20 @@ export class ServiceProfileService {
   //   return this.httpClient.get<ServiceProfile[]>(`${this.baseUrl}/serviceProfile`);
   // }
 
+  getImagesBlob(serviceId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/serviceProfile/${serviceId}/portfolio`);
+  }
+
   getServiceDetails(serviceId: number): Observable<ServiceProfile> {
     return this.httpClient.get<ServiceProfile>(`${this.baseUrl}/serviceProfile/${serviceId}`);
   }
 
-  getImagesBlob(serviceId: number): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/serviceProfile/${serviceId}/portfolio`);
+  getProfileImageBlob(serviceId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/serviceProfile/${serviceId}/portfolioLogo`);
+  }
+
+  getPortfolioImagesBlob(serviceId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/serviceProfile/${serviceId}/portfolioImages`);
   }
 
   saveServiceDetails(serviceProfile: ServiceProfile, pricingList: Pricing[]): Observable<ServiceProfile> {

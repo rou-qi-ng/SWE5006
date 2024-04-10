@@ -163,5 +163,22 @@ mat-card{
 
 
 
+.portfolio-image-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-wrapper {
+  width: 30%; /* Each image takes up 30% width */
+  padding: 5px; /* Add some padding around each image */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.portfolio-image {
+  width: 100%; /* Make sure the image fills its container */
+  height: auto; /* Maintain aspect ratio */
+}
+
+
 
 
