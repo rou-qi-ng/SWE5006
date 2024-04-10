@@ -33,11 +33,23 @@
             <p>AVAILABILITY HELLO</p>
           </div>
 
-          <mat-card class="inline-calendar-card">
-            <mat-calendar [(selected)]="selected" (selectedChange)="selectDate($event)"></mat-calendar>
+          <!--<mat-card class="inline-calendar-card">
+            <mat-calendar 
+              [(selected)]="selected" 
+              (selectedChange)="selectDate($event)" 
+              [dateClass]="dateClassPredicate">
+            </mat-calendar>
           </mat-card>
           
-          <p class="selected-date">Selected date: {{selected | date: 'longDate'}}</p>
+          <p class="selected-date">Selected date: {{ selected | date: 'longDate' }}</p>-->
+          
+          <mat-card class="inline-calendar-card">
+            <mat-calendar
+              [(selected)]="selected"
+              [dateFilter]="isPastDate"
+            ></mat-calendar>
+          </mat-card>
+          <p>Selected date: {{selected | date: 'longDate' }}</p>
 
           <!--<div class="time-slots">
             <button *ngFor="let timeSlot of timeSlots" (click)="selectTimeSlot(timeSlot)" [class.selected]="timeSlot === selectedTimeSlot">

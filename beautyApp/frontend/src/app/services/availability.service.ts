@@ -28,5 +28,5 @@ export class AvailabilityService {
   bookAppointmentService(serviceId: number, appointmentData: any): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/serviceProfile/${serviceId}/availability/book-appointment`, appointmentData);
   }
-
+  
 }

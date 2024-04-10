@@ -8,6 +8,8 @@ import { Availability } from '../../model/availability.model';
 import { DateAdapter } from '@angular/material/core';
 import { Appointment } from '../../model/appointment.model';
 import { ChangeDetectorRef } from '@angular/core';
+import { MatCalendarCellClassFunction, MatCalendarCellCssClasses } from '@angular/material/datepicker';
+
 
 @Component({
   selector: 'app-availability-page',
@@ -24,7 +26,7 @@ export class AvailabilityPageComponent implements OnInit {
   timeSlots: string[]; // Array to hold time slots
   appointments: Appointment[] = [];
   existingAppointments: Appointment[] = []; 
-  
+  minDate: Date; // Property to store minimum allowed date
   
   addHour(timeSlot: string): string {
     const [hour, minute] = timeSlot.split(':').map(Number);
@@ -44,12 +46,16 @@ export class AvailabilityPageComponent implements OnInit {
     this.dateAdapter.setLocale('en'); // Set locale
     this.selectedTimeSlot = null;
     this.timeSlots = this.generateTimeSlots(); // Generate time slots
+    this.minDate = new Date(); // Initialize minDate to today
+    console.log('minDate:', this.minDate);
+
   }
 
   bookAppointment(): void {
     console.log('Selected Date:', this.selected);
     console.log('Selected Time Slot:', this.selectedTimeSlot);
-
+    const token = localStorage.getItem('token');
+    console.log('Token:', token); 
     if (this.selected && this.selectedTimeSlot && this.serviceId !== null) {
       // Convert the selected date to UTC timezone
       //const utcDate = new Date(this.selected.toISOString());
@@ -57,6 +63,8 @@ export class AvailabilityPageComponent implements OnInit {
       // Format the date to exclude time and timezone
       //const formattedDate = utcDate.toISOString().split('T')[0];
       const formattedDate = this.formatDate(localDate);
+
+      
       const appointmentData = {
         appointmentServiceId: this.serviceId,
         appointmentUserId: 1,   // change this to userid, now no login ppl      
@@ -112,7 +120,7 @@ export class AvailabilityPageComponent implements OnInit {
     this.selectedTimeSlot = timeSlot; // Update selected time slot property
   }
 
-
+  
   // ngOnInit(): void {
   //   this.getAllAvailabilitys();
 
@@ -141,6 +149,35 @@ export class AvailabilityPageComponent implements OnInit {
       }
     });
   }
+  /*ngOnInit(): void {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      this.authenticationService.getUserIdFromToken(token).subscribe(
+        (response) => {
+          this.userId = response.userId;
+
+          this.route.paramMap.subscribe(params => {
+            const serviceIdString = params.get('serviceId');  
+            if (serviceIdString) {
+              this.serviceId = parseInt(serviceIdString, 10);
+              this.getAvailabilityDetails();
+              this.getAppointmentDetails();
+            } else {
+              console.error('Service ID is null');
+            }
+          });
+        },
+        (error) => {
+          console.error('Error fetching user ID:', error);
+        }
+      );
+    } else {
+      console.error('Token not found!');
+    }
+  }*/
+  
+  
   
   getAvailabilityDetails(): void {
     if (this.serviceId) {
@@ -181,11 +218,22 @@ export class AvailabilityPageComponent implements OnInit {
     console.log('Updated selected date:', this.selected);
     this.markUnavailableTimeSlots();
   }
-  
-  
-  // Function to mark unavailable time slots
+  // Function to check if a date is in the past
+  isPastDate(date: Date): boolean {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set time to 00:00:00 to ignore time component
+    return date >= today;
+  }
+
+  dateClassPredicate: MatCalendarCellClassFunction<any> = (date: Date) => {
+    const isPast = date.getTime() < this.minDate.getTime();
+    console.log('Date:', date, 'is past:', isPast);
+    return isPast ? 'past-date' : '';
+  };
   
 
+
+  // Function to mark unavailable time slots
   markUnavailableTimeSlots(): void {
     if (this.appointments.length > 0 && this.selected) {
       const selectedDate = this.formatDate(this.selected); // Format the selected date

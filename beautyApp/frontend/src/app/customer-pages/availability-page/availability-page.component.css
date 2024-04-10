@@ -1,6 +1,11 @@
+  .past-date {
+    pointer-events: none;
+    opacity: 1; /* Optionally, reduce the opacity of past dates */
+  }
   .inline-calendar-card {
     width: 300px;
     margin: 0 auto;
+    
   }
 
   body, mat-drawer-container{
@@ -32,6 +37,8 @@
   display: block;
   margin-top: 10px; /* Adjust as needed for spacing */
 }
+
+
 
  
 
