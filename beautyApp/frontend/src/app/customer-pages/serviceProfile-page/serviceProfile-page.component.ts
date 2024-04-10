@@ -14,7 +14,7 @@ import { ServiceProfile } from '../../model/serviceProfile.model';
 export class ServiceProfilePageComponent implements OnInit {
   public serviceProfileForm!: FormGroup;
   serviceId: number | null = null; 
-  serviceDetails: any; // Variable to store service details
+  serviceDetails: any;
   serviceProfiles: ServiceProfile[] = [];
   portfolioData: string = ''
   images: any[] = [];

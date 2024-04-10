@@ -1,10 +1,12 @@
 // review-page.component.ts
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { FormGroup } from '@angular/forms';
 import { ReviewService } from '../../services/review.service'; // Import the service
 import { Review } from '../../model/review.model';
+import { ServiceProfileService } from '../../services/serviceProfile.service';
+import { ServiceProfile } from '../../model/serviceProfile.model';
 
 @Component({
   selector: 'app-review-page',
@@ -14,16 +16,19 @@ import { Review } from '../../model/review.model';
 export class ReviewPageComponent implements OnInit {
   public reviewForm!: FormGroup;
   serviceId: number | null = null; 
-
+  serviceDetails: any;
+  profileLogos: any[] = [];
   reviews: Review[] = [];
-
   loading: boolean = true;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private reviewService: ReviewService // Inject the service
+    private reviewService: ReviewService,
+    private serviceProfileService: ServiceProfileService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
     
   ) {}
 
@@ -35,12 +40,60 @@ export class ReviewPageComponent implements OnInit {
         this.serviceId = parseInt(serviceIdString, 10); // Convert string to number
         // Fetch review details based on service ID
         this.getReviewDetails();
+        this.getServiceDetails();
+        this.getProfileImageBlob();
       } else {
         // Handle the case when 'serviceId' is null
         console.error('Service ID is null');
       }
     });
   }
+  
+  getServiceDetails(): void {
+    if (this.serviceId) {
+      this.serviceProfileService.getServiceDetails(this.serviceId).subscribe(
+        (data: ServiceProfile) => {
+          this.serviceDetails = data;
+          console.log('Service Details:', this.serviceDetails);
+        },
+        (error: any) => {
+          console.error('Error fetching service profile:', error);
+        }
+      );
+    }
+  }
+
+  getProfileImageBlob(): void {
+    if (this.serviceId) {
+        this.serviceProfileService.getProfileImageBlob(this.serviceId).subscribe(
+            (data: any[]) => {
+                this.profileLogos = data;
+                console.log('Profile Details:', this.profileLogos);
+
+                this.ngZone.run(() => {
+                    this.cdr.detectChanges();
+                });
+            },
+            (error: any) => {
+                console.error('Error fetching Profile Images:', error);
+            }
+        );
+    }
+  }
+
+
+  getBlobUrl(base64Data: string): string {
+    if (base64Data) {
+        const binaryData = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+        const blob = new Blob([binaryData], { type: 'image/png' });
+        return URL.createObjectURL(blob);
+    } else {
+        console.error("Base64 data is null or empty");
+        return "";
+    }
+  }
+
+
   
   getReviewDetails(): void {
     this.loading = true;
