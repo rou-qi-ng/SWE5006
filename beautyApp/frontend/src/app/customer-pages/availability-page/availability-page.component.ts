@@ -7,6 +7,9 @@ import { AvailabilityService } from '../../services/availability.service'; // Im
 import { Availability } from '../../model/availability.model';
 import { DateAdapter } from '@angular/material/core';
 import { Appointment } from '../../model/appointment.model';
+import { MatCalendarCellClassFunction, MatCalendarCellCssClasses } from '@angular/material/datepicker';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ServiceProfileService } from '../../services/serviceProfile.service';
 import { ServiceProfile } from '../../model/serviceProfile.model';
 import { UserService } from '../../services/user.service';
@@ -27,7 +30,8 @@ export class AvailabilityPageComponent implements OnInit {
   timeSlots: string[]; // Array to hold time slots
   appointments: Appointment[] = [];
   userId: number | null = null; 
-  
+  existingAppointments: Appointment[] = []; 
+  minDate: Date; // Property to store minimum allowed date
   
   addHour(timeSlot: string): string {
     const [hour, minute] = timeSlot.split(':').map(Number);
@@ -44,25 +48,46 @@ export class AvailabilityPageComponent implements OnInit {
     private serviceProfileService: ServiceProfileService,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
+    private snackBar: MatSnackBar,
+    private sanitizer: DomSanitizer,
     private userService: UserService,
   ) {
     this.selected = null; // Initialize selected property
     this.dateAdapter.setLocale('en'); // Set locale
     this.selectedTimeSlot = null;
     this.timeSlots = this.generateTimeSlots(); // Generate time slots
+    this.minDate = new Date(); // Initialize minDate to today
+    console.log('minDate:', this.minDate);
+
   }
 
   bookAppointment(): void {
     console.log('Selected Date:', this.selected);
     console.log('Selected Time Slot:', this.selectedTimeSlot);
-
+    const token = localStorage.getItem('token');
+    console.log('Token:', token); 
     if (this.selected && this.selectedTimeSlot && this.serviceId !== null) {
+      // Convert the selected date to UTC timezone
+      //const utcDate = new Date(this.selected.toISOString());
+      const localDate = new Date(this.selected);
+      // Format the date to exclude time and timezone
+      //const formattedDate = utcDate.toISOString().split('T')[0];
+      const formattedDate = this.formatDate(localDate);
+      
+      const appointmentDetails = `Date: ${formattedDate}\nTime Slot: ${this.selectedTimeSlot}`;
+      const snackBarRef = this.snackBar.open(`Your appointment has been successfully booked!\n${appointmentDetails}`, 'Close', {
+        duration: 0, 
+        panelClass: ['success-snackbar'] // Custom CSS class for styling
+      });
+
       const appointmentData = {
         appointmentServiceId: this.serviceId,
         appointmentUserId: this.userId,   // change this to userid, now no login ppl      
-        appointmentDate: this.selected,
+        //appointmentDate: this.selected,
+        appointmentDate: formattedDate,
         appointmentTime: this.selectedTimeSlot
       };
+
 
       console.log('appointmentData:', appointmentData);
   
@@ -82,7 +107,13 @@ export class AvailabilityPageComponent implements OnInit {
       // Optionally, display a message to the user indicating that a date and time slot must be selected before booking
     }
   }
-
+  // Function to format the date to exclude time and timezone
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
   // Function to generate time slots
   generateTimeSlots(): string[] {
@@ -104,7 +135,7 @@ export class AvailabilityPageComponent implements OnInit {
     this.selectedTimeSlot = timeSlot; // Update selected time slot property
   }
 
-
+  
   // ngOnInit(): void {
   //   this.getAllAvailabilitys();
 
@@ -134,6 +165,8 @@ export class AvailabilityPageComponent implements OnInit {
     }
 
     // Extract service ID from route parameters
+    this.selected = new Date();
+    this.cdr.detectChanges();
     this.route.paramMap.subscribe(params => {
       const serviceIdString = params.get('serviceId');
       if (serviceIdString) {
@@ -149,6 +182,7 @@ export class AvailabilityPageComponent implements OnInit {
       }
     });
   }
+  
   
   getAvailabilityDetails(): void {
     if (this.serviceId) {
@@ -170,6 +204,8 @@ export class AvailabilityPageComponent implements OnInit {
         (data: Appointment[]) => {
           this.appointments = data;
           console.log('Appointment Details:', this.appointments);
+          // Now that we have appointments data, mark unavailable time slots
+        this.markUnavailableTimeSlots();
         },
         (error: any) => {
           console.error('Error fetching appointment:', error);
@@ -177,7 +213,58 @@ export class AvailabilityPageComponent implements OnInit {
       );
     }
   }
+
+  // Function to handle selection of date
+  selectDate(selectedDate: Date): void {
+    // Set time to 00:00:00 to ignore time component
+    selectedDate.setHours(0, 0, 0, 0);
+    console.log('Selected date:', selectedDate);
+    this.selected = selectedDate;
+    console.log('Updated selected date:', this.selected);
+    this.markUnavailableTimeSlots();
+  }
+  // Function to check if a date is in the past
+  isPastDate(date: Date): boolean {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set time to 00:00:00 to ignore time component
+    return date >= today;
+  }
+
+  dateClassPredicate: MatCalendarCellClassFunction<any> = (date: Date) => {
+    const isPast = date.getTime() < this.minDate.getTime();
+    console.log('Date:', date, 'is past:', isPast);
+    return isPast ? 'past-date' : '';
+  };
   
+
+
+  // Function to mark unavailable time slots
+  markUnavailableTimeSlots(): void {
+    if (this.appointments.length > 0 && this.selected) {
+      const selectedDate = this.formatDate(this.selected); // Format the selected date
+      this.timeSlots.forEach(timeSlot => {
+        const slotExists = this.appointments.some(appointment => {
+          const appointmentDate = this.formatDate(new Date(appointment.appointmentDate)); // Format the appointment date
+          return appointmentDate === selectedDate && appointment.appointmentTime === timeSlot;
+        });
+        if (slotExists) {
+          console.log('Time slot not available:', timeSlot);
+        }
+      });
+    }
+  }
+  // Function to check if a time slot is unavailable
+  isTimeSlotUnavailable(timeSlot: string): boolean {
+    if (this.appointments.length > 0 && this.selected) {
+      const selectedDate = this.formatDate(this.selected);
+      return this.appointments.some(appointment => {
+        const appointmentDate = this.formatDate(new Date(appointment.appointmentDate));
+        return appointmentDate === selectedDate && appointment.appointmentTime === timeSlot;
+      });
+    }
+    return false;
+  }
+
   getServiceDetails(): void {
     if (this.serviceId) {
       this.serviceProfileService.getServiceDetails(this.serviceId).subscribe(
