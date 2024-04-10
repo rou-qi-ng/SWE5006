@@ -1,125 +1,167 @@
 
-  body, mat-drawer-container{
-    background-color: #D8C2A5;
-    height: 100%;
-  }
-
-  mat-drawer{
-    width: 30%;
-    height: 100%;
-  }
-
-
-
-  .service-card {
-    margin-top: 2%;
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #C6B4B4;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .service-card-header {
-    text-align: center;
-    padding: 16px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .service-card-content {
-    padding: 16px;
-    color: white;
-    display: flex; /* Use flexbox to align image and details */
-    justify-content: flex-start; /* Align items from start (left) */
-  }
-  
-  .profile-image-container {
-    width: 150px; /* Adjust the width as needed */
-    height: 150px; /* Adjust the height as needed */
-    margin-right: 50px; /* Increase the margin between image and details */
-    overflow: hidden; /* Hide overflow to ensure square shape */
-  }
-  
-  .profile-image {
-    width: 100%; /* Make the image fill the container */
-    height: auto; /* Automatically adjust height */
-    object-fit: cover; /* Cover the entire container */
-  }
-  
-  .service-details {
-    flex: 1; /* Allow details to take remaining space */
-  }
-
-  .service-name {
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: larger; 
-  }
-
-  .google-maps-link {
-    font-size: x-small;
-    color: white;
-    text-decoration: underline;
-  }
-
-  .google-maps-link:hover {
-    color: black;
-  }
-  
-  .service-card-title {
-    text-align: center;
-    font-weight: bold;
-    color: white;
-    font-family: sans-serif;
-    font-size: larger;
-  }
-  
-  .service-card-loading {
-    padding: 16px;
-    color: white;
-    text-align: center;
-  }
-
-  
-  .service-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px;
-  }
-  
-  .service-cost {
-    text-align: right;
-  }
-
-  .no-service {
-    text-align: center;
-  }
-
-
-  .service-card-actions {
-    padding: 16px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .service-button {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .service-button:hover {
-    background-color: #45a049;
-  }
-  
-  
-
+body, mat-drawer-container{
+  background-color: #D8C2A5;
+  height: 100%;
+}
 
  
+mat-drawer{
+  width: 30%;
+  height: 100%;
+  background-color: #C6B4B4;
+}
+
+a{
+  background-color: #C6B4B4;
+  border-color: #C6B4B4;
+}
+
+
+.no-shadow{
+  box-shadow: none !important;
+  align-items: center;
+  background-color: #D8C2A5;
+  align-content: center;
+  margin-bottom: 0%;
+}
+
+mat-card-title{
+  /* margin-top: 0%; */
+  width: fit-content;
+}
+
+
+mat-card{
+  padding-bottom: 2%;
+  margin-top: 2%;
+  margin-left: 25%;
+  width: 50%;
+  align-self: center;
+  align-content: center;
+  align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+  mat-card{
+      padding-bottom: 2%;
+      margin-top: 5%;
+      margin-left: 15%;
+      width: 70%;
+      align-self: center;
+      align-content: center;
+      align-items: center;
+  }
+}
+
+.service-card {
+  margin-top: 2%;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #C6B4B4;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.service-card-header {
+  text-align: center;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.service-card-content {
+  padding: 16px;
+  color: white;
+  display: flex; 
+  justify-content: flex-start;
+}
+
+.profile-image-container {
+  width: 150px;
+  height: 150px; 
+  margin-right: 50px;
+  overflow: hidden; 
+}
+
+.profile-image {
+  width: 100%;
+  height: auto; 
+  object-fit: cover; 
+}
+
+.service-details {
+  flex: 1; 
+}
+
+.service-name {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: larger; 
+}
+
+.google-maps-link {
+  font-size: x-small;
+  color: white;
+  text-decoration: underline;
+}
+
+.google-maps-link:hover {
+  color: black;
+}
+
+.service-card-title {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  font-family: sans-serif;
+  font-size: larger;
+}
+
+.service-card-loading {
+  padding: 16px;
+  color: white;
+  text-align: center;
+}
+
+
+.service-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+}
+
+.service-cost {
+  text-align: right;
+}
+
+.no-service {
+  text-align: center;
+}
+
+
+.service-card-actions {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.service-button {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.service-button:hover {
+  background-color: #45a049;
+}
+
+
+
+
+
 

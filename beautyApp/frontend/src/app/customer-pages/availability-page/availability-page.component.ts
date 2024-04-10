@@ -163,6 +163,10 @@ export class AvailabilityPageComponent implements OnInit {
   //   );
   // }
 
+  returnToDashBoard():void{
+    this.router.navigate([""]);
+  }
+  
   routeTo(serviceName: string) {
     this.router.navigate(['service', serviceName]);
   }
