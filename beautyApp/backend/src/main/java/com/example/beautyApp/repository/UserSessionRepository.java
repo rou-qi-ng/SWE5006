@@ -15,4 +15,7 @@ public interface UserSessionRepository extends JpaRepository<TB_UserSession, Int
     @Query("SELECT u FROM TB_UserSession u WHERE (u.token = :token)")
     Optional<TB_UserSession> findByToken(@Param("token") String token);
 
+    @Query("SELECT u.userId FROM TB_UserSession u WHERE u.token = :token")
+    Optional<Integer> findUserIdByToken(@Param("token") String token);
+
 }
