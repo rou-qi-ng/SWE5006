@@ -82,10 +82,18 @@ public class ServiceProfileManager {
     }
 
 
-
     public List<Portfolio> getAllImagesByServiceId(int serviceId) {
         return serviceProfileRepository.findImagesByServiceId(serviceId);
     }
+
+    public List<Portfolio> getFirstLogoByServiceId(int serviceId) {
+        return serviceProfileRepository.findFirstLogoByServiceId(serviceId);
+    }
+
+    public List<Portfolio> getPortfolioImagesByServiceId(int serviceId) {
+        return serviceProfileRepository.findPortfolioImagesByServiceId(serviceId);
+    }
+    
     public List<Pricing> getAllPricingsByServiceId(int serviceId) {
         return serviceProfileRepository.findPricingsByServiceId(serviceId);
     }

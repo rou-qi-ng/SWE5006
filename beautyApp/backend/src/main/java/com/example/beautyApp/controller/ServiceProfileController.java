@@ -85,15 +85,33 @@ public class ServiceProfileController {
 
     }
 
-
-
     @GetMapping("/{serviceId}/portfolio")
     public ResponseEntity<List<Portfolio>> getAllImagesByServiceId(@PathVariable("serviceId") int serviceId) {
         List<Portfolio> images = serviceProfileManager.getAllImagesByServiceId(serviceId);
         if (!images.isEmpty()) {
             return ResponseEntity.ok(images);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(null);
+        }
+    }
+
+    @GetMapping("/{serviceId}/portfolioLogo")
+    public ResponseEntity<List<Portfolio>> getFirstLogoByServiceId(@PathVariable("serviceId") int serviceId) {
+        List<Portfolio> images = serviceProfileManager.getFirstLogoByServiceId(serviceId);
+        if (!images.isEmpty()) {
+            return ResponseEntity.ok(images);
+        } else {
+            return ResponseEntity.ok(null);
+        }
+    }
+
+    @GetMapping("/{serviceId}/portfolioImages")
+    public ResponseEntity<List<Portfolio>> getPortfolioImagesByServiceId(@PathVariable("serviceId") int serviceId) {
+        List<Portfolio> images = serviceProfileManager.getPortfolioImagesByServiceId(serviceId);
+        if (!images.isEmpty()) {
+            return ResponseEntity.ok(images);
+        } else {
+            return ResponseEntity.ok(null);
         }
     }
 
