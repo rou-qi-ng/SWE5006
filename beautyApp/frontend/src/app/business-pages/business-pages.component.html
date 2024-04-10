@@ -39,7 +39,27 @@
           <mat-card-header>
             <mat-card-subtitle>Service Menu (Pricing List)</mat-card-subtitle>
           </mat-card-header>
-          <ng-container *ngIf="serviceId === null">
+          <table class="table table-stripped" *ngIf="serviceId !== null">
+            <thead>
+              <tr>
+                <th>Service Name</th>
+                <th>Type</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of products">
+                <td>{{ s.pricingName }}</td>
+                <td>{{ s.pricingCost }}</td>
+                <td>
+                  <button (click)="updatePricing(s.pricingId)" class="btn btn-info">Update</button>
+                  <button (click)="deletePricing(s.pricingId)" class="btn btn-danger">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+            <br /><br />
+          </table>
+          <ng-container>
             <div class="example-container" *ngFor="let product of products; let i = index">
               <mat-form-field>
                 <input matInput placeholder="Service Name" formControlName="productName{{i}}">
@@ -62,30 +82,10 @@
             </div>
             <br />
           </ng-container>
-          <table class="table table-stripped" *ngIf="serviceId !== null">
-            <thead>
-              <tr>
-                <th>Service Name</th>
-                <th>Type</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let s of products">
-                <td>{{ s.pricingName }}</td>
-                <td>{{ s.pricingCost }}</td>
-                <td>
-                  <button (click)="updatePricing(s.pricingId)" class="btn btn-info">Update</button>
-                  <button (click)="deletePricing(s.pricingId)" class="btn btn-danger">Delete</button>
-                </td>
-              </tr>
-            </tbody>
-            <br /><br />
-          </table>
           <mat-card-header>
             <mat-card-subtitle>Photo Listing</mat-card-subtitle>
           </mat-card-header>
-          <div *ngIf="serviceId === null">
+          <div>
             <button type="button">
               <input type="file" multiple (change)="onFileSelected($event)" accept="image/*" />
             </button>
