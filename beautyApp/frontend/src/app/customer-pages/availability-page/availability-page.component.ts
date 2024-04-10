@@ -9,7 +9,8 @@ import { DateAdapter } from '@angular/material/core';
 import { Appointment } from '../../model/appointment.model';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatCalendarCellClassFunction, MatCalendarCellCssClasses } from '@angular/material/datepicker';
-
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-availability-page',
@@ -40,7 +41,9 @@ export class AvailabilityPageComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private availabilityService: AvailabilityService, // Inject the service
     private dateAdapter: DateAdapter<Date>, // Inject DateAdapter
-    private cdr: ChangeDetectorRef 
+    private cdr: ChangeDetectorRef,
+    private snackBar: MatSnackBar,
+    private sanitizer: DomSanitizer
   ) {
     this.selected = null; // Initialize selected property
     this.dateAdapter.setLocale('en'); // Set locale
@@ -63,8 +66,13 @@ export class AvailabilityPageComponent implements OnInit {
       // Format the date to exclude time and timezone
       //const formattedDate = utcDate.toISOString().split('T')[0];
       const formattedDate = this.formatDate(localDate);
-
       
+      const appointmentDetails = `Date: ${formattedDate}\nTime Slot: ${this.selectedTimeSlot}`;
+      const snackBarRef = this.snackBar.open(`Your appointment has been successfully booked!\n${appointmentDetails}`, 'Close', {
+        duration: 0, 
+        panelClass: ['success-snackbar'] // Custom CSS class for styling
+      });
+
       const appointmentData = {
         appointmentServiceId: this.serviceId,
         appointmentUserId: 1,   // change this to userid, now no login ppl      
@@ -149,34 +157,6 @@ export class AvailabilityPageComponent implements OnInit {
       }
     });
   }
-  /*ngOnInit(): void {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      this.authenticationService.getUserIdFromToken(token).subscribe(
-        (response) => {
-          this.userId = response.userId;
-
-          this.route.paramMap.subscribe(params => {
-            const serviceIdString = params.get('serviceId');  
-            if (serviceIdString) {
-              this.serviceId = parseInt(serviceIdString, 10);
-              this.getAvailabilityDetails();
-              this.getAppointmentDetails();
-            } else {
-              console.error('Service ID is null');
-            }
-          });
-        },
-        (error) => {
-          console.error('Error fetching user ID:', error);
-        }
-      );
-    } else {
-      console.error('Token not found!');
-    }
-  }*/
-  
   
   
   getAvailabilityDetails(): void {
