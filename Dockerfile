@@ -1,33 +1,13 @@
-FROM openjdk:16 AS builder
-
-# Create app directory
-WORKDIR /usr/src/app
-
-# Switch to root user to install git
-USER root
-
-# Install git
-RUN apt-get update && apt-get install -y git
-
-# Switch back to the default non-root user
-USER openjdk
-
-# Clone the repository
-RUN git clone https://github.com/rou-qi-ng/SWE5006 .
-
-# Build the Java application
-RUN ./gradlew build
-
+# Use the official OpenJDK base image
 FROM openjdk:16
 
-# Set the working directory
-WORKDIR /usr/src/app
+# Set the working directory inside the container
+WORKDIR /app
 
-# Copy the built application from the builder stage
-COPY --from=builder /usr/src/app/beautyApp /usr/src/app/beautyApp
+COPY . /app
 
-# Expose the port on which your Java application is running
-EXPOSE 8080
+# Copy the executable JAR file from the target directory into the container at /app
+COPY beautyApp/backend/build/libs/beautyApp.jar /app/beautyApp/backend/build/libs/beautyApp.jar
 
-# Command to start the Java application
-CMD ["java", "-cp", "beautyApp/backend/build/classes/java/main", "com.example.beautyApp.BeautyAppApplication"]
+# Specify the command to run your Spring Boot application when the container starts
+CMD ["java", "-jar", "/app/beautyApp.jar"]
