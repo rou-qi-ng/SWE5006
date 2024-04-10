@@ -157,6 +157,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/getUsername")
+    public ResponseEntity<Optional<String>> getUsernameById(@RequestParam("userId") int id) {
+        Optional<String> username = userManager.getUsernameById(id);
+        if (username.isPresent()) {
+            return ResponseEntity.ok(username);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 //    public TB_Service store(MultipartFile file) throws IOException {
 //        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 //        TB_Service newFile = new TB_Service(1, fileName, "", "",file.getContentType(), file.getBytes());

@@ -19,6 +19,7 @@ import { ReviewPageComponent } from './customer-pages/review-page/review-page.co
 import { PortfolioPageComponent } from './portfolio-page/portfolio-page.component';
 import { ManageBusinessPagesComponent } from './manage-business-pages/manage-business-pages.component';
 import { UpdatePricingPageComponent } from './business-pages/update-pricing-page/update-pricing-page.component';
+import { NewReviewPageComponent } from './customer-pages/review-page/review-new-page/review-new-page.component';
 
 
 
@@ -118,6 +119,14 @@ const routes: Routes = [
   {
     path: 'serviceProfile/:serviceId/review',
     component: ReviewPageComponent,
+    canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
+  },
+  {
+    path: 'serviceProfile/:serviceId/review/new',
+    component: NewReviewPageComponent,
     canActivate: [authGuard],
     data: {
       role:  ['admin','customer']

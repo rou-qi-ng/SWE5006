@@ -20,4 +20,8 @@ export class ReviewService {
     return this.httpClient.get<Review[]>(`${this.baseUrl}/serviceProfile/${serviceId}/review`);
   }
 
+  addReview(serviceId: number, reviewData: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/serviceProfile/${serviceId}/review/new`, reviewData);
+  }
+
 }

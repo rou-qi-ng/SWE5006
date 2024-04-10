@@ -54,37 +54,23 @@
 
       <div class="review-card">
         <div class="review-card-header">
-          <div class="review-card-title">Reviews</div>
-          <button class="add-review-button" (click)="navigateToAddReview()">Add Review</button>
+          <div class="review-card-title">New Review</div>
         </div>
         
-        <div *ngIf="loading" class="review-card-loading">
-          Loading...
-        </div>
-
-        <div class="review-card-content" *ngIf="!loading && reviews.length === 0">
-          <p class="no-review">No review available at the moment</p>
-        </div>
+        <form [formGroup]="newReviewForm" (ngSubmit)="submitReview()">
+          <div class="form-group">
+            <label for="rating">Rating:</label>
+            <input type="number" class="form-control" id="rating" formControlName="rating" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" formControlName="description" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
 
       </div>
         
-
-        <div *ngIf="!loading && (reviews.length > 0)">
-          <!-- Regular Reviews -->
-          <div *ngFor="let review of reviews" class="review-card">
-            <div class="review-details">
-              <div class="username">{{ review.reviewUsername }}</div>
-              <div class="date">{{ review.reviewCreatedDate | date:'dd MMMM yyyy' }}</div>
-              <div> 
-                <ng-container *ngFor="let _ of [].constructor(review.reviewRating); let i = index">
-                ★ <!-- Unicode star character -->
-                </ng-container>
-              </div>
-              <div>{{ review.reviewDescription }}</div>
-              <!-- You can include other details here if needed -->
-            </div>
-          </div>
-        </div>
 
         
      

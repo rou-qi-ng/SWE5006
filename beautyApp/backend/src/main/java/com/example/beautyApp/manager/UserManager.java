@@ -86,4 +86,9 @@ public class UserManager {
     public Optional<Integer> getUserSessionByToken(String token) {
         return userSessionRepository.findUserIdByToken(token);
     }
+
+    public Optional<String> getUsernameById(int id) {
+        return userRepository.findUsernameById(id);
+    }
+    
 }
