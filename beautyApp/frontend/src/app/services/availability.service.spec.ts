@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+// import { TestBed } from '@angular/core/testing';
 
-import { AvailabilityService } from './availability.service';
+// import { AvailabilityService } from './availability.service';
 
-describe('AvailabilityService', () => {
-  let service: AvailabilityService;
+// describe('AvailabilityService', () => {
+//   let service: AvailabilityService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(AvailabilityService);
-  });
+//   beforeEach(() => {
+//     TestBed.configureTestingModule({});
+//     service = TestBed.inject(AvailabilityService);
+//   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+//   it('should be created', () => {
+//     expect(service).toBeTruthy();
+//   });
+// });

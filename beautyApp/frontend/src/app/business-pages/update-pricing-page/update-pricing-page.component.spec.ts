@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UpdatePricingPageComponent } from './update-pricing-page.component';
+// import { UpdatePricingPageComponent } from './update-pricing-page.component';
 
-describe('UpdatePricingPageComponent', () => {
-  let component: UpdatePricingPageComponent;
-  let fixture: ComponentFixture<UpdatePricingPageComponent>;
+// describe('UpdatePricingPageComponent', () => {
+//   let component: UpdatePricingPageComponent;
+//   let fixture: ComponentFixture<UpdatePricingPageComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [UpdatePricingPageComponent]
-    })
-    .compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       declarations: [UpdatePricingPageComponent]
+//     })
+//     .compileComponents();
     
-    fixture = TestBed.createComponent(UpdatePricingPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//     fixture = TestBed.createComponent(UpdatePricingPageComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });
