@@ -1,17 +1,35 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { BusinessPagesComponent } from './business-pages.component';
+import { ServiceProfileService } from '../services/serviceProfile.service';
+import { PricingService } from '../services/pricing.service';
+import { of } from 'rxjs';
 
 describe('BusinessPagesComponent', () => {
   let component: BusinessPagesComponent;
   let fixture: ComponentFixture<BusinessPagesComponent>;
+  let serviceProfileService: jasmine.SpyObj<ServiceProfileService>;
+  let pricingService: jasmine.SpyObj<PricingService>;
 
   beforeEach(async () => {
+    const serviceProfileServiceSpy = jasmine.createSpyObj('ServiceProfileService', ['getServiceDetails', 'getPortfolioByServiceId', 'getImagesBlob', 'saveServiceDetails', 'saveServiceImages', 'updateServiceDetails']);
+    const pricingServiceSpy = jasmine.createSpyObj('PricingService', ['deletePricing']);
+
     await TestBed.configureTestingModule({
-      declarations: [BusinessPagesComponent]
+      declarations: [BusinessPagesComponent],
+      imports: [FormsModule, ReactiveFormsModule, HttpClientModule],
+      providers: [
+        { provide: ServiceProfileService, useValue: serviceProfileServiceSpy },
+        { provide: PricingService, useValue: pricingServiceSpy }
+      ]
     })
     .compileComponents();
-    
+    serviceProfileService = TestBed.inject(ServiceProfileService) as jasmine.SpyObj<ServiceProfileService>;
+    pricingService = TestBed.inject(PricingService) as jasmine.SpyObj<PricingService>;
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(BusinessPagesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -20,4 +38,16 @@ describe('BusinessPagesComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should delete pricing', () => {
+    const id = 1;
+    pricingService.deletePricing.and.returnValue(of(null));
+
+    component.deletePricing(id);
+
+    expect(pricingService.deletePricing).toHaveBeenCalledWith(id);
+  });
+
+  // Add more tests for other component methods and interactions with services
 });
+
