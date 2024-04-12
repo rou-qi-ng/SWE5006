@@ -1,4 +1,13 @@
 <div class="background">
+  <!-- Success message -->
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+
+  <!-- Error message -->
+  <div class="alert alert-warning" *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
   <div class="authentication-card-container" fxLayout="column" fxLayoutAlign="center">
     <mat-card class="authentication-card">
       <ng-container *ngIf="serviceId !== null">
@@ -19,7 +28,7 @@
           <mat-form-field>
             <mat-label>Name</mat-label>
             <input matInput formControlName="service_name" />
-          </mat-form-field>
+           </mat-form-field>
           <br />
           <mat-form-field>
             <mat-label>Description</mat-label>
@@ -39,7 +48,7 @@
           <mat-card-header>
             <mat-card-subtitle>Service Menu (Pricing List)</mat-card-subtitle>
           </mat-card-header>
-          <table class="table table-stripped" *ngIf="serviceId !== null">
+          <table class="table table-stripped" *ngIf="serviceId !== null && products1 != null && products1.length > 0">
             <thead>
               <tr>
                 <th>Service Name</th>
@@ -48,7 +57,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let s of products">
+              <tr *ngFor="let s of products1">
                 <td>{{ s.pricingName }}</td>
                 <td>{{ s.pricingCost }}</td>
                 <td>
@@ -57,12 +66,13 @@
                 </td>
               </tr>
             </tbody>
-            <br /><br />
+            <br /><br/>
           </table>
           <ng-container>
             <div class="example-container" *ngFor="let product of products; let i = index">
               <mat-form-field>
-                <input matInput placeholder="Service Name" formControlName="productName{{i}}">
+                <p>{{i+1}}</p>
+                <input matInput placeholder="Service Name" formControlName="productName{{i+1}}">
               </mat-form-field>
               <mat-form-field>
                 <span matPrefix style="color: white;">$&nbsp;</span>

@@ -15,6 +15,8 @@ export class UpdatePricingPageComponent implements OnInit {
   selectedFiles: File | null = null;
   products: Pricing | null = null;
   pricingId: number | null = null; 
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
   constructor(private router: Router, 
               private route: ActivatedRoute,
@@ -70,14 +72,21 @@ export class UpdatePricingPageComponent implements OnInit {
       this.pricingService.updatePricing(newPricing).subscribe(
         (response) => {
           console.log('Pricing updated successfully:', response);
+          this.successMessage = 'Service details saved successfully.';
+          this.errorMessage = null;
           this.router.navigate(['business', newPricing.pricingServiceId]);
         },
         (error) => {
           console.error('Error updating pricing:', error);
+          // this.successMessage = null;
+          // this.errorMessage = "Error updating";
+          this.router.navigate(['business', newPricing.pricingServiceId]);
         }
       );
     } else {
       console.error('Form is invalid or pricing data is not available');
+      this.successMessage = null;
+      this.errorMessage = "Error updating";
     }
   }
 }

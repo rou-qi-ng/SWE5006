@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { PricingService } from '../services/pricing.service';
 import { Pricing } from '../model/pricing.model';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-business-pages',
@@ -39,6 +40,10 @@ export class BusinessPagesComponent {
   pricing: Pricing[] | null = null;
   portfolioData: Portfolio[] = [];
   images: any[] = [];
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
+  userId: number | null = null; 
+  products1: Pricing[] = [];
 
   constructor(private authenticationService: AuthenticationService,
     private router: Router, 
@@ -48,6 +53,7 @@ export class BusinessPagesComponent {
     private serviceProfileService: ServiceProfileService,
     private pricingService: PricingService,
     private cdr: ChangeDetectorRef,
+    private userService: UserService,
     private ngZone: NgZone ) {
   }
 
@@ -61,6 +67,20 @@ export class BusinessPagesComponent {
       console.error('Service ID is null');
     }
   });
+  const token = localStorage.getItem("token");
+  console.log('token:', token);
+  if (token) {
+    this.userService.getUserIdByToken(token).subscribe(
+      (userId: number) => {
+        this.userId = userId;
+        console.log('User ID:', userId);
+        
+      },
+      (error: any) => {
+        console.error('Error fetching user ID:', error);
+      }
+    );
+  }
 
   console.log(this.serviceId);
   this.loginForm = this.formBuilder.group({
@@ -90,11 +110,17 @@ export class BusinessPagesComponent {
         });
         }
 
-        // this.pricingService.getPricings(this.serviceId ?? 1).subscribe(
-        //   (response) => {
-        //     console.log(response);  
-        //     this.products = response;
-        //   });
+        this.pricingService.getPricings(this.serviceId ?? 1).subscribe(
+          (response) => {
+            console.log(response);  
+            this.products1 = response;
+            console.log("productsss"+this.products1);
+          },
+          (error) => {
+            this.products1 = [];
+            console.log("productsss"+this.products1.length);
+          });
+          console.log("productsss"+this.products.length);
 
 });
 
@@ -163,24 +189,65 @@ deletePhoto(photoId: number): void {
 }
 
 addProduct(): void {
-  console.log(this.count);
-  console.log(`productName${this.products.length}`);
+  // console.log(this.count);
+  // console.log(`productName${this.products.length}`);
+  // let index = this.products.length;
+  // if (this.products.length === 0){
+  //    index = 0;
+  // }
+  // else{
+  //   index = index -1
+  // }
+  // const newProduct: Pricing = {
+  //   pricingId: 0,
+  //   pricingServiceId: this.serviceId ?? 1, // Make sure to set the correct pricingServiceId
+  //   pricingName: this.loginForm.getRawValue()[`productName${index}`] || '',
+  //   pricingCost: this.loginForm.getRawValue()[`productPrice${index}`] || 0,
+  //   pricingAddon: this.loginForm.getRawValue()[`productAddon${index}`] === 'yes' ? 'Y' : 'N'
+  // };
+
+  // this.products.push(newProduct);
+  // console.log(this.products);
+  // console.log("hi");
+  // console.log(newProduct);
+  // //const index = this.products.length - 1;
+  // this.loginForm.addControl(`productName${index}`, this.formBuilder.control(''));
+  // this.loginForm.addControl(`productPrice${index}`, this.formBuilder.control(0));
+  // this.loginForm.addControl(`productAddon${index}`, this.formBuilder.control('No'));
+  console.log(this.products);
+  const index = this.products.length;
+  console.log(index);
+  const productNameControlName = `productName${index}`;
+  const productPriceControlName = `productPrice${index}`;
+  const productAddonControlName = `productAddon${index}`;
+
+  const productNameFormControl = new FormControl('');
+  const productPriceFormControl = new FormControl(0);
+  const productAddonFormControl = new FormControl('No');
+  console.log(productNameControlName);
+  this.loginForm.addControl(productNameControlName, productNameFormControl);
+  this.loginForm.addControl(productPriceControlName, productPriceFormControl);
+  this.loginForm.addControl(productAddonControlName, productAddonFormControl);
+
+  // const newProduct: Pricing = {
+  //   pricingId: 0,
+  //   pricingServiceId: this.serviceId ?? 1, // Make sure to set the correct pricingServiceId
+  //   pricingName: productNameFormControl.value || '',
+  //   pricingCost: productPriceFormControl.value|| 0,
+  //   pricingAddon: productAddonFormControl.value === 'yes' ? 'Y' : 'N'
+  // };
+
   const newProduct: Pricing = {
-    pricingId: 0,
-    pricingServiceId: 47, // Make sure to set the correct pricingServiceId
-    pricingName: this.loginForm.getRawValue()[`productName${this.products.length-1}`] || '',
-    pricingCost: this.loginForm.getRawValue()[`productPrice${this.products.length-1}`] || 0,
-    pricingAddon: this.loginForm.getRawValue()[`productAddon${this.products.length-1}`] === 'yes' ? 'Y' : 'N'
-  };
+      pricingId: 0,
+      pricingServiceId: this.serviceId ?? 1, // Make sure to set the correct pricingServiceId
+      pricingName: this.loginForm.getRawValue()[`productName${index}`] || '',
+      pricingCost: this.loginForm.getRawValue()[`productPrice${index}`] || 0,
+      pricingAddon: this.loginForm.getRawValue()[`productAddon${index}`] === 'yes' ? 'Y' : 'N'
+    };
 
   this.products.push(newProduct);
-  console.log(this.products);
-  console.log("hi");
-  console.log(newProduct);
-  const index = this.products.length - 1;
-  this.loginForm.addControl(`productName${index}`, this.formBuilder.control(''));
-  this.loginForm.addControl(`productPrice${index}`, this.formBuilder.control(0));
-  this.loginForm.addControl(`productAddon${index}`, this.formBuilder.control('No'));
+
+
 }
 
 
@@ -224,10 +291,11 @@ public onSubmit() {
           console.log(product);     
         });
       }
-      this.serviceProfileService.saveServiceDetails(newServiceProfile, this.products).subscribe(
+      this.serviceProfileService.saveServiceDetails(newServiceProfile, this.products, this.userId ?? 11).subscribe(
         (response) => {
           console.log('New ServiceProfile added successfully:', response);
-
+              this.successMessage = 'Service details saved successfully.';
+              this.errorMessage = null;
               if (this.selectedFiles && this.selectedFiles.length > 0) {
                 console.log(this.selectedFiles.length)
                 for (let i = 0; i < this.selectedFiles.length; i++) {
@@ -246,25 +314,28 @@ public onSubmit() {
                   );
                 }
               }
-              // Check if products exist and add them
-              // if (this.products && this.products.length > 0) {
-              //   this.products.forEach((product) => {
-              //     product.pricingServiceId = response.serviceId;
-              //     product.pricingAddon = product.pricingAddon === 'Yes' ? 'Y' : 'N'; // Convert 'yes' to 'Y' and 'no' to 'N'
-              //     console.log(product); 
-              //   });
-              //   this.pricingService.addPricings(this.products).subscribe(
-              //     (pricingResponse) => { console.log('Products added successfully:', pricingResponse); },
-              //     (pricingError) => { console.error('Error adding products:', pricingError); }
-              //   );
-              // }
+              //Check if products exist and add them
+              if (this.products && this.products.length > 0) {
+                this.products.forEach((product) => {
+                  product.pricingServiceId = response.serviceId;
+                  product.pricingAddon = product.pricingAddon === 'Yes' ? 'Y' : 'N'; // Convert 'yes' to 'Y' and 'no' to 'N'
+                  console.log(product); 
+                });
+                this.pricingService.addPricings(this.products).subscribe(
+                  (pricingResponse) => { console.log('Products added successfully:', pricingResponse); },
+                  (pricingError) => { console.error('Error adding products:', pricingError); }
+                );
+              }
             },
         (error) => {
           console.error('Error adding ServiceProfile:', error);
+          this.successMessage = null;
+          this.errorMessage = 'Error saving service details. Please try again.';
+
         }
       );
         //this.loginForm.reset();
-        this.router.navigate(['manage']);
+        //this.router.navigate(['manage']);
     }
     else{
       console.log("updatinggg");
@@ -279,13 +350,17 @@ public onSubmit() {
       this.serviceProfileService.updateServiceDetails(newServiceProfile).subscribe(
         (response) => {
           console.log('New ServiceProfile added successfully:', response);
+          // this.successMessage = 'Service details saved successfully.';
+          // this.errorMessage = null;
         },
         (error) => {
           console.error('Error adding ServiceProfile:', error);
+             this.successMessage = 'Service details saved successfully.';
+             this.errorMessage = null;
         }
       );
       //this.loginForm.reset();
-      window.location.reload(); 
+      //window.location.reload(); 
     }
 }
 }

@@ -34,9 +34,10 @@ export class ServiceProfileService {
     return this.httpClient.get<any>(`${this.baseUrl}/serviceProfile/${serviceId}/portfolioImages`);
   }
 
-  saveServiceDetails(serviceProfile: ServiceProfile, pricingList: Pricing[]): Observable<ServiceProfile> {
+  saveServiceDetails(serviceProfile: ServiceProfile, pricingList: Pricing[], id: number): Observable<any> {
     const combinedData = { serviceProfile, pricingList };
-    return this.httpClient.post<ServiceProfile>(`${this.baseUrl}/serviceProfile/add`, combinedData);
+    console.log(`${this.baseUrl}/serviceProfile/add/${id}`);
+    return this.httpClient.post<any>(`${this.baseUrl}/serviceProfile/add/${id}`, combinedData);
   }  
 
   saveServiceImages(portfolio: FormData): Observable<ServiceProfile> {
