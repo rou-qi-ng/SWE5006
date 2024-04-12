@@ -49,8 +49,6 @@ export class BusinessPagesComponent {
     private pricingService: PricingService,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone ) {
-      
-
   }
 
  ngOnInit() {
@@ -59,10 +57,11 @@ export class BusinessPagesComponent {
     if (serviceIdString) {
       this.serviceId = parseInt(serviceIdString, 10); // Convert string to number
     } else {
-      // Handle the case when 'serviceId' is null
+     this.serviceId = null
       console.error('Service ID is null');
     }
   });
+
   console.log(this.serviceId);
   this.loginForm = this.formBuilder.group({
     service_name: ['', Validators.required],
@@ -74,7 +73,7 @@ export class BusinessPagesComponent {
   if (this.serviceId) {
     this.loadPortfolioData();
   }
-  
+  if (this.serviceId != null){
   this.serviceProfileService.getServiceDetails(this.serviceId ?? 1).subscribe(
     (response) => {
       console.log(response);
@@ -99,7 +98,7 @@ export class BusinessPagesComponent {
 
 });
 
-
+  }
 
   // this.products.forEach((product, index) => {
   //   this.loginForm.addControl(`productName${index}`, this.formBuilder.control(''));

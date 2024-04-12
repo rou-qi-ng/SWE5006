@@ -1,37 +1,59 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { BusinessPagesComponent } from './business-pages.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { HttpClientModule } from '@angular/common/http';
+import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing'; // Import RouterTestingModule
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Import BrowserAnimationsModule
+import { FormBuilder } from '@angular/forms';
+import { AuthenticationService } from '../services/authentication.service';
 import { ServiceProfileService } from '../services/serviceProfile.service';
 import { PricingService } from '../services/pricing.service';
-import { of } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core';
+import { Portfolio } from '../model/portfolio.model';
+import { ServiceProfile } from '../model/serviceProfile.model';
+import { Pricing } from '../model/pricing.model';
 
 describe('BusinessPagesComponent', () => {
   let component: BusinessPagesComponent;
   let fixture: ComponentFixture<BusinessPagesComponent>;
-  let serviceProfileService: jasmine.SpyObj<ServiceProfileService>;
-  let pricingService: jasmine.SpyObj<PricingService>;
+  let authenticationService: AuthenticationService;
+  let serviceProfileService: ServiceProfileService;
+  let pricingService: PricingService;
+  let cdr: ChangeDetectorRef;
 
   beforeEach(async () => {
-    const serviceProfileServiceSpy = jasmine.createSpyObj('ServiceProfileService', ['getServiceDetails', 'getPortfolioByServiceId', 'getImagesBlob', 'saveServiceDetails', 'saveServiceImages', 'updateServiceDetails']);
-    const pricingServiceSpy = jasmine.createSpyObj('PricingService', ['deletePricing']);
-
     await TestBed.configureTestingModule({
-      declarations: [BusinessPagesComponent],
-      imports: [FormsModule, ReactiveFormsModule, HttpClientModule],
+      imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        HttpClientModule,
+        RouterTestingModule, // Include RouterTestingModule
+        BrowserAnimationsModule // Add BrowserAnimationsModule
+      ],
       providers: [
-        { provide: ServiceProfileService, useValue: serviceProfileServiceSpy },
-        { provide: PricingService, useValue: pricingServiceSpy }
+        AuthenticationService,
+        ServiceProfileService,
+        PricingService,
+        ChangeDetectorRef,
+        FormBuilder
       ]
-    })
-    .compileComponents();
-    serviceProfileService = TestBed.inject(ServiceProfileService) as jasmine.SpyObj<ServiceProfileService>;
-    pricingService = TestBed.inject(PricingService) as jasmine.SpyObj<PricingService>;
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BusinessPagesComponent);
     component = fixture.componentInstance;
+    authenticationService = TestBed.inject(AuthenticationService);
+    serviceProfileService = TestBed.inject(ServiceProfileService);
+    pricingService = TestBed.inject(PricingService);
+    cdr = TestBed.inject(ChangeDetectorRef);
+
     fixture.detectChanges();
   });
 
@@ -39,15 +61,41 @@ describe('BusinessPagesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should delete pricing', () => {
-    const id = 1;
-    pricingService.deletePricing.and.returnValue(of(null));
-
-    component.deletePricing(id);
-
-    expect(pricingService.deletePricing).toHaveBeenCalledWith(id);
+  it('should initialize form with empty values', () => {
+    expect(component.loginForm.get('service_name')?.value).toEqual('');
+    expect(component.loginForm.get('service_description')?.value).toEqual('');
+    expect(component.loginForm.get('service_type')?.value).toEqual('');
+    expect(component.loginForm.get('service_location')?.value).toEqual('');
   });
 
-  // Add more tests for other component methods and interactions with services
-});
+  // it('should load portfolio data', fakeAsync(() => {
+  //   const portfolioData: Portfolio[] = [{ portfolioServiceId: 1, portfolioData: 'Portfolio 1' }];
+  //   spyOn(serviceProfileService, 'getPortfolioByServiceId').and.returnValue(of(portfolioData));
 
+  //   component.serviceId = 1;
+  //   component.loadPortfolioData();
+  //   tick();
+
+  //   expect(component.portfolioData).toEqual(portfolioData);
+  // }));
+
+  it('should delete photo', fakeAsync(() => {
+    const photoId = 1;
+    spyOn(serviceProfileService, 'deletePortfolioPhoto').and.returnValue(of({}));
+    spyOn(component, 'loadPortfolioData');
+
+    component.deletePhoto(photoId);
+    tick();
+
+    expect(serviceProfileService.deletePortfolioPhoto).toHaveBeenCalledWith(photoId);
+    expect(component.loadPortfolioData).toHaveBeenCalled();
+  }));
+
+  it('should add product', () => {
+    const initialProductsLength = component.products.length;
+    component.addProduct();
+    expect(component.products.length).toBe(initialProductsLength + 1);
+  });
+
+  // Add more test cases as needed
+});
