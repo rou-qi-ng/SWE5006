@@ -9,6 +9,11 @@ public class ServiceProfileWithPricing {
     private ServiceProfile serviceProfile;
     private List<Pricing> pricingList;
 
+    public ServiceProfileWithPricing(ServiceProfile serviceProfile, List<Pricing> pricingList) {
+        this.serviceProfile = serviceProfile;
+        this.pricingList = pricingList;
+    }
+
     public ServiceProfile getServiceProfile() {
         return serviceProfile;
     }

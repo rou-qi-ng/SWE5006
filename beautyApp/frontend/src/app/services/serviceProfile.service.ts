@@ -10,20 +10,28 @@ import { Pricing } from '../model/pricing.model';
 })
 
 export class ServiceProfileService {
-  private baseUrl = "http://localhost:8401/beautyApp/api"; 
+  public baseUrl = "http://localhost:8401/beautyApp/api"; 
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(public httpClient: HttpClient) {}
 
   // getAllServiceProfiles(): Observable<ServiceProfile[]> {
   //   return this.httpClient.get<ServiceProfile[]>(`${this.baseUrl}/serviceProfile`);
   // }
 
+  getImagesBlob(serviceId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/serviceProfile/${serviceId}/portfolio`);
+  }
+
   getServiceDetails(serviceId: number): Observable<ServiceProfile> {
     return this.httpClient.get<ServiceProfile>(`${this.baseUrl}/serviceProfile/${serviceId}`);
   }
 
-  getImagesBlob(serviceId: number): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/serviceProfile/${serviceId}/portfolio`);
+  getProfileImageBlob(serviceId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/serviceProfile/${serviceId}/portfolioLogo`);
+  }
+
+  getPortfolioImagesBlob(serviceId: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/serviceProfile/${serviceId}/portfolioImages`);
   }
 
   saveServiceDetails(serviceProfile: ServiceProfile, pricingList: Pricing[]): Observable<ServiceProfile> {
