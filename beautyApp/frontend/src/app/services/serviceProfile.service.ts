@@ -10,9 +10,9 @@ import { Pricing } from '../model/pricing.model';
 })
 
 export class ServiceProfileService {
-  private baseUrl = "http://localhost:8401/beautyApp/api"; 
+  public baseUrl = "http://localhost:8401/beautyApp/api"; 
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(public httpClient: HttpClient) {}
 
   // getAllServiceProfiles(): Observable<ServiceProfile[]> {
   //   return this.httpClient.get<ServiceProfile[]>(`${this.baseUrl}/serviceProfile`);

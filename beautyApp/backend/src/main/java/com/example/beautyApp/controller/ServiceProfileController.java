@@ -46,7 +46,7 @@ public class ServiceProfileController {
             serviceProfileManager.updateServiceProfile(serviceProfile);
             return ResponseEntity.ok("Success");
         } catch (Exception e) {
-            return ResponseEntity.ok("");
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -165,11 +165,13 @@ public class ServiceProfileController {
         log.info("ID: " + serviceId);
         Optional<Availability> s = serviceProfileManager.getServiceStatus(serviceId);
         log.info(String.valueOf(s));
-        log.info(s.get().getAvailabilityStatus());
+
         if (s.isPresent()) {
+            log.info(s.get().getAvailabilityStatus());
             Map<String, String> response = new HashMap<>();
             response.put("availabilityStatus", s.get().getAvailabilityStatus());
-            return new ResponseEntity<>(response, HttpStatus.OK);} else {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
@@ -185,7 +187,7 @@ public class ServiceProfileController {
         {
             return ResponseEntity.notFound().build();
         }
-        }
+    }
 
     @DeleteMapping("/portfolio/{photoId}")
     public ResponseEntity<String> deletePortfolioPhoto(@PathVariable("photoId") int photoId) {
