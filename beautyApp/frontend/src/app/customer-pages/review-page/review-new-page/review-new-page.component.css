@@ -158,34 +158,18 @@ mat-card-title {
   }
   
   .review-card-header {
-    display: flex;
-    align-items: center; /* Align items vertically */
-    justify-content: center; /* Center items horizontally */
+    text-align: center;
     padding: 16px;
+    display: flex;
+    justify-content: center;
   }
   
   .review-card-title {
+    text-align: center;
     font-weight: bold;
     color: white;
     font-family: sans-serif;
     font-size: larger;
-    justify-content: center; /* Pushes the review title to the left as much as possible */
-  }
-  
-  .add-review-button {
-    background-color: #C6B4B4;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    cursor: pointer;
-    outline: none;
-    transition: background-color 0.3s ease, text-decoration 0.3s ease; /* Add text-decoration transition */
-    border-radius: 8px;
-    text-decoration: none; /* Initially no underline */
-  }
-  
-  .add-review-button:hover {
-    text-decoration: underline; /* Add underline on hover */
   }
   
   .review-card-loading {
@@ -205,11 +189,6 @@ mat-card-title {
     flex-direction: column;
     position: relative;
     line-height: 2;
-  }
-
-  .username {
-    font-weight: bold;
-    font-size: large;
   }
 
   .date {

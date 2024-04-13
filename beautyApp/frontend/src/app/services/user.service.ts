@@ -43,4 +43,11 @@ export class UserService {
     return this.httpClient.get<any>(`${this.basUrl2}getUserId`, { params: { token } });
   }
 
+  getUsernameById(id: number): Observable<any>{
+    return this.httpClient.get<any>(`${this.basUrl2}getUsername`, { params: { userId: id } });
+  }
+
+  
+  
+  
 }

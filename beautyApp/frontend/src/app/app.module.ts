@@ -36,6 +36,7 @@ import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-pag
 import { PricingPageComponent } from './customer-pages/pricing-page/pricing-page.component';
 import { AvailabilityPageComponent } from './customer-pages/availability-page/availability-page.component';
 import { ReviewPageComponent } from './customer-pages/review-page/review-page.component';
+import { NewReviewPageComponent } from './customer-pages/review-page/review-new-page/review-new-page.component';
 import { SettingsPageComponent } from './settings-page/settings-page.component';
 import { ManageBusinessPagesComponent } from './manage-business-pages/manage-business-pages.component';
 import { UpdatePricingPageComponent } from './business-pages/update-pricing-page/update-pricing-page.component';
@@ -57,6 +58,7 @@ import { UpdatePricingPageComponent } from './business-pages/update-pricing-page
     PricingPageComponent,
     AvailabilityPageComponent,
     ReviewPageComponent,
+    NewReviewPageComponent,
     PortfolioPageComponent,
     SettingsPageComponent,
     ManageBusinessPagesComponent,
