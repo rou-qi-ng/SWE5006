@@ -49,4 +49,4 @@ COPY --from=backend /beautyApp/backend/target/beautyApp-0.0.1-SNAPSHOT.jar ./bea
 EXPOSE 8080
 
 # Command to run the application
-CMD ["java", "-jar", "beautyApp.jar"]
+CMD ["java", "-jar", "beautyApp.jar", "server.js", "node"]
