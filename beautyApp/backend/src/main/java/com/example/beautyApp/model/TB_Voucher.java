@@ -6,22 +6,24 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
 @Setter
 @Getter
-@Table(name="referral")
-public class TB_Referral {
+@Table(name="voucher")
+public class TB_Voucher {
     @Id
+    @NonNull
+    @Column(name = "voucher_id")
+    private Integer voucherId;
+
+    @NonNull
+    @Column(name = "voucher_code")
+    private String voucherCode;
+
     @NonNull
     @Column(name = "user_id")
     private Integer userId;
-
-    @NonNull
-    @Column(name = "referral_code")
-    private String referralCode;
-
 }

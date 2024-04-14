@@ -38,8 +38,8 @@ export class UserService {
     return this.httpClient.delete(`${this.basUrl}/${id}`);
   }
 
-  getCode(): Observable<any>{
-    this.basUrl2 = this.basUrl2 + 'getReferralCode';
+  getCode(token: any): Observable<any>{
+    this.basUrl2 = this.basUrl2 + 'getReferralCode'+ `?token=` + token ;
     return this.httpClient.get(`${this.basUrl2}`);
   }
 

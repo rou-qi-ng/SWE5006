@@ -24,18 +24,19 @@ export class DashboardPageComponent {
   
 
   ngOnInit(): void {
-    this.getCode();
+    const token = localStorage.getItem("token")
+    this.getCode(token);
     
   }
 
 
-  private getCode() {
-    
-    this.userService.getCode().subscribe(data => {
+  private getCode(token:any) {
+    this.userService.getCode(token).subscribe(data => {
       this.refCode = data['data'];
     });
-    console.log('test');
-    console.log(this.refCode);
+    console.log(token);
+    // console.log('test');
+    // console.log(this.refCode);
     
   }
 
@@ -49,7 +50,9 @@ export class DashboardPageComponent {
     this.router.navigate([""]);
   }
   settingsPage():void{
-    this.router.navigate(["settings"]);
+    this.router.navigate(["settings"]).then(()=>{
+      window.location.reload();
+    });
   }
 
  logout(): void {

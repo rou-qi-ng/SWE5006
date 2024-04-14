@@ -30,9 +30,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-//    @Autowired
-//    private UserRepository userRepository;
-
     @Autowired
     private UserManager userManager;
     @Autowired
@@ -111,18 +108,6 @@ public class UserController {
                 "message", "No existing functions"
         ));
 
-//        if (user.isEmpty()){
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
-//                    "statusCode", "200",
-//                    "message", "No existing functions"
-//            ));
-//        } else{
-//            return ResponseEntity.status(HttpStatus.OK).body(Map.of(
-//                    "statusCode", "200",
-//                    "message", "Success"
-//            ));
-//        }
-
     }
 
 
@@ -146,9 +131,9 @@ public class UserController {
     }
 
     @GetMapping(path = "/getReferralCode")
-    public ResponseEntity<?> getReferralCode() throws Exception {
+    public ResponseEntity<?> getReferralCode(@Param("token") String token) throws Exception {
 
-        String code = referralManager.getCode("test");
+        String code = referralManager.getCode(token);
         System.out.println(code);
 
         return ResponseEntity.status(HttpStatus.OK).body(Map.of(
@@ -189,11 +174,6 @@ public class UserController {
     }
 
 
-//    public TB_Service store(MultipartFile file) throws IOException {
-//        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//        TB_Service newFile = new TB_Service(1, fileName, "", "",file.getContentType(), file.getBytes());
-//
-//        return serviceRepository.save(newFile);
-//    }
+
 
 }

@@ -98,6 +98,7 @@ public class UserManager {
         System.out.println((userSessionRepository.findAll()));
         System.out.println(userSession);
         if (userSession.isPresent()){
+
           System.out.println("User is" + userSession.get().getUserId());
             Optional<TB_Customer> customer = customerRepository.findById(userSession.get().getUserId());
             if (customer.isPresent()){
