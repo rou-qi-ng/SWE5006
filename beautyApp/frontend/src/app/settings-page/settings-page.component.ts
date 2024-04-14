@@ -7,23 +7,25 @@ import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user.model';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-settings-page',
   templateUrl: './settings-page.component.html',
-  styleUrl: './settings-page.component.css'
+  styleUrl: './settings-page.component.css',
+  providers: [
+    
+      {
+        provide: NG_VALUE_ACCESSOR,
+        multi:true,
+        useExisting: SettingsPageComponent
+      }
+
+  ]
 })
 export class SettingsPageComponent implements OnInit{
   public registerForm!: FormGroup;
-  constructor(private authenticationService: AuthenticationService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private userService: UserService) {
-      // route.params.subscribe(val => {
-      //   this.getCode();
-      // });
-
- }
+  public filtersLoaded!: Promise<boolean>
   public skinType! : undefined;
   public dob! : string;
   
@@ -31,24 +33,36 @@ export class SettingsPageComponent implements OnInit{
     
   public address! : undefined;
   public user = localStorage.getItem('username');
+  constructor(private authenticationService: AuthenticationService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private userService: UserService) {
+      // route.params.subscribe(val => {
+      //   this.getCode();
+      // });
+      
+
+  }
+ 
   
   
 
   ngOnInit(): void {
-
-    this.getSettings();
+    // this.router.navigate([this.router.url]);
+    
     this.registerForm = new FormGroup({
       skinType: new FormControl('', Validators.required),
       dob: new FormControl('', [Validators.required,]),
       gender: new FormControl('', Validators.required),
       address: new FormControl('', Validators.required),
     });
+    this.getSettings();
     
   }
 
 
 
-  private getSettings() {
+  private async getSettings() {
 
     const token = localStorage.getItem("token")
     if (token != null){
@@ -58,14 +72,10 @@ export class SettingsPageComponent implements OnInit{
         this.address = data['data']['address'];
         this.dob = data['data']['dob'];
       });
-       // Set form control values after getting settings
-       this.registerForm.patchValue({
-        skinType: this.skinType,
-        dob: this.dob,
-        gender: this.gender,
-        address: this.address
-      });
+       
       console.log('test');
+      console.log(this.gender);
+      this.filtersLoaded = Promise.resolve(true);
       // console.log(dat?a);
     }
     
