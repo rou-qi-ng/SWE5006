@@ -1,9 +1,6 @@
 package com.example.beautyApp.controller;
 
-import com.example.beautyApp.manager.ReferralManager;
-import com.example.beautyApp.manager.ServiceManager;
-import com.example.beautyApp.manager.UserManager;
-import com.example.beautyApp.manager.VoucherManager;
+import com.example.beautyApp.manager.*;
 import com.example.beautyApp.model.TB_Customer;
 import com.example.beautyApp.model.TB_Service;
 import com.example.beautyApp.model.TB_User;
@@ -41,6 +38,9 @@ public class UserController {
 
     @Autowired
     private VoucherManager voucherManager;
+
+    @Autowired
+    private AppointmentManager appointmentManager;
 
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception {
@@ -168,6 +168,7 @@ public class UserController {
 
         List<?> voucher = voucherManager.getVoucher(token);
         String referral = referralManager.getCode(token);
+        List<?> appointment = appointmentManager.getAppt(token);
 
 //        System.out.println(data);
 
@@ -175,7 +176,8 @@ public class UserController {
                 "statusCode", "200",
                 "message", "Success",
                 "vouchers", voucher,
-                "referral", referral
+                "referral", referral,
+                "appointment", appointment
 
         ));
 //        return code;

@@ -3,10 +3,18 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
+// import { Appointment } from '../../model/appointment.model';
 
 interface Voucher {
   voucherName: string;
   voucherCode: string;
+}
+
+interface Appointment{
+  appointmentServiceId: string;
+  appointmentDate: string;
+  appointmentTime: string;
+  appointmentName: string;
 }
 
 @Component({
@@ -28,6 +36,7 @@ export class DashboardPageComponent {
 
   public refCode! : undefined;
   vouchers: Voucher[] = [];
+  appointments: Appointment[] = [];
   public user = localStorage.getItem('username');
   
 
@@ -45,6 +54,7 @@ export class DashboardPageComponent {
       console.log(data);
       this.refCode = data['referral'];
       this.vouchers = data['vouchers'];
+      this.appointments= data['appointment'];
     });
     console.log(token);
     
@@ -83,6 +93,10 @@ export class DashboardPageComponent {
 
   routeTo(serviceName: string) {
     this.router.navigate(['service', serviceName]);
+  }
+
+  routeService(serviceId: string){
+    this.router.navigate(['serviceProfile', serviceId]);
   }
   returnToDashBoard():void{
     this.router.navigate([""]).then(()=>{
