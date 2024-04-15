@@ -44,8 +44,8 @@
 
       <br>
 
-      <div *ngIf="searchSuccess">
-        <mat-card *ngFor="let item of search">
+      <div *ngIf="searchSuccess" class="search-section">
+        <mat-card *ngFor="let item of search" style="margin-top: 5px;">
           <mat-card-header>
             <mat-card-title>
               <a  style="color: beige; cursor: pointer;" (click)= "shopPath(item.serviceId)">{{ item.serviceName }}</a>
@@ -58,10 +58,12 @@
           </mat-card-content>
         </mat-card>
         <br>
+        <br>
+        <br>
       </div>
       
-      <div *ngIf="!searchSuccess">
-        <mat-card>
+      <div *ngIf="!searchSuccess" class="search-section">
+        <mat-card >
           <mat-card-header>
             <mat-card-title>Unable to find Shop</mat-card-title>
           </mat-card-header>
