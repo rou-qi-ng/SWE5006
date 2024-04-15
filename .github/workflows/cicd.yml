@@ -57,9 +57,13 @@ jobs:
           docker system prune -f
           docker pull sangasangasanga/swe5006-frontend:latest
 
-      # Remove existing Frontend container
+      # Stop existing Frontend container
       - name: Stop existing Frontend container
         run: docker stop frontend-container || true
+
+      # Remove existing Frontend container
+      - name: Remove Frontend container
+        run: docker rm frontend-container || true
       
       # Deploy Frontend
       - name: Deploy Frontend
@@ -73,10 +77,14 @@ jobs:
       - name: Pull Backend Docker Image
         run: docker pull sangasangasanga/swe5006-backend:latest
       
-      # Remove existing Backend container
-      - name: Stop existing Backend container
+      # Stop existing Backend container
+      - name: Stop Backend container
         run: docker stop backend-container || true
-      
+
+      # Remove existing Backend container
+      - name: Remove Backend container
+        run: docker rm backend-container || true
+
       # Deploy Backend
       - name: Deploy Backend
         # run: docker run -d -p 8080:8080 --name backend-container sangasangasanga/swe5006-backend:latest
