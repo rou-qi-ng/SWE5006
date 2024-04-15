@@ -52,10 +52,13 @@
                   <!-- <mat-card-subtitle>test</mat-card-subtitle> -->
                   
                 </mat-card-header>
-                <mat-card style="color: aliceblue; margin-left: 0%; background-color: grey;">
-                  <mat-card-title> $5 Welcome Voucher </mat-card-title>
-                  <mat-card-subtitle>Code: 523412A </mat-card-subtitle>
-              </mat-card>
+                <div *ngFor="let voucher of vouchers">
+                  <mat-card style="color: aliceblue; margin-left: 0%; width:100%; background-color: grey;">
+                    <mat-card-title> {{voucher.voucherName}} </mat-card-title>
+                    <mat-card-subtitle>Code: {{voucher.voucherCode}} </mat-card-subtitle>
+                  </mat-card>
+                </div>
+              
                
             </mat-card>
        

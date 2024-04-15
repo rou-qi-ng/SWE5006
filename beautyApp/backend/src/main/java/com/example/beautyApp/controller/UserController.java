@@ -3,6 +3,7 @@ package com.example.beautyApp.controller;
 import com.example.beautyApp.manager.ReferralManager;
 import com.example.beautyApp.manager.ServiceManager;
 import com.example.beautyApp.manager.UserManager;
+import com.example.beautyApp.manager.VoucherManager;
 import com.example.beautyApp.model.TB_Customer;
 import com.example.beautyApp.model.TB_Service;
 import com.example.beautyApp.model.TB_User;
@@ -37,6 +38,9 @@ public class UserController {
 
     @Autowired
     private ReferralManager referralManager;
+
+    @Autowired
+    private VoucherManager voucherManager;
 
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception {
@@ -141,6 +145,39 @@ public class UserController {
                 "message", "Success",
                 "data", code
         ));
+
+    }
+
+    @GetMapping(path = "/getVoucher")
+    public ResponseEntity<?> getVoucher(@Param("token") String token) throws Exception {
+
+        List<VoucherDTO> data = voucherManager.getVoucher(token);
+        System.out.println(data);
+
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+                "statusCode", "200",
+                "message", "Success",
+                "vouchers",data
+
+        ));
+//        return code;
+    }
+
+    @GetMapping(path = "/loadSettings")
+    public ResponseEntity<?> loadSettings(@Param("token") String token) throws Exception {
+
+        List<?> voucher = voucherManager.getVoucher(token);
+        String referral = referralManager.getCode(token);
+
+//        System.out.println(data);
+
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+                "statusCode", "200",
+                "message", "Success",
+                "vouchers", voucher,
+                "referral", referral
+
+        ));
 //        return code;
     }
 
@@ -149,6 +186,7 @@ public class UserController {
     public ResponseEntity<?> getSetting(@Param("token") String token) throws Exception {
 
         Optional<TB_Customer> code = userManager.getSetting(token);
+
         System.out.println(code);
 
         return ResponseEntity.status(HttpStatus.OK).body(Map.of(

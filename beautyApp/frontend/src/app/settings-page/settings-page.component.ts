@@ -100,7 +100,9 @@ export class SettingsPageComponent implements OnInit{
     this.router.navigate(['service', serviceName]);
   }
   returnToDashBoard():void{
-    this.router.navigate([""]);
+    this.router.navigate([""]).then(()=>{
+      window.location.reload();
+    });
   }
 
  logout(): void {

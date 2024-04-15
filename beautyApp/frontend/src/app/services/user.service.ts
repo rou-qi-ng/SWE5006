@@ -13,6 +13,7 @@ export class UserService {
 
   private basUrl = "http://localhost:8401/beautyApp/api/login"
   private basUrl2 = "http://localhost:8401/beautyApp/api/"
+  private baseUrl3 = ""
 
   constructor(private httpClient: HttpClient,
     private router:Router) {
@@ -41,6 +42,16 @@ export class UserService {
   getCode(token: any): Observable<any>{
     this.basUrl2 = this.basUrl2 + 'getReferralCode'+ `?token=` + token ;
     return this.httpClient.get(`${this.basUrl2}`);
+  }
+
+  retrieveSettings(token: any): Observable<any>{
+    this.basUrl2 = this.basUrl2 + 'loadSettings'+ `?token=` + token ;
+    return this.httpClient.get(`${this.basUrl2}`);
+  }
+
+  getVoucher(token: any): Observable<any>{
+    this.baseUrl3 = this.basUrl2 + 'getVoucher'+ `?token=` + token ;
+    return this.httpClient.get(`${this.baseUrl3}`);
   }
 
   getSettings(token: String): Observable<any>{

@@ -4,6 +4,11 @@ import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 
+interface Voucher {
+  voucherName: string;
+  voucherCode: string;
+}
+
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard-page.component.html',
@@ -19,26 +24,59 @@ export class DashboardPageComponent {
       // });
 
  }
+
+
   public refCode! : undefined;
+  vouchers: Voucher[] = [];
   public user = localStorage.getItem('username');
   
 
   ngOnInit(): void {
     const token = localStorage.getItem("token")
-    this.getCode(token);
+    // this.getCode(token);
+    // this.getVoucher(token);
+    this.loadSettings(token);
     
   }
 
+
+  private loadSettings(token:any) {
+    this.userService.retrieveSettings(token).subscribe(data => {
+      console.log(data);
+      this.refCode = data['referral'];
+      this.vouchers = data['vouchers'];
+    });
+    console.log(token);
+    
+    // console.log('test');
+    // console.log(this.refCode);
+    
+  }
 
   private getCode(token:any) {
     this.userService.getCode(token).subscribe(data => {
       this.refCode = data['data'];
     });
     console.log(token);
+    
     // console.log('test');
     // console.log(this.refCode);
     
   }
+
+  // private getVoucher(token:any) {
+  //   this.userService.getVoucher(token).subscribe(data2 => {
+  //     console.log('this is test',data2);
+  //     this.vouchers.push({
+  //       "name": data2["name"],
+  //       "code": data2["code"]
+  //     });
+  //   });
+    
+  //   // console.log('test');
+  //   // console.log(this.refCode);
+    
+  // }
 
   
   
@@ -47,7 +85,9 @@ export class DashboardPageComponent {
     this.router.navigate(['service', serviceName]);
   }
   returnToDashBoard():void{
-    this.router.navigate([""]);
+    this.router.navigate([""]).then(()=>{
+      window.location.reload();
+    });
   }
   settingsPage():void{
     this.router.navigate(["settings"]).then(()=>{

@@ -26,4 +26,8 @@ public class TB_Voucher {
     @NonNull
     @Column(name = "user_id")
     private Integer userId;
+
+    @NonNull
+    @Column(name = "voucher_name")
+    private String voucherName;
 }
