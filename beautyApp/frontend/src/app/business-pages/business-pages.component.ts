@@ -196,9 +196,25 @@ routeTo(serviceName: string) {
   this.router.navigate(['service', serviceName]);
 }
 
+
+routeService(serviceId: string){
+  this.router.navigate(['serviceProfile', serviceId]);
+}
+returnToDashBoard():void{
+  this.router.navigate([""]).then(()=>{
+    window.location.reload();
+  });
+}
+settingsPage():void{
+  this.router.navigate(["settings"]).then(()=>{
+    window.location.reload();
+  });
+}
+
 onFileSelected(event: any) {
   this.selectedFiles = event.target.files;
 }
+
 
 public onSubmit() {
   console.log("submitinggggggg");

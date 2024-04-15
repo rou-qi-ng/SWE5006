@@ -131,7 +131,9 @@ export class ServiceProfilePageComponent implements OnInit {
   }
 
   returnToDashBoard():void{
-    this.router.navigate([""]);
+    this.router.navigate([""]).then(()=>{
+      window.location.reload();
+    });
   }
 
   routeTo(serviceName: string) {

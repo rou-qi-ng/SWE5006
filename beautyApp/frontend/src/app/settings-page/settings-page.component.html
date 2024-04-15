@@ -11,6 +11,7 @@
           <a  style="color: beige; cursor: pointer;" (click)= "routeTo('nails')" (click)="drawer.toggle()">Nails</a>
           <a  style="color: beige; cursor: pointer;"  (click) = "routeTo('lash')" (click)="drawer.toggle()">Lashes</a>
           <a  style="color: beige; cursor: pointer;"  (click) = "returnToDashBoard()" (click)="drawer.toggle()">Home</a>
+          <!-- <a  style="color: beige; cursor: pointer;"  (click) = "registerBusiness()" (click)="drawer.toggle()">Register A Business</a> -->
           <a  style="color: beige; cursor: pointer;"  (click)="logout()">Log out</a>
         </div>
       </mat-drawer>
@@ -44,13 +45,13 @@
                     <!-- <mat-label>{{skinType}}</mat-label> -->
                     <input matInput formControlName="skinType" [value]="skinType"/>
                     </mat-form-field>
-
+<!--                       
                     <span style="display: block; text-align: left; padding: 5px;">Birthday</span>
-                    <mat-form-field>
+                    <mat-form-field> -->
                     <!-- <mat-label> {{dob}} </mat-label> -->
                     <!-- <input matInput type="email" formControlName="email" /> -->
-                    <input matInput formControlName="dob" [disabled]="true" [value]="dob"/>
-                    </mat-form-field>
+                    <!-- <input matInput formControlName="dob" [disabled]="true" [value]="dob"/>
+                    </mat-form-field> -->
                     
                     <span style="display: block; text-align: left; padding: 5px;" >Gender</span>
                     <mat-form-field>

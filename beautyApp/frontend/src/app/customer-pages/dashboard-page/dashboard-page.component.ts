@@ -109,6 +109,12 @@ export class DashboardPageComponent {
     });
   }
 
+  registerPage():void{
+    this.router.navigate(["business"]).then(()=>{
+      window.location.reload();
+    });
+  }
+
  logout(): void {
    this.authenticationService.logout();
   //  localStorage.removeItem('username');

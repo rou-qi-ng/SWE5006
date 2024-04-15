@@ -26,12 +26,12 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 export class SettingsPageComponent implements OnInit{
   public registerForm!: FormGroup;
   public filtersLoaded!: Promise<boolean>
-  public skinType! : undefined;
+  public skinType! : string;
   public dob! : string;
   
-  public gender! : undefined;
+  public gender! : string;
     
-  public address! : undefined;
+  public address! : string;
   public user = localStorage.getItem('username');
   constructor(private authenticationService: AuthenticationService,
     private router: Router,
@@ -84,14 +84,26 @@ export class SettingsPageComponent implements OnInit{
 
   public onSubmit() {
     const token = localStorage.getItem("token")
+
+    if  (this.registerForm.get('skinType')!.value != null){
+      this.skinType = this.registerForm.get('skinType')!.value;
+    }
+
+    if  (this.registerForm.get('gender')!.value != null){
+      this.gender = this.registerForm.get('gender')!.value;
+    }
+
+    if  (this.registerForm.get('address')!.value != null){
+      this.address = this.registerForm.get('address')!.value;
+    }
     
     if (token != null){
       this.userService.update(
         token,
-        this.registerForm.get('skinType')!.value,
-        this.registerForm.get('gender')!.value,
+        this.skinType,
+        this.gender,
         this.dob,
-        this.registerForm!.get('address')!.value
+        this.address
       );
     }
   }
