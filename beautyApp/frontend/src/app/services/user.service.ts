@@ -5,14 +5,16 @@ import { User } from '../model/user.model';
 import { environment } from '../../environments/environment';
 // import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Common } from '../envrionment.common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private basUrl = "http://localhost:8401/beautyApp/api/login"
-  private basUrl2 = "http://localhost:8401/beautyApp/api/"
+  private basUrl = environment.apiUrl +"/beautyApp/api/login"
+
+  private basUrl2 = environment.apiUrl +"/beautyApp/api/"
   private baseUrl3 = ""
 
   constructor(private httpClient: HttpClient,

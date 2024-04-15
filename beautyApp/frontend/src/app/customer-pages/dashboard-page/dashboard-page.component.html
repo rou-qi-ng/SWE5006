@@ -37,12 +37,14 @@
                   <mat-card-title>Appointments</mat-card-title>
                   <!-- <mat-card-subtitle>test</mat-card-subtitle> -->
                 </mat-card-header>
+                <div *ngFor="let appointment of appointments">
                 <mat-card-content>
                   <div class="appointment">
-                    <div class="datetime">April 8, 2024 - 10:00 AM</div>
-                    <div class="salon-name">Salon XYZ</div>
+                    <div class="datetime">{{appointment.appointmentDate}} - {{appointment.appointmentTime}}</div>
+                    <div class="salon-name"  style="cursor: pointer;" (click)= "routeService(appointment.appointmentServiceId)" >{{appointment.appointmentName}}</div>
                   </div>
                 </mat-card-content>
+              </div>
                
             </mat-card>
 
@@ -84,6 +86,13 @@
                 </mat-card-header>
                
             </mat-card>
+
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title  (click) = "registerPage()"  style="cursor: pointer;"> Register A Business</mat-card-title>
+              </mat-card-header>
+             
+          </mat-card>
 
             <mat-card>
                 <mat-card-header>

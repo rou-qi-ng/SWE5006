@@ -138,9 +138,10 @@ export class ReviewPageComponent implements OnInit {
   navigateToAddReview(): void {
     this.router.navigate(['/serviceProfile', this.serviceId, 'review', 'new']);
   }
-
   returnToDashBoard():void{
-    this.router.navigate([""]);
+    this.router.navigate([""]).then(()=>{
+      window.location.reload();
+    });
   }
   
   routeTo(serviceName: string) {
