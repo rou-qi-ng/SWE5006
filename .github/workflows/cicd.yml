@@ -59,7 +59,7 @@ jobs:
 
       # Remove existing Frontend container
       - name: Stop existing Frontend container
-        run: docker stop frontend-container
+        run: docker stop frontend-container || true
       
       # Deploy Frontend
       - name: Deploy Frontend
@@ -75,7 +75,7 @@ jobs:
       
       # Remove existing Backend container
       - name: Stop existing Backend container
-        run: docker stop backend-container
+        run: docker stop backend-container || true
       
       # Deploy Backend
       - name: Deploy Backend
