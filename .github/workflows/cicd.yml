@@ -74,8 +74,10 @@ jobs:
     runs-on: swe5006-backend 
     steps:
       # Pull Backend Docker Image
-      - name: Pull Backend Docker Image
-        run: docker pull sangasangasanga/swe5006-backend:latest
+      - name: Pull Backend Docker Imag
+        run: |
+          docker system prune -f
+          docker pull sangasangasanga/swe5006-backend:latest
       
       # Stop existing Backend container
       - name: Stop Backend container
