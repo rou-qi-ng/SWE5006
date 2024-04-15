@@ -7,5 +7,5 @@ RUN mvn clean install
 FROM openjdk:17-alpine
 WORKDIR /app
 COPY --from=build /app/target/beautyApp-0.0.1-SNAPSHOT.jar ./demo-aws.jar
-EXPOSE 8080
+EXPOSE 8401
 CMD ["java", "-jar", "demo-aws.jar"]
