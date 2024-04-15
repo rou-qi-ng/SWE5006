@@ -4,13 +4,15 @@ import { Observable } from 'rxjs';
 import { ServiceProfile } from '../model/serviceProfile.model';
 import { Portfolio } from '../model/portfolio.model';
 import { Pricing } from '../model/pricing.model';
-
+import { Common } from '../envrionment.common';
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 
 export class ServiceProfileService {
-  public baseUrl = "http://localhost:8401/beautyApp/api"; 
+  public baseUrl = environment.apiUrl + "/beautyApp/api"; 
+
 
   constructor(public httpClient: HttpClient) {}
 
