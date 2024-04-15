@@ -16,7 +16,6 @@ CMD ["java", "-jar", "demo-aws.jar"]
 
 
 
-
 # FROM openjdk:17-jdk-slim
 # WORKDIR /app
 # COPY /target/beautyApp-0.0.1-SNAPSHOT.jar /app/beautyApp.jar
