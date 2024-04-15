@@ -22,7 +22,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/serviceProfile")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class ServiceProfileController {
     private static final Logger log = LoggerFactory.getLogger(ServiceProfileController.class);
 
