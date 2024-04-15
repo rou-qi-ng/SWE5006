@@ -61,6 +61,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.amazonaws.serverless</groupId>-->
+<!--			<artifactId>aws-serverless-java-container-springboot2</artifactId>-->
+<!--			<version>1.9.4</version>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>
@@ -77,6 +82,29 @@
 					</excludes>
 				</configuration>
 			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-shade-plugin</artifactId>-->
+<!--				<version>3.3.0</version>-->
+<!--				<configuration>-->
+<!--					<createDependencyReducedPom>false</createDependencyReducedPom>-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<phase>package</phase>-->
+<!--						<goals>-->
+<!--							<goal>shade</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<artifactSet>-->
+<!--								<excludes>-->
+<!--									<exclude>org.apache.tomcat.embed:*</exclude>-->
+<!--								</excludes>-->
+<!--							</artifactSet>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 		</plugins>
 		<defaultGoal>install</defaultGoal>
 	</build>

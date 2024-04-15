@@ -39,6 +39,20 @@ mat-card{
     align-items: center;
 }
 
+.appointment {
+  padding: 16px;
+  border-bottom: 1px solid #ccc;
+}
+
+.datetime {
+  font-size: 18px;
+  color: #fff; /* Changing text color to white */
+}
+
+.salon-name {
+  font-size: 16px;
+  color: #ccc; /* Adjusting salon name color */
+}
 @media only screen and (max-width: 600px) {
     mat-card{
         padding-bottom: 2%;

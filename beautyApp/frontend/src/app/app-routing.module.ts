@@ -8,7 +8,7 @@ import { LoginPageComponent } from './home-pages/login-page/login-page.component
 import { authGuard } from './helpers/auth.guard';
 import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.component';
 import { BaseHomeComponent } from './home-pages/base-home/base-home.component';
-
+import { SettingsPageComponent } from './settings-page/settings-page.component';
 import { DashboardPageComponent } from './customer-pages/dashboard-page/dashboard-page.component';
 import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
 import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
@@ -136,6 +136,15 @@ const routes: Routes = [
   {
     path: 'portfolio',
     component: PortfolioPageComponent,
+    canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
+
+  }, 
+  {
+    path: 'settings',
+    component: SettingsPageComponent,
     canActivate: [authGuard],
     data: {
       role:  ['admin','customer']
