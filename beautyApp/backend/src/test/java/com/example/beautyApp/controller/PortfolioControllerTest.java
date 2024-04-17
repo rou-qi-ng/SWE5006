@@ -74,4 +74,23 @@ public class PortfolioControllerTest {
         assertEquals("Error uploading file", response.getBody());
         verify(portfolioManager, times(1)).saveFile(serviceId, file);
     }
+
+    @Test
+    void testUploadFile_InvalidServiceId() throws IOException {
+        // Given
+        int serviceId = 0; // Invalid serviceId
+        MultipartFile file = new MockMultipartFile("data", "test.txt", "text/plain", "test content".getBytes());
+        
+        // Simulate an IllegalArgumentException being thrown when an invalid serviceId is used
+        doThrow(new IllegalArgumentException("Service ID cannot be zero"))
+            .when(portfolioManager).saveFile(serviceId, file);
+        
+        // When
+        ResponseEntity<String> response = portfolioController.uploadFile(serviceId, file);
+        
+        // Then
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid service ID", response.getBody());
+    }
+
 }
