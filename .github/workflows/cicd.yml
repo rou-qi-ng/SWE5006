@@ -23,6 +23,17 @@ jobs:
       #   working-directory: ./beautyApp/backend
       #   run: mvn clean package -DskipTests
 
+      # Run JUnit tests for Backend
+      - name: Run JUnit tests
+        working-directory: ./beautyApp/backend
+        run: mvn test
+        
+      - name: Upload JUnit test results
+        uses: actions/junit@v2
+        if: always()
+        with:
+          test_results_path: ./beautyApp/backend/target/surefire-reports/*.xml
+          
       # Build Frontend Docker Image
       - name: Build Frontend Docker Image
         working-directory: ./beautyApp/frontend
