@@ -69,4 +69,40 @@ public class SearchControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNull(response.getBody());
     }
+
+    @Test
+    void testSearchByType_Success() throws Exception {
+        // Given
+        String serviceType = "Nails";
+        ServiceProfile profile1 = new ServiceProfile();
+        profile1.setServiceType(serviceType);
+        ServiceProfile profile2 = new ServiceProfile();
+        profile2.setServiceType(serviceType);
+
+        List<ServiceProfile> expectedSearchResults = Arrays.asList(profile1, profile2);
+
+        // When
+        when(searchManager.searchByType(serviceType))
+            .thenReturn(expectedSearchResults);
+
+        // Then
+        ResponseEntity<List<ServiceProfile>> response = searchController.getSearchByType(serviceType);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+    }
+
+    @Test
+    void testSearchByType_NotFound() throws Exception {
+        // Given
+        String serviceType = "Nails";
+
+        // When
+        when(searchManager.searchByType(serviceType))
+            .thenReturn(Collections.emptyList());
+
+        // Then
+        ResponseEntity<List<ServiceProfile>> response = searchController.getSearchByType(serviceType);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
+    }
 }
