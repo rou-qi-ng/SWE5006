@@ -27,12 +27,13 @@ jobs:
       - name: Run JUnit tests
         working-directory: ./beautyApp/backend
         run: mvn test
-        
+      
+      # Upload test results as an artifact
       - name: Upload JUnit test results
-        uses: actions/junit@v2
-        if: always()
+        uses: actions/upload-artifact@v2
         with:
-          test_results_path: ./beautyApp/backend/target/surefire-reports/*.xml
+          name: junit-results
+          path: ./beautyApp/backend/target/surefire-reports/*.xml
           
       # Build Frontend Docker Image
       - name: Build Frontend Docker Image
