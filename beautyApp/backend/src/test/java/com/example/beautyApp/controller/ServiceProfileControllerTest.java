@@ -319,5 +319,88 @@ public class ServiceProfileControllerTest {
         verify(serviceProfileManager, times(1)).deletePortfolioPhoto(photoId);
     }
 
+    @Test
+    void testGetAllImagesByServiceId_Success() {
+        int serviceId = 1;
+        Portfolio portfolio = new Portfolio();
+        List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
+        images.add(portfolio);
+        when(serviceProfileManager.getAllImagesByServiceId(serviceId)).thenReturn(images);
+
+        ResponseEntity<List<Portfolio>> response = serviceProfileController.getAllImagesByServiceId(serviceId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(images, response.getBody());
+    }
+
+    // @Test
+    // void testGetAllImagesByServiceId_NotFound() {
+    //     int serviceId = 1;
+    //     List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
+    //     when(serviceProfileManager.getAllImagesByServiceId(serviceId)).thenReturn(null);
+
+    //     ResponseEntity<List<Portfolio>> response = serviceProfileController.getAllImagesByServiceId(serviceId);
+
+    //     assertEquals(HttpStatus.OK, response.getStatusCode());
+    //     assertEquals(images, response.getBody());
+    // }
+
+    @Test
+    void testGetFirstLogoByServiceId_Success() {
+        int serviceId = 1;
+        Portfolio portfolio = new Portfolio();
+        List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
+        images.add(portfolio);
+        when(serviceProfileManager.getFirstLogoByServiceId(serviceId)).thenReturn(images);
+
+        ResponseEntity<List<Portfolio>> response = serviceProfileController.getFirstLogoByServiceId(serviceId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(images, response.getBody());
+    }
+
+    @Test
+    void testGetPortfolioImagesByServiceId_Success() {
+        int serviceId = 1;
+        Portfolio portfolio = new Portfolio();
+        List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
+        images.add(portfolio);
+        when(serviceProfileManager.getPortfolioImagesByServiceId(serviceId)).thenReturn(images);
+
+        ResponseEntity<List<Portfolio>> response = serviceProfileController.getPortfolioImagesByServiceId(serviceId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(images, response.getBody());
+    }
+
+    @Test
+    void testGetAllPricingsByServiceId_Success() {
+        int serviceId = 1;
+        Pricing pricing = new Pricing();
+        List<Pricing> pricings = new ArrayList<>(); // Add some pricing items here
+        pricings.add(pricing);
+        when(serviceProfileManager.getAllPricingsByServiceId(serviceId)).thenReturn(pricings);
+
+        ResponseEntity<List<Pricing>> response = serviceProfileController.getAllPricingsByServiceId(serviceId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(pricings, response.getBody());
+    }
+
+
+    @Test
+    void testGetAllReviewsByServiceId_Success() {
+        int serviceId = 1;
+        Review review = new Review();
+        List<Review> reviews = new ArrayList<>(); // Add some review items here
+        reviews.add(review);
+        when(serviceProfileManager.getAllReviewsByServiceId(serviceId)).thenReturn(reviews);
+
+        ResponseEntity<List<Review>> response = serviceProfileController.getAllReviewsByServiceId(serviceId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(reviews, response.getBody());
+    }
+
 }
 
