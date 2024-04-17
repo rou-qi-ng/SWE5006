@@ -333,17 +333,17 @@ public class ServiceProfileControllerTest {
         assertEquals(images, response.getBody());
     }
 
-    // @Test
-    // void testGetAllImagesByServiceId_NotFound() {
-    //     int serviceId = 1;
-    //     List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
-    //     when(serviceProfileManager.getAllImagesByServiceId(serviceId)).thenReturn(null);
+    @Test
+    void testGetAllImagesByServiceId_NotFound() {
+        int serviceId = 1;
+        List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
+        when(serviceProfileManager.getAllImagesByServiceId(serviceId)).thenReturn(images);
 
-    //     ResponseEntity<List<Portfolio>> response = serviceProfileController.getAllImagesByServiceId(serviceId);
+        ResponseEntity<List<Portfolio>> response = serviceProfileController.getAllImagesByServiceId(serviceId);
 
-    //     assertEquals(HttpStatus.OK, response.getStatusCode());
-    //     assertEquals(images, response.getBody());
-    // }
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(null, response.getBody());
+    }
 
     @Test
     void testGetFirstLogoByServiceId_Success() {
