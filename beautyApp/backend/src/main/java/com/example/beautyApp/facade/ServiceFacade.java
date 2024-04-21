@@ -15,10 +15,14 @@ import java.util.Optional;
 @Component
 public class ServiceFacade {
 
-    private ServiceProfileManager serviceProfileManager;
+    private final ServiceProfileManager serviceProfileManager;
+    private final ReviewManager reviewManager;
 
-    private ReviewManager reviewManager;
-
+    @Autowired
+    public ServiceFacade(ServiceProfileManager serviceProfileManager, ReviewManager reviewManager) {
+        this.serviceProfileManager = serviceProfileManager;
+        this.reviewManager = reviewManager;
+    }
 
     public List<Portfolio> getAllImagesByServiceId(int serviceId) {
         return serviceProfileManager.getAllImagesByServiceId(serviceId);
