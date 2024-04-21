@@ -25,6 +25,7 @@ public class ReviewController {
     @Autowired
     private ServiceProfileRepository serviceProfileRepository;
 
+    @Autowired
     private ServiceFacade serviceFacade;
 
     public ReviewController(ServiceFacade serviceFacade) {
@@ -52,6 +53,28 @@ public class ReviewController {
     // }
 
 
+    // @PostMapping("/{serviceId}/review/new")
+    // public ResponseEntity<?> addReview(@PathVariable("serviceId") int serviceId, @RequestBody Review reviewData) {
+    //     try {
+    //         // Fetch the ServiceProfile entity corresponding to the serviceId
+    //         ServiceProfile serviceProfile = serviceProfileRepository.findById(serviceId).orElse(null);
+    //         if (serviceProfile == null) {
+    //             return ResponseEntity.notFound().build(); // Return 404 if service profile not found
+    //         }
+            
+    //         // Set the serviceProfile in the reviewData
+    //         reviewData.setServiceProfile(serviceProfile);
+            
+    //         // Save the reviewData
+    //         reviewManager.save(reviewData);
+            
+    //         return ResponseEntity.ok().build();
+    //     } catch (Exception e) {
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    //     }
+    // }
+
+    // using ServiceFacade
     @PostMapping("/{serviceId}/review/new")
     public ResponseEntity<?> addReview(@PathVariable("serviceId") int serviceId, @RequestBody Review reviewData) {
         try {
@@ -68,6 +91,4 @@ public class ReviewController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
 }

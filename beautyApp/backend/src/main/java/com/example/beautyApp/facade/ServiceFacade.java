@@ -1,4 +1,5 @@
 package com.example.beautyApp.facade;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.beautyApp.manager.ReviewManager;
@@ -13,13 +14,11 @@ import java.util.Optional;
 
 @Component
 public class ServiceFacade {
+
     private ServiceProfileManager serviceProfileManager;
+
     private ReviewManager reviewManager;
 
-    public ServiceFacade(ServiceProfileManager serviceProfileManager, ReviewManager reviewManager) {
-        this.serviceProfileManager = serviceProfileManager;
-        this.reviewManager = reviewManager;
-    }
 
     public List<Portfolio> getAllImagesByServiceId(int serviceId) {
         return serviceProfileManager.getAllImagesByServiceId(serviceId);

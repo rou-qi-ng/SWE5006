@@ -32,10 +32,16 @@ public class ServiceProfileController {
     @Autowired
     private ServiceProfileManager serviceProfileManager;
 
+    @Autowired
     private ServiceFacade serviceFacade;
 
-    public ServiceProfileController(ServiceProfileManager serviceProfileManager, ReviewManager reviewManager) {
-        this.serviceFacade = new ServiceFacade(serviceProfileManager, reviewManager);
+    @Autowired
+    private ReviewManager reviewManager;
+    
+    public ServiceProfileController(ServiceFacade serviceFacade, ServiceProfileManager serviceProfileManager, ReviewManager reviewManager) {
+        this.serviceFacade = serviceFacade;
+        this.serviceProfileManager = serviceProfileManager;
+        this.reviewManager = reviewManager;
     }
 
     @GetMapping("/{serviceId}")
@@ -93,7 +99,6 @@ public class ServiceProfileController {
         }
 
     }
-
 
     @GetMapping("/getServiceList")
     public ResponseEntity<List<ServiceProfile>> getServiceList(@RequestParam int userId) {
@@ -161,11 +166,7 @@ public class ServiceProfileController {
     }
 
 
-
-
-
-
-    // using serviceFacade
+    // using ServiceFacade
     @GetMapping("/{serviceId}/portfolio")
     public ResponseEntity<List<Portfolio>> getAllImagesByServiceId(@PathVariable("serviceId") int serviceId) {
         List<Portfolio> images = serviceFacade.getAllImagesByServiceId(serviceId);
@@ -215,5 +216,4 @@ public class ServiceProfileController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }
