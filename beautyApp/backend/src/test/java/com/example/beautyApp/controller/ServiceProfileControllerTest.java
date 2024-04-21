@@ -1,5 +1,6 @@
 package com.example.beautyApp.controller;
 
+import com.example.beautyApp.facade.ServiceFacade;
 import com.example.beautyApp.manager.*;
 import com.example.beautyApp.model.*;
 import com.example.beautyApp.repository.*;
@@ -35,6 +36,10 @@ public class ServiceProfileControllerTest {
 
     @Mock
     private PortfolioController portfolioController;
+
+    @Mock
+    private ServiceFacade serviceFacade;
+
 
 
 
@@ -319,16 +324,20 @@ public class ServiceProfileControllerTest {
         verify(serviceProfileManager, times(1)).deletePortfolioPhoto(photoId);
     }
 
+
     @Test
     void testGetAllImagesByServiceId_Success() {
+        // Arrange
         int serviceId = 1;
         Portfolio portfolio = new Portfolio();
         List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
         images.add(portfolio);
-        when(serviceProfileManager.getAllImagesByServiceId(serviceId)).thenReturn(images);
+        when(serviceFacade.getAllImagesByServiceId(serviceId)).thenReturn(images);
 
+        // Act
         ResponseEntity<List<Portfolio>> response = serviceProfileController.getAllImagesByServiceId(serviceId);
 
+        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(images, response.getBody());
     }
@@ -337,7 +346,7 @@ public class ServiceProfileControllerTest {
     void testGetAllImagesByServiceId_NotFound() {
         int serviceId = 1;
         List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
-        when(serviceProfileManager.getAllImagesByServiceId(serviceId)).thenReturn(images);
+        when(serviceFacade.getAllImagesByServiceId(serviceId)).thenReturn(images);
 
         ResponseEntity<List<Portfolio>> response = serviceProfileController.getAllImagesByServiceId(serviceId);
 
@@ -351,7 +360,7 @@ public class ServiceProfileControllerTest {
         Portfolio portfolio = new Portfolio();
         List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
         images.add(portfolio);
-        when(serviceProfileManager.getFirstLogoByServiceId(serviceId)).thenReturn(images);
+        when(serviceFacade.getFirstLogoByServiceId(serviceId)).thenReturn(images);
 
         ResponseEntity<List<Portfolio>> response = serviceProfileController.getFirstLogoByServiceId(serviceId);
 
@@ -365,7 +374,7 @@ public class ServiceProfileControllerTest {
         Portfolio portfolio = new Portfolio();
         List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
         images.add(portfolio);
-        when(serviceProfileManager.getPortfolioImagesByServiceId(serviceId)).thenReturn(images);
+        when(serviceFacade.getPortfolioImagesByServiceId(serviceId)).thenReturn(images);
 
         ResponseEntity<List<Portfolio>> response = serviceProfileController.getPortfolioImagesByServiceId(serviceId);
 
@@ -379,7 +388,7 @@ public class ServiceProfileControllerTest {
         Pricing pricing = new Pricing();
         List<Pricing> pricings = new ArrayList<>(); // Add some pricing items here
         pricings.add(pricing);
-        when(serviceProfileManager.getAllPricingsByServiceId(serviceId)).thenReturn(pricings);
+        when(serviceFacade.getAllPricingsByServiceId(serviceId)).thenReturn(pricings);
 
         ResponseEntity<List<Pricing>> response = serviceProfileController.getAllPricingsByServiceId(serviceId);
 
@@ -394,7 +403,7 @@ public class ServiceProfileControllerTest {
         Review review = new Review();
         List<Review> reviews = new ArrayList<>(); // Add some review items here
         reviews.add(review);
-        when(serviceProfileManager.getAllReviewsByServiceId(serviceId)).thenReturn(reviews);
+        when(serviceFacade.getAllReviewsByServiceId(serviceId)).thenReturn(reviews);
 
         ResponseEntity<List<Review>> response = serviceProfileController.getAllReviewsByServiceId(serviceId);
 

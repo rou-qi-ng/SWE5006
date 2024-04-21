@@ -1,4 +1,5 @@
 package com.example.beautyApp.controller;
+import com.example.beautyApp.facade.ServiceFacade;
 import com.example.beautyApp.manager.ReviewManager;
 import com.example.beautyApp.model.Review;
 import com.example.beautyApp.model.ServiceProfile;
@@ -30,56 +31,65 @@ public class ReviewControllerTest {
     @InjectMocks
     private ReviewController reviewController;
 
+    @Mock
+    private ServiceFacade serviceFacade;
+
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void testAddReview_ServiceProfileNotFound() {
-        // Given
-        int serviceId = 1;
-        Review reviewData = new Review();
-        reviewData.setReviewId(1);
-        when(serviceProfileRepository.findById(serviceId)).thenReturn(Optional.empty()); // ServiceProfile not found
+    void testAddReview_Success() {
+        // Mock data
+        int serviceId = 123;
+        Review reviewData = new Review(/* review details */);
 
-        // When
-        ResponseEntity<?> response = reviewController.addReview(serviceId, reviewData);
+        // Mock serviceFacade behavior
+        ServiceProfile serviceProfile = new ServiceProfile(/* service profile details */);
+        when(serviceFacade.getServiceProfileById(serviceId)).thenReturn(Optional.of(serviceProfile));
 
-        // Then
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        // Call the controller method
+        ResponseEntity<?> responseEntity = reviewController.addReview(serviceId, reviewData);
+
+        // Verify behavior
+        verify(serviceFacade).saveReview(reviewData); // Check if saveReview was called with the reviewData
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode()); // Check status code
     }
 
     @Test
-    void testAddReview_Success() {
-        // Given
-        int serviceId = 1;
-        Review reviewData = new Review();
-        ServiceProfile serviceProfile = new ServiceProfile();
-        when(serviceProfileRepository.findById(serviceId)).thenReturn(Optional.of(serviceProfile)); // ServiceProfile found
+    void testAddReview_ServiceProfileNotFound() {
+        // Mock data
+        int serviceId = 123;
+        Review reviewData = new Review(/* review details */);
 
-        // When
-        ResponseEntity<?> response = reviewController.addReview(serviceId, reviewData);
+        // Mock serviceFacade behavior
+        when(serviceFacade.getServiceProfileById(serviceId)).thenReturn(Optional.empty());
 
-        // Then
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(reviewManager, times(1)).save(reviewData);
+        // Call the controller method
+        ResponseEntity<?> responseEntity = reviewController.addReview(serviceId, reviewData);
+
+        // Verify behavior
+        verify(serviceFacade, never()).saveReview(reviewData); // Ensure saveReview was not called
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode()); // Check status code
     }
 
     @Test
     void testAddReview_InternalServerError() {
-        // Given
-        int serviceId = 1;
-        Review reviewData = new Review();
-        ServiceProfile serviceProfile = new ServiceProfile();
-        when(serviceProfileRepository.findById(serviceId)).thenReturn(Optional.of(serviceProfile));
-        doThrow(new RuntimeException()).when(reviewManager).save(reviewData); // Simulate an exception during save
+        // Mock data
+        int serviceId = 123;
+        Review reviewData = new Review(/* review details */);
 
-        // When
-        ResponseEntity<?> response = reviewController.addReview(serviceId, reviewData);
+        // Mock serviceFacade behavior
+        when(serviceFacade.getServiceProfileById(serviceId)).thenThrow(new RuntimeException("Internal Server Error"));
 
-        // Then
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        // Call the controller method
+        ResponseEntity<?> responseEntity = reviewController.addReview(serviceId, reviewData);
+
+        // Verify behavior
+        verify(serviceFacade, never()).saveReview(reviewData); // Ensure saveReview was not called
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode()); // Check status code
     }
     
 }
