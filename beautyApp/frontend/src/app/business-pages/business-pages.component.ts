@@ -260,7 +260,7 @@ public onSubmit() {
               const formData = new FormData();
               const blob = new Blob([this.portfolioFiles[i]], { type: this.portfolioFiles[i].type });
               formData.append('serviceId', response.serviceId.toString());
-              formData.append('data', blob, this.portfolioFiles[i]?.name); // Append the file
+              formData.append('data', blob, this.portfolioFiles[i]?.name); 
               formData.append('logo', '0'); // Portfolio photos are not logos
               console.log(formData);
               this.serviceProfileService.saveServiceImages(formData).subscribe(
