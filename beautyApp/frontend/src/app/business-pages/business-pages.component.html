@@ -106,13 +106,36 @@
             <br />
           </ng-container>
           <mat-card-header>
-            <mat-card-subtitle>Photo Listing</mat-card-subtitle>
+            <mat-card-subtitle>Logo</mat-card-subtitle>
           </mat-card-header>
+
+          <!-- <div>
+            <button type="button">
+              <input type="file" multiple (change)="onLogoSelected($event)" accept="image/*" />
+            </button>
+          </div> -->
+
           <div>
             <button type="button">
-              <input type="file" multiple (change)="onFileSelected($event)" accept="image/*" />
+              <input type="file" id="logoInput" name="logoInput" (change)="onLogoSelected($event)" accept="image/*" />
             </button>
           </div>
+
+
+          <mat-card-header>
+            <mat-card-subtitle>Portfolio</mat-card-subtitle>
+          </mat-card-header>
+
+          <div>
+            <button type="button">
+              <input type="file" multiple (change)="onPortfolioSelected($event)" accept="image/*" />
+            </button>
+          </div>
+
+ 
+
+   
+
           <div *ngIf="serviceId !== null">
             <div class="image-container">
               <div *ngFor="let photo of images">

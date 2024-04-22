@@ -31,7 +31,9 @@ import { Pricing } from '../model/pricing.model';
 })
 export class BusinessPagesComponent {
   public loginForm!: FormGroup;
-  selectedFiles: File[] | null = null;
+  // selectedFiles: File[] | null = null;
+  portfolioFiles: File[] | null = null;
+  logoFile: File | null = null;
   products: Pricing[] = [];
   count: number = 0;
   serviceId: number | null = null; 
@@ -211,10 +213,17 @@ settingsPage():void{
   });
 }
 
-onFileSelected(event: any) {
-  this.selectedFiles = event.target.files;
+// onFileSelected(event: any) {
+//   this.selectedFiles = event.target.files;
+// }
+
+onPortfolioSelected(event: any) {
+  this.portfolioFiles = event.target.files;
 }
 
+onLogoSelected(event: any) {
+  this.logoFile = event.target.files[0]; // Only single file for logo
+}
 
 public onSubmit() {
   console.log("submitinggggggg");
@@ -230,7 +239,8 @@ public onSubmit() {
         serviceLocation: this.loginForm.get('service_location')?.value,
       };
       console.log(newServiceProfile ); 
-      console.log(this.selectedFiles);
+      console.log(this.portfolioFiles);
+      console.log(this.logoFile);
       this.products.shift();
       console.log(this.products); 
       if (this.products && this.products.length > 0) {
@@ -244,24 +254,56 @@ public onSubmit() {
         (response) => {
           console.log('New ServiceProfile added successfully:', response);
 
-              if (this.selectedFiles && this.selectedFiles.length > 0) {
-                console.log(this.selectedFiles.length)
-                for (let i = 0; i < this.selectedFiles.length; i++) {
-                  const formData = new FormData();
-                  const blob = new Blob([this.selectedFiles[i]], { type: this.selectedFiles[i].type });
-                  formData.append('serviceId', response.serviceId.toString());
-                  formData.append('data', blob, this.selectedFiles[i]?.name); // Append the file
-                  console.log(formData);
-                  this.serviceProfileService.saveServiceImages(formData).subscribe(
-                    (imageResponse) => {
-                      console.log('New ServiceProfile added successfully:', imageResponse);
-                    },
-                    (imageError) => {
-                      console.error('Error adding service images:', imageError);
-                    }
-                  );
+          if (this.portfolioFiles && this.portfolioFiles.length > 0) {
+            // Handle portfolio photos
+            for (let i = 0; i < this.portfolioFiles.length; i++) {
+              const formData = new FormData();
+              const blob = new Blob([this.portfolioFiles[i]], { type: this.portfolioFiles[i].type });
+              formData.append('serviceId', response.serviceId.toString());
+              formData.append('data', blob, this.portfolioFiles[i]?.name); // Append the file
+              formData.append('logo', '0'); // Portfolio photos are not logos
+              console.log(formData);
+              this.serviceProfileService.saveServiceImages(formData).subscribe(
+                (imageResponse) => {
+                  console.log('Portfolio Photos uploaded successfully:', imageResponse);
+                  // Assuming imageResponse contains the success message as plain text
+                  if (imageResponse && typeof imageResponse === 'string') {
+                    console.log('Server response:', imageResponse);
+                    // Handle the success message as needed
+                  } else {
+                    console.error('Invalid server response:', imageResponse);
+                  }
+                },
+                (imageError) => {
+                  console.error('Error adding Portfolio Photos:', imageError);
                 }
+              );
+            }
+          }
+          if (this.logoFile) {
+            // Handle logo
+            const formData = new FormData();
+            const blob = new Blob([this.logoFile], { type: this.logoFile.type });
+            formData.append('serviceId', response.serviceId.toString());
+            formData.append('data', blob, this.logoFile?.name); // Append the file
+            formData.append('logo', '1'); // This is the logo
+            console.log(formData);
+            this.serviceProfileService.saveServiceImages(formData).subscribe(
+              (imageResponse) => {
+                console.log('Logo uploaded successfully:', imageResponse);
+                // Assuming imageResponse contains the success message as plain text
+                if (imageResponse && typeof imageResponse === 'string') {
+                  console.log('Server response:', imageResponse);
+                  // Handle the success message as needed
+                } else {
+                  console.error('Invalid server response:', imageResponse);
+                }
+              },
+              (imageError) => {
+                console.error('Error adding logo:', imageError);
               }
+            );
+          }
               // Check if products exist and add them
               // if (this.products && this.products.length > 0) {
               //   this.products.forEach((product) => {

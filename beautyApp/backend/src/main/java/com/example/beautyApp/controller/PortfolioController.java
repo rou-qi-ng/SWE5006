@@ -21,11 +21,11 @@ public class PortfolioController {
     private static final Logger log = LoggerFactory.getLogger(PortfolioController.class);
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("serviceId") int serviceId, @RequestParam("data") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestParam("serviceId") int serviceId, @RequestParam("data") MultipartFile file, @RequestParam("logo") int logo) {
         try {
             if (String.valueOf(serviceId) != null) {
                 log.info("Service ID: {}", serviceId);
-                portfolioManager.saveFile(serviceId, file);
+                portfolioManager.saveFile(serviceId, file, logo);
                 return ResponseEntity.ok("File uploaded successfully");
             }
             else {
