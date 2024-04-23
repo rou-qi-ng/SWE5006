@@ -18,10 +18,10 @@ public class PricingManager {
     private ServiceProfileRepository serviceProfileRepository;
 
     public void saveAllPricing(List<Pricing> pricingList) {
-        for (Pricing pricing : pricingList) {
-            ServiceProfile serviceProfile = serviceProfileRepository.findByServiceId(pricing.getServiceProfile());
-            pricing.setServiceProfile(serviceProfile);
-        }
+//        for (Pricing pricing : pricingList) {
+//            ServiceProfile serviceProfile = serviceProfileRepository.findByServiceId(pricing.getServiceProfile());
+//            pricing.setServiceProfile(serviceProfile);
+//        }
         pricingRepository.saveAll(pricingList);
     }
 
