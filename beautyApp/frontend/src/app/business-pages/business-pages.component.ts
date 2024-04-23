@@ -42,6 +42,7 @@ export class BusinessPagesComponent {
   pricing: Pricing[] | null = null;
   portfolioData: Portfolio[] = [];
   images: any[] = [];
+  image: any[] = [];
   successMessage: string | null = null;
   errorMessage: string | null = null;
   userId: number | null = null; 
@@ -176,6 +177,21 @@ loadPortfolioData(): void {
             console.error('Error fetching Images:', error);
         }
     );
+
+    this.serviceProfileService.getImagesBlob1(this.serviceId).subscribe(
+      (data: any[]) => {
+          this.image = data;
+          console.log('Images Details:', this.images);
+
+          // Run change detection within ngZone
+          this.ngZone.run(() => {
+              this.cdr.detectChanges();
+          });
+      },
+      (error: any) => {
+          console.error('Error fetching Images:', error);
+      }
+  );
 }
 }
 

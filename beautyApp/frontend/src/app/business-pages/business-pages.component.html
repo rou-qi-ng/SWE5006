@@ -61,7 +61,7 @@
           </mat-form-field>
           <br />
           <mat-card-header *ngIf="serviceId !== null && products1 != null && products1.length > 0">
-            <mat-card-subtitle>Service Menu (Current Pricing List)</mat-card-subtitle>
+            <mat-card-subtitle>Service Menu (Finalised List)</mat-card-subtitle>
           </mat-card-header>
           <table class="table table-stripped" *ngIf="serviceId !== null && products1 != null && products1.length > 0">
             <thead>
@@ -87,7 +87,7 @@
           </table>
           <ng-container>
             <mat-card-header>
-              <mat-card-subtitle>Service Menu (Pricing List Additional Changes)</mat-card-subtitle>
+              <mat-card-subtitle>Service Menu (Draft)</mat-card-subtitle>
             </mat-card-header>
             <table class="table table-stripped" >
               <thead>
@@ -162,9 +162,20 @@
               <input type="file" id="logoInput" name="logoInput" (change)="onLogoSelected($event)" accept="image/*" />
             </button>
           </div>
-
-
-          <mat-card-header>
+          <div class="image-container">
+          <div *ngIf="serviceId !== null">
+            <div class="image-container">
+              <div *ngFor="let photo of image">
+                <img [src]="getBlobUrl(photo.portfolioData)" alt="Portfolio Image" class="profile-image" />
+                <button  class="delete-button" mat-icon-button color="warn" (click)="deletePhoto(photo.portfolioId)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+          <br>
+          <mat-card-header class="portfolio-header">
             <mat-card-subtitle>Portfolio</mat-card-subtitle>
           </mat-card-header>
 
@@ -173,11 +184,7 @@
               <input type="file" multiple (change)="onPortfolioSelected($event)" accept="image/*" />
             </button>
           </div>
-
- 
-
-   
-
+          
           <div *ngIf="serviceId !== null">
             <div class="image-container">
               <div *ngFor="let photo of images">

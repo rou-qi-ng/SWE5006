@@ -13,7 +13,7 @@ import { UserService } from '../services/user.service';
 })
 export class ManageBusinessPagesComponent {
   service: ServiceProfile[] | undefined;
-  serviceStatus: string;
+  serviceStatus: string[] | null = null;
   successMessage: string | null = null;
   errorMessage: string | null = null;
   userId: number | null = null; 
@@ -23,7 +23,7 @@ export class ManageBusinessPagesComponent {
     private availabilityService: AvailabilityService,
     private userService: UserService,
      private router: Router) {
-      this.serviceStatus = "";
+    
   }
 
   ngOnInit(): void {
@@ -51,10 +51,16 @@ export class ManageBusinessPagesComponent {
   private getService() {
     this.serviceProfileService.getServiceList(this.userId??11).subscribe(data => {
       this.service = data;
+      data.forEach((product) => {
+        this.availabilityService.getServiceStatus(product?.serviceId ?? 0).subscribe(data1 => {
+          console.log(data1);
+          product.serviceStatus = data1[0]["availabilityStatus"] || "N";
+        }); 
+        console.log(this.service);   
+        });
     });
-    this.availabilityService.getServiceStatus(this.userId??11).subscribe(data => {
-      this.serviceStatus = data['availabilityStatus'];
-    });
+    
+
   }
 
   updateService(id: number) {
@@ -62,14 +68,14 @@ export class ManageBusinessPagesComponent {
   }
 
   disableService(id: number) {
-    this.availabilityService.updateServiceStatus(this.userId??11 ).subscribe(data => {
+    this.availabilityService.updateServiceStatus(id??0).subscribe(data => {
       this.getService();
     });
     window.location.reload();
   }
 
   enableService(id: number) {
-    this.availabilityService.updateServiceStatus(this.userId?? 11 ).subscribe(data => {
+    this.availabilityService.updateServiceStatus(id??0).subscribe(data => {
       this.getService();
     });
     window.location.reload();

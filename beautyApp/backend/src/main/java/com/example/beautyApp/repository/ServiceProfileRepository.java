@@ -30,6 +30,9 @@ public interface ServiceProfileRepository extends JpaRepository<ServiceProfile, 
     @Query("SELECT i FROM Portfolio i JOIN ServiceProfile sp ON i.portfolioServiceId = sp.serviceId WHERE i.portfolioServiceId = :serviceId")
     List<Portfolio> findImagesByServiceId(@Param("serviceId") int serviceId);
 
+    @Query("SELECT i FROM Portfolio i JOIN ServiceProfile sp ON i.portfolioServiceId = sp.serviceId WHERE i.portfolioServiceId = :serviceId and i.portfolioLogo = 1")
+    List<Portfolio> findProfileImageServiceId(@Param("serviceId") int serviceId);
+
     @Query("SELECT i FROM Portfolio i JOIN ServiceProfile sp ON i.portfolioServiceId = sp.serviceId WHERE i.portfolioServiceId = :serviceId AND i.portfolioLogo = 1 ORDER BY i.portfolioId ASC LIMIT 1")
     List<Portfolio> findFirstLogoByServiceId(@Param("serviceId") int serviceId);
 
@@ -39,6 +42,9 @@ public interface ServiceProfileRepository extends JpaRepository<ServiceProfile, 
 
     @Query("SELECT p FROM Pricing p WHERE p.serviceProfile.serviceId = :serviceId")
     List<Pricing> findPricingsByServiceId(@Param("serviceId") int serviceId);
+
+    @Query("SELECT p FROM Pricing p WHERE p.pricingId = :serviceId")
+    List<Pricing> findPricingsByPricingId(@Param("serviceId") int serviceId);
 
     @Query("SELECT r FROM Review r WHERE r.serviceProfile.serviceId = :serviceId")
     List<Review> findReviewsByServiceId(@Param("serviceId") int serviceId);

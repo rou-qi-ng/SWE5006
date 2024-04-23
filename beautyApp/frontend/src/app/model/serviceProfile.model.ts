@@ -5,4 +5,5 @@ export class ServiceProfile {
     serviceDescription!: string;
     serviceName!: string;
     // images: string | null = null;
+    serviceStatus?: string | null;
 }
