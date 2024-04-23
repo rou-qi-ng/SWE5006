@@ -127,16 +127,16 @@ public class ServiceProfileController {
     }
 
     @GetMapping("/getServiceStatus")
-    public ResponseEntity<Map<String, String>> getServiceStatus(@RequestParam int serviceId) {
+    public ResponseEntity<List<Availability>> getServiceStatus(@RequestParam int serviceId) {
         log.info("ID: " + serviceId);
-        Optional<Availability> s = serviceProfileManager.getServiceStatus(serviceId);
+        List<Availability> s = serviceProfileManager.getServiceStatus(serviceId);
         log.info(String.valueOf(s));
 
-        if (s.isPresent()) {
-            log.info(s.get().getAvailabilityStatus());
-            Map<String, String> response = new HashMap<>();
-            response.put("availabilityStatus", s.get().getAvailabilityStatus());
-            return new ResponseEntity<>(response, HttpStatus.OK);
+        if (!s.isEmpty()) {
+//            log.info(s.get().getAvailabilityStatus());
+//            Map<String, String> response = new HashMap<>();
+//            response.put("availabilityStatus", s.get().getAvailabilityStatus());
+            return new ResponseEntity<>(s, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -178,6 +178,16 @@ public class ServiceProfileController {
         }
     }
 
+    @GetMapping("/{serviceId}/portfolio1")
+    public ResponseEntity<List<Portfolio>> getProfileImageByServiceId(@PathVariable("serviceId") int serviceId) {
+        List<Portfolio> images = serviceFacade.getProfileImageByServiceId(serviceId);
+        if (!images.isEmpty()) {
+            return ResponseEntity.ok(images);
+        } else {
+            return ResponseEntity.ok(null);
+        }
+    }
+
     @GetMapping("/{serviceId}/portfolioLogo")
     public ResponseEntity<List<Portfolio>> getFirstLogoByServiceId(@PathVariable("serviceId") int serviceId) {
         List<Portfolio> images = serviceFacade.getFirstLogoByServiceId(serviceId);
@@ -201,13 +211,25 @@ public class ServiceProfileController {
     @GetMapping("/{serviceId}/pricing")
     public ResponseEntity<List<Pricing>> getAllPricingsByServiceId(@PathVariable("serviceId") int serviceId) {
         List<Pricing> pricings = serviceFacade.getAllPricingsByServiceId(serviceId);
+//        log.info("hoi"+pricings);
+        log.info("hoi"+serviceId);
+        if (!pricings.isEmpty()) {
+            return ResponseEntity.ok(pricings);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{serviceId}/pricing1")
+    public ResponseEntity<List<Pricing>> getAllPricingsByPricingId(@PathVariable("serviceId") int serviceId) {
+        List<Pricing> pricings = serviceFacade.getAllPricingsByPricingId(serviceId);
 //        log.info("hoi"+pricings.toString());
         log.info("hoi"+serviceId);
-//        if (!pricings.isEmpty()) {
+        if (!pricings.isEmpty()) {
             return ResponseEntity.ok(pricings);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/{serviceId}/review")

@@ -94,6 +94,10 @@ public class ServiceProfileManager {
         return serviceProfileRepository.findImagesByServiceId(serviceId);
     }
 
+    public List<Portfolio> getProfileImageByServiceId(int serviceId) {
+        return serviceProfileRepository.findProfileImageServiceId(serviceId);
+    }
+
     public List<Portfolio> getFirstLogoByServiceId(int serviceId) {
         return serviceProfileRepository.findFirstLogoByServiceId(serviceId);
     }
@@ -103,8 +107,11 @@ public class ServiceProfileManager {
     }
     
     public List<Pricing> getAllPricingsByServiceId(int serviceId) {
-        log.info(String.valueOf(serviceId));
         return serviceProfileRepository.findPricingsByServiceId(serviceId);
+    }
+
+    public List<Pricing> getAllPricingsByPricingId(int serviceId) {
+        return serviceProfileRepository.findPricingsByPricingId(serviceId);
     }
 
     public List<Review> getAllReviewsByServiceId(int serviceId) {
@@ -115,8 +122,8 @@ public class ServiceProfileManager {
         return serviceProfileRepository.findServiceProfilesByUserId(userId);
     }
 
-    public Optional<Availability> getServiceStatus(int serviceId) {
-        return availabilityRepository.findFirstByAvailabilityServiceId(serviceId);
+    public List<Availability> getServiceStatus(int serviceId) {
+        return availabilityRepository.findByAvailabilityServiceId(serviceId);
     }
 
     @Transactional

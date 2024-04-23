@@ -136,3 +136,20 @@ mat-card{
 #productAddon {
   width: 100%;
 }
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile-image {
+  width: 100px; /* Adjust as needed */
+  height: auto; /* Preserve aspect ratio */
+  margin-right: 10px; /* Add spacing between images */
+}
+
+.portfolio-header {
+  /* align-self: flex-start; Ensure the header is positioned after the image container */
+  margin-top: 20px; /* Add spacing between the image container and the header */
+  display: block;
+}

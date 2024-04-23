@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pricing } from '../../model/pricing.model';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-update-pricing-page',
@@ -22,7 +23,8 @@ export class UpdatePricingPageComponent implements OnInit {
               private route: ActivatedRoute,
               private formBuilder: FormBuilder, 
               private http: HttpClient,
-              private pricingService: PricingService ) {}
+              private pricingService: PricingService,
+              private location: Location ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -37,7 +39,7 @@ export class UpdatePricingPageComponent implements OnInit {
 
     // Fetch pricing data only if pricingId is defined
     if (this.pricingId !== null) {
-      this.pricingService.getPricings(this.pricingId).subscribe(
+      this.pricingService.getPricings1(this.pricingId).subscribe(
         (response: Pricing[]) => {
           if (response && response.length > 0) {
             this.products = response[0];
@@ -75,13 +77,15 @@ export class UpdatePricingPageComponent implements OnInit {
           console.log('Pricing updated successfully:', response);
           this.successMessage = 'Service details saved successfully.';
           this.errorMessage = null;
-          this.router.navigate(['business', newPricing.pricingServiceId]);
+          //this.router.navigate(['business', this.products?.pricingServiceId || 0]);
+          this.location.back();
         },
         (error) => {
-          console.error('Error updating pricing:', error);
+          console.error('Error updating pricing:', newPricing.pricingServiceId);
           // this.successMessage = null;
           // this.errorMessage = "Error updating";
-          this.router.navigate(['business', newPricing.pricingServiceId]);
+          //this.router.navigate(['business', this.products?.pricingServiceId || 0]);
+          this.location.back();
         }
       );
     } else {

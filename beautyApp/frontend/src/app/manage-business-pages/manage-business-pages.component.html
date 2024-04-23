@@ -20,8 +20,8 @@
                     <td> {{ s.serviceLocation }} </td>
                     <td>
                         <button (click) = "updateService(s.serviceId)" class="btn btn-info">Update</button>
-                        <button *ngIf="serviceStatus === 'Y'" (click)="disableService(s.serviceId)" class="btn btn-warning">Disable</button>
-                        <button *ngIf="serviceStatus !== 'Y'" (click)="enableService(s.serviceId)" class="btn btn-warning">Enable</button>
+                        <button *ngIf="s.serviceStatus === 'Y'" (click)="disableService(s.serviceId)" class="btn btn-warning">Disable</button>
+                        <button *ngIf="s.serviceStatus !== 'Y'" (click)="enableService(s.serviceId)" class="btn btn-warning">Enable</button>
                         <button (click) = "deleteService(s.serviceId)" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
