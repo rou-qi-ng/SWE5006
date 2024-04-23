@@ -54,7 +54,7 @@ public class ServiceProfileManager {
         return serviceProfileRepository.findByServiceLocationAndServiceTypeAndServiceDescriptionAndServiceName(s.getServiceLocation(), s.getServiceType(), s.getServiceDescription(), s.getServiceName());
     }
 
-    public ServiceProfile saveServiceProfile(ServiceProfile serviceProfile,  List<Pricing> pricingList) {
+    public ServiceProfile saveServiceProfile(ServiceProfile serviceProfile,  List<Pricing> pricingList, Integer id) {
         ServiceProfile newService  = serviceProfileRepository.save(serviceProfile);
         log.info(String.valueOf(newService));
         if (pricingList != null){
@@ -82,6 +82,10 @@ public class ServiceProfileManager {
         availability.setAvailabilityServiceId(newService.getServiceId());
         availability.setAvailabilityStatus("Y");
         availabilityRepository.save(availability);
+        Business business = new Business(id, newService.getServiceId());
+//        business.setUserId(11);
+//        business.setServiceId(newService.getServiceId());
+        businessRepository.save(business);
         return newService;
     }
 
@@ -171,6 +175,7 @@ public class ServiceProfileManager {
 
     @Transactional
     public void updateServiceProfile(ServiceProfile serviceProfile) {
+        log.info(String.valueOf(serviceProfile));
         serviceProfileRepository.save(serviceProfile);
     }
 

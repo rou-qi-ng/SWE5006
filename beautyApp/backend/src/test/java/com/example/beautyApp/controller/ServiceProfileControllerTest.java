@@ -139,15 +139,15 @@ public class ServiceProfileControllerTest {
         ServiceProfile serviceProfile = new ServiceProfile(); // Create a service profile for testing
         List<Pricing> pricingList = new ArrayList<>(); // Create a list of pricings
         ServiceProfileWithPricing combinedData = new ServiceProfileWithPricing(serviceProfile, pricingList);
-        when(serviceProfileManager.saveServiceProfile(serviceProfile, pricingList)).thenReturn(serviceProfile); // Mock the behavior of serviceProfileManager.saveServiceProfile
+        when(serviceProfileManager.saveServiceProfile(serviceProfile, pricingList, 11)).thenReturn(serviceProfile); // Mock the behavior of serviceProfileManager.saveServiceProfile
 
         // Act
-        ResponseEntity<ServiceProfile> response = serviceProfileController.addServiceProfile(combinedData);
+        ResponseEntity<ServiceProfile> response = serviceProfileController.addServiceProfile(combinedData, 11);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(serviceProfile, response.getBody());
-        verify(serviceProfileManager, times(1)).saveServiceProfile(serviceProfile, pricingList); // Verify that the saveServiceProfile method is called once
+        verify(serviceProfileManager, times(1)).saveServiceProfile(serviceProfile, pricingList, 11); // Verify that the saveServiceProfile method is called once
     }
 
     @Test
@@ -156,14 +156,14 @@ public class ServiceProfileControllerTest {
         ServiceProfile serviceProfile = new ServiceProfile(); // Create a service profile for testing
         List<Pricing> pricingList = new ArrayList<>(); // Create a list of pricings
         ServiceProfileWithPricing combinedData = new ServiceProfileWithPricing(serviceProfile, pricingList);
-        when(serviceProfileManager.saveServiceProfile(serviceProfile, pricingList)).thenReturn(null); // Mock the behavior of serviceProfileManager.saveServiceProfile
+        when(serviceProfileManager.saveServiceProfile(serviceProfile, pricingList, 11)).thenReturn(null); // Mock the behavior of serviceProfileManager.saveServiceProfile
 
         // Act
-        ResponseEntity<ServiceProfile> response = serviceProfileController.addServiceProfile(combinedData);
+        ResponseEntity<ServiceProfile> response = serviceProfileController.addServiceProfile(combinedData, 11);
 
         // Assert
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        verify(serviceProfileManager, times(1)).saveServiceProfile(serviceProfile, pricingList); // Verify that the saveServiceProfile method is called once
+        verify(serviceProfileManager, times(1)).saveServiceProfile(serviceProfile, pricingList, 11); // Verify that the saveServiceProfile method is called once
     }
 
     @Test

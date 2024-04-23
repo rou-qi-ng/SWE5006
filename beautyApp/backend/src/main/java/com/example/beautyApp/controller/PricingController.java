@@ -2,6 +2,7 @@ package com.example.beautyApp.controller;
 
 import com.example.beautyApp.manager.PricingManager;
 import com.example.beautyApp.model.Pricing;
+import com.example.beautyApp.model.ServiceProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,15 @@ public class PricingController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addPricing(@RequestBody List<Pricing> pricingList) {
-        try {
+//        try {
             log.info("**************************");
             log.info(pricingList.toString());
             pricingManager.saveAllPricing(pricingList);
             return ResponseEntity.status(HttpStatus.CREATED).body("Pricing records added successfully");
 
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+//        } catch (Exception e) {
+//            return ResponseEntity.notFound().build();
+//        }
     }
 
     @PostMapping("/delete")

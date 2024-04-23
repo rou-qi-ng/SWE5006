@@ -59,6 +59,7 @@ public class ServiceProfileController {
         try {
             log.info("************************** updating");
             serviceProfileManager.updateServiceProfile(serviceProfile);
+            log.info("************************** updating");
             return ResponseEntity.ok("Success");
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -79,8 +80,8 @@ public class ServiceProfileController {
 
 
 // Endpoint to insert a new service profile
-    @PostMapping("/add")
-    public ResponseEntity<ServiceProfile> addServiceProfile(@RequestBody ServiceProfileWithPricing combinedData) {
+    @PostMapping("/add/{id}")
+    public ResponseEntity<ServiceProfile> addServiceProfile(@RequestBody ServiceProfileWithPricing combinedData, @PathVariable("id") int id) {
         ServiceProfile serviceProfile = combinedData.getServiceProfile();
         //List<Pricing> pricingList = new ArrayList<>();
         List<Pricing> pricingList = combinedData.getPricingList();
@@ -90,8 +91,8 @@ public class ServiceProfileController {
         log.info("Received new service profile: {}", combinedData.toString());
         log.info("Received new service profile: {}", serviceProfile);
         log.info("Received new service profile pricing: {}", pricingList);
-
-        ServiceProfile savedServiceProfile = serviceProfileManager.saveServiceProfile(serviceProfile, pricingList);
+        log.info("user id is "+id);
+        ServiceProfile savedServiceProfile = serviceProfileManager.saveServiceProfile(serviceProfile, pricingList, id);
         if (savedServiceProfile != null) {
             return new ResponseEntity<>(savedServiceProfile, HttpStatus.CREATED);
         } else {
@@ -200,6 +201,8 @@ public class ServiceProfileController {
     @GetMapping("/{serviceId}/pricing")
     public ResponseEntity<List<Pricing>> getAllPricingsByServiceId(@PathVariable("serviceId") int serviceId) {
         List<Pricing> pricings = serviceFacade.getAllPricingsByServiceId(serviceId);
+//        log.info("hoi"+pricings.toString());
+        log.info("hoi"+serviceId);
         if (!pricings.isEmpty()) {
             return ResponseEntity.ok(pricings);
         } else {
