@@ -1,3 +1,6 @@
 beautyApp/.idea/*
 beautyApp/backend/target/
 /node_modules
+.idea/modules.xml
+.idea/nus_git.iml
+.idea/workspace.xml

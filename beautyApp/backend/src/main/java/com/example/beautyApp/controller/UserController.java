@@ -6,6 +6,7 @@ import com.example.beautyApp.model.TB_Service;
 import com.example.beautyApp.model.TB_User;
 import com.example.beautyApp.model.TB_UserSession;
 import com.example.beautyApp.repository.ReferralRepository;
+import com.example.beautyApp.repository.ServiceProfileRepository;
 import com.example.beautyApp.repository.UserRepository;
 import com.example.beautyApp.request.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +44,9 @@ public class UserController {
 
     @Autowired
     private AppointmentManager appointmentManager;
+
+    @Autowired
+    private ServiceProfileManager serviceProfileManager;
 
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception {
@@ -169,15 +175,18 @@ public class UserController {
         List<?> voucher = voucherManager.getVoucher(token);
         String referral = referralManager.getCode(token);
         List<?> appointment = appointmentManager.getAppt(token);
+        List<?> business = serviceProfileManager.findMyService(token);
 
-//        System.out.println(data);
+//        System.out.println(String.valueOf(business));
+//        log.info(String.valueOf(newService));
 
         return ResponseEntity.status(HttpStatus.OK).body(Map.of(
                 "statusCode", "200",
                 "message", "Success",
                 "vouchers", voucher,
                 "referral", referral,
-                "appointment", appointment
+                "appointment", appointment,
+                "business", business
 
         ));
 //        return code;

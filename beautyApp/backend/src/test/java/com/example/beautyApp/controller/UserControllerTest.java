@@ -5,13 +5,7 @@ import com.example.beautyApp.model.TB_Customer;
 import com.example.beautyApp.model.TB_Service;
 import com.example.beautyApp.model.TB_User;
 import com.example.beautyApp.model.TB_UserSession;
-import com.example.beautyApp.request.AppointmentDTO;
-import com.example.beautyApp.request.CustomerRequest;
-import com.example.beautyApp.request.LoginRequest;
-import com.example.beautyApp.request.RoleRequest;
-import com.example.beautyApp.request.SessionRequest;
-import com.example.beautyApp.request.SignUpRequest;
-import com.example.beautyApp.request.VoucherDTO;
+import com.example.beautyApp.request.*;
 import com.example.beautyApp.request.AppointmentDTO;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -47,6 +41,9 @@ public class UserControllerTest {
 
     @Mock
     private AppointmentManager appointmentManager;
+
+    @Mock
+    private ServiceProfileManager serviceProfileManager;
 
 
     // Other mocked dependencies...
@@ -280,12 +277,17 @@ public class UserControllerTest {
         String token = "testToken";
         List<VoucherDTO> expectedVouchers = List.of(); // Explicitly defined as List<VoucherDTO>
         String expectedReferral = "referralCode";
+        List<?> expectedBusiness = new ArrayList<>();
+
+
         // Define expectedAppointments as List of the specific type expected by appointmentManager.getAppt
         List<AppointmentDTO> expectedAppointments = List.of(); // Define explicitly as List<AppointmentDTO>
         
         // Mock the behavior of the managers
         when(voucherManager.getVoucher(token)).thenReturn(expectedVouchers);
         when(referralManager.getCode(token)).thenReturn(expectedReferral);
+        when(serviceProfileManager.findMyService(token)).thenReturn(new ArrayList<>());
+
         // Use doReturn().when() for appointmentManager.getAppt(token)
         Mockito.doReturn(expectedAppointments).when(appointmentManager).getAppt(token);
         

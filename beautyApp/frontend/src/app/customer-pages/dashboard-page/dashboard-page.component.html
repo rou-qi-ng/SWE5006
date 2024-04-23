@@ -49,6 +49,22 @@
             </mat-card>
 
             <mat-card>
+              <mat-card-header>
+                <mat-card-title>My Business</mat-card-title>
+                <!-- <mat-card-subtitle>test</mat-card-subtitle> -->
+              </mat-card-header>
+              <div *ngFor="let business of businesses">
+              <mat-card-content>
+                <div class="appointment">
+                  <div class="datetime" style="cursor: pointer;"  (click)= "routeBusiness(business.serviceId)">{{business.serviceName}}</div>
+                  <!-- <div class="salon-name"  style="cursor: pointer;" (click)= "routeBusiness(appointment.appointmentServiceId)" >{{appointment.appointmentName}}</div> -->
+                </div>
+              </mat-card-content>
+            </div>
+             
+          </mat-card>
+
+            <mat-card>
                 <mat-card-header>
                   <mat-card-title> Available Voucher</mat-card-title>
                   <!-- <mat-card-subtitle>test</mat-card-subtitle> -->
