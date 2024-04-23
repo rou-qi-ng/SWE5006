@@ -14,7 +14,7 @@ export class AuthenticationClient {
     localStorage.setItem('username', username );
     return this.http.post(
     //   environment.apiUrl + '/user/login',
-        environment.apiUrl + '/login',
+        environment.apiUrl + '/beautyApp/api/login',
       {
         username: username,
         password: password,
@@ -30,7 +30,7 @@ export class AuthenticationClient {
     password: string
   ): Observable<string> {
     return this.http.post(
-      environment.apiUrl + '/register',
+      environment.apiUrl + '/beautyApp/api/register',
       {
         username: username,
         email: email,
@@ -46,7 +46,7 @@ export class AuthenticationClient {
     username: string,
   ): Observable<string> {
     return this.http.post(
-      environment.apiUrl + '/saveSession',
+      environment.apiUrl + '/beautyApp/api/saveSession',
       {
         token: token,
         username: username,
@@ -62,7 +62,7 @@ export class AuthenticationClient {
     // localStorage.setItem('username', username );
     return this.http.post(
     //   environment.apiUrl + '/user/login',
-      environment.apiUrl + '/findRole',
+      environment.apiUrl + '/beautyApp/api/findRole',
       {
         token: token,
       },

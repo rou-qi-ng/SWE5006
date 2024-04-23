@@ -55,6 +55,7 @@
       <div class="review-card">
         <div class="review-card-header">
           <div class="review-card-title">Reviews</div>
+          <button class="add-review-button" (click)="navigateToAddReview()">Add Review</button>
         </div>
         
         <div *ngIf="loading" class="review-card-loading">
@@ -72,6 +73,7 @@
           <!-- Regular Reviews -->
           <div *ngFor="let review of reviews" class="review-card">
             <div class="review-details">
+              <div class="username">{{ review.reviewUsername }}</div>
               <div class="date">{{ review.reviewCreatedDate | date:'dd MMMM yyyy' }}</div>
               <div> 
                 <ng-container *ngFor="let _ of [].constructor(review.reviewRating); let i = index">

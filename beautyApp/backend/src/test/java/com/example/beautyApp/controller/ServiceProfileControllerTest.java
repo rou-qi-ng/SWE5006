@@ -1,5 +1,6 @@
 package com.example.beautyApp.controller;
 
+import com.example.beautyApp.facade.ServiceFacade;
 import com.example.beautyApp.manager.*;
 import com.example.beautyApp.model.*;
 import com.example.beautyApp.repository.*;
@@ -35,6 +36,10 @@ public class ServiceProfileControllerTest {
 
     @Mock
     private PortfolioController portfolioController;
+
+    @Mock
+    private ServiceFacade serviceFacade;
+
 
 
 
@@ -317,6 +322,93 @@ public class ServiceProfileControllerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals("Failed to delete portfolio photo", response.getBody());
         verify(serviceProfileManager, times(1)).deletePortfolioPhoto(photoId);
+    }
+
+
+    @Test
+    void testGetAllImagesByServiceId_Success() {
+        // Arrange
+        int serviceId = 1;
+        Portfolio portfolio = new Portfolio();
+        List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
+        images.add(portfolio);
+        when(serviceFacade.getAllImagesByServiceId(serviceId)).thenReturn(images);
+
+        // Act
+        ResponseEntity<List<Portfolio>> response = serviceProfileController.getAllImagesByServiceId(serviceId);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(images, response.getBody());
+    }
+
+    @Test
+    void testGetAllImagesByServiceId_NotFound() {
+        int serviceId = 1;
+        List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
+        when(serviceFacade.getAllImagesByServiceId(serviceId)).thenReturn(images);
+
+        ResponseEntity<List<Portfolio>> response = serviceProfileController.getAllImagesByServiceId(serviceId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(null, response.getBody());
+    }
+
+    @Test
+    void testGetFirstLogoByServiceId_Success() {
+        int serviceId = 1;
+        Portfolio portfolio = new Portfolio();
+        List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
+        images.add(portfolio);
+        when(serviceFacade.getFirstLogoByServiceId(serviceId)).thenReturn(images);
+
+        ResponseEntity<List<Portfolio>> response = serviceProfileController.getFirstLogoByServiceId(serviceId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(images, response.getBody());
+    }
+
+    @Test
+    void testGetPortfolioImagesByServiceId_Success() {
+        int serviceId = 1;
+        Portfolio portfolio = new Portfolio();
+        List<Portfolio> images = new ArrayList<>(); // Add some portfolio items here
+        images.add(portfolio);
+        when(serviceFacade.getPortfolioImagesByServiceId(serviceId)).thenReturn(images);
+
+        ResponseEntity<List<Portfolio>> response = serviceProfileController.getPortfolioImagesByServiceId(serviceId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(images, response.getBody());
+    }
+
+    @Test
+    void testGetAllPricingsByServiceId_Success() {
+        int serviceId = 1;
+        Pricing pricing = new Pricing();
+        List<Pricing> pricings = new ArrayList<>(); // Add some pricing items here
+        pricings.add(pricing);
+        when(serviceFacade.getAllPricingsByServiceId(serviceId)).thenReturn(pricings);
+
+        ResponseEntity<List<Pricing>> response = serviceProfileController.getAllPricingsByServiceId(serviceId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(pricings, response.getBody());
+    }
+
+
+    @Test
+    void testGetAllReviewsByServiceId_Success() {
+        int serviceId = 1;
+        Review review = new Review();
+        List<Review> reviews = new ArrayList<>(); // Add some review items here
+        reviews.add(review);
+        when(serviceFacade.getAllReviewsByServiceId(serviceId)).thenReturn(reviews);
+
+        ResponseEntity<List<Review>> response = serviceProfileController.getAllReviewsByServiceId(serviceId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(reviews, response.getBody());
     }
 
 }

@@ -8,7 +8,7 @@ import { LoginPageComponent } from './home-pages/login-page/login-page.component
 import { authGuard } from './helpers/auth.guard';
 import { ForbiddenPageComponent } from './forbidden-page/forbidden-page.component';
 import { BaseHomeComponent } from './home-pages/base-home/base-home.component';
-
+import { SettingsPageComponent } from './settings-page/settings-page.component';
 import { DashboardPageComponent } from './customer-pages/dashboard-page/dashboard-page.component';
 import { ServiceProfilePageComponent } from './customer-pages/serviceProfile-page/serviceProfile-page.component';
 import { SearchPageComponent } from './customer-pages/search-page/search-page.component';
@@ -19,6 +19,7 @@ import { ReviewPageComponent } from './customer-pages/review-page/review-page.co
 import { PortfolioPageComponent } from './portfolio-page/portfolio-page.component';
 import { ManageBusinessPagesComponent } from './manage-business-pages/manage-business-pages.component';
 import { UpdatePricingPageComponent } from './business-pages/update-pricing-page/update-pricing-page.component';
+import { NewReviewPageComponent } from './customer-pages/review-page/review-new-page/review-new-page.component';
 
 
 
@@ -123,10 +124,27 @@ const routes: Routes = [
       role:  ['admin','customer']
     }
   },
+  {
+    path: 'serviceProfile/:serviceId/review/new',
+    component: NewReviewPageComponent,
+    canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
+  },
 
   {
     path: 'portfolio',
     component: PortfolioPageComponent,
+    canActivate: [authGuard],
+    data: {
+      role:  ['admin','customer']
+    }
+
+  }, 
+  {
+    path: 'settings',
+    component: SettingsPageComponent,
     canActivate: [authGuard],
     data: {
       role:  ['admin','customer']

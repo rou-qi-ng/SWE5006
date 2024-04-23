@@ -25,6 +25,21 @@ public class TB_UserSession {
     @Column(name = "user_id")
     private Integer userId;
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
 
 

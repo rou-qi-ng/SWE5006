@@ -17,11 +17,11 @@ import lombok.*;
 public class TB_Referral {
     @Id
     @NonNull
-    @Column(name = "service_id")
-    private Integer serviceId;
+    @Column(name = "user_id")
+    private Integer userId;
 
     @NonNull
-    @Column(name = "code")
-    private String code;
+    @Column(name = "referral_code")
+    private String referralCode;
 
 }

@@ -3,6 +3,8 @@ package com.example.beautyApp.controller;
 import com.example.beautyApp.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.example.beautyApp.manager.ReviewManager;
 import com.example.beautyApp.manager.ServiceProfileManager;
 import com.example.beautyApp.model.Portfolio;
 import com.example.beautyApp.model.Pricing;
@@ -10,6 +12,7 @@ import com.example.beautyApp.model.Review;
 import com.example.beautyApp.model.ServiceProfile;
 import com.example.beautyApp.model.TB_User;
 import com.example.beautyApp.request.LoginRequest;
+import com.example.beautyApp.facade.ServiceFacade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.http.HttpStatus;
@@ -22,12 +25,24 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/serviceProfile")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class ServiceProfileController {
     private static final Logger log = LoggerFactory.getLogger(ServiceProfileController.class);
 
     @Autowired
     private ServiceProfileManager serviceProfileManager;
+
+    @Autowired
+    private ServiceFacade serviceFacade;
+
+    @Autowired
+    private ReviewManager reviewManager;
+    
+    public ServiceProfileController(ServiceFacade serviceFacade, ServiceProfileManager serviceProfileManager, ReviewManager reviewManager) {
+        this.serviceFacade = serviceFacade;
+        this.serviceProfileManager = serviceProfileManager;
+        this.reviewManager = reviewManager;
+    }
 
     @GetMapping("/{serviceId}")
     public ResponseEntity<ServiceProfile> getServiceProfileById(@PathVariable("serviceId") int serviceId) {
@@ -84,56 +99,6 @@ public class ServiceProfileController {
             return ResponseEntity.notFound().build();
         }
 
-    }
-
-    @GetMapping("/{serviceId}/portfolio")
-    public ResponseEntity<List<Portfolio>> getAllImagesByServiceId(@PathVariable("serviceId") int serviceId) {
-        List<Portfolio> images = serviceProfileManager.getAllImagesByServiceId(serviceId);
-        if (!images.isEmpty()) {
-            return ResponseEntity.ok(images);
-        } else {
-            return ResponseEntity.ok(null);
-        }
-    }
-
-    @GetMapping("/{serviceId}/portfolioLogo")
-    public ResponseEntity<List<Portfolio>> getFirstLogoByServiceId(@PathVariable("serviceId") int serviceId) {
-        List<Portfolio> images = serviceProfileManager.getFirstLogoByServiceId(serviceId);
-        if (!images.isEmpty()) {
-            return ResponseEntity.ok(images);
-        } else {
-            return ResponseEntity.ok(null);
-        }
-    }
-
-    @GetMapping("/{serviceId}/portfolioImages")
-    public ResponseEntity<List<Portfolio>> getPortfolioImagesByServiceId(@PathVariable("serviceId") int serviceId) {
-        List<Portfolio> images = serviceProfileManager.getPortfolioImagesByServiceId(serviceId);
-        if (!images.isEmpty()) {
-            return ResponseEntity.ok(images);
-        } else {
-            return ResponseEntity.ok(null);
-        }
-    }
-
-    @GetMapping("/{serviceId}/pricing")
-    public ResponseEntity<List<Pricing>> getAllPricingsByServiceId(@PathVariable("serviceId") int serviceId) {
-        List<Pricing> pricings = serviceProfileManager.getAllPricingsByServiceId(serviceId);
-        if (!pricings.isEmpty()) {
-            return ResponseEntity.ok(pricings);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/{serviceId}/review")
-    public ResponseEntity<List<Review>> getAllReviewsByServiceId(@PathVariable("serviceId") int serviceId) {
-        List<Review> reviews = serviceProfileManager.getAllReviewsByServiceId(serviceId);
-        if (!reviews.isEmpty()) {
-            return ResponseEntity.ok(reviews);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @GetMapping("/getServiceList")
@@ -198,6 +163,58 @@ public class ServiceProfileController {
             return ResponseEntity.ok("Portfolio photo deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete portfolio photo");
+        }
+    }
+
+
+    // using ServiceFacade
+    @GetMapping("/{serviceId}/portfolio")
+    public ResponseEntity<List<Portfolio>> getAllImagesByServiceId(@PathVariable("serviceId") int serviceId) {
+        List<Portfolio> images = serviceFacade.getAllImagesByServiceId(serviceId);
+        if (!images.isEmpty()) {
+            return ResponseEntity.ok(images);
+        } else {
+            return ResponseEntity.ok(null);
+        }
+    }
+
+    @GetMapping("/{serviceId}/portfolioLogo")
+    public ResponseEntity<List<Portfolio>> getFirstLogoByServiceId(@PathVariable("serviceId") int serviceId) {
+        List<Portfolio> images = serviceFacade.getFirstLogoByServiceId(serviceId);
+        if (!images.isEmpty()) {
+            return ResponseEntity.ok(images);
+        } else {
+            return ResponseEntity.ok(null);
+        }
+    }
+
+    @GetMapping("/{serviceId}/portfolioImages")
+    public ResponseEntity<List<Portfolio>> getPortfolioImagesByServiceId(@PathVariable("serviceId") int serviceId) {
+        List<Portfolio> images = serviceFacade.getPortfolioImagesByServiceId(serviceId);
+        if (!images.isEmpty()) {
+            return ResponseEntity.ok(images);
+        } else {
+            return ResponseEntity.ok(null);
+        }
+    }
+
+    @GetMapping("/{serviceId}/pricing")
+    public ResponseEntity<List<Pricing>> getAllPricingsByServiceId(@PathVariable("serviceId") int serviceId) {
+        List<Pricing> pricings = serviceFacade.getAllPricingsByServiceId(serviceId);
+        if (!pricings.isEmpty()) {
+            return ResponseEntity.ok(pricings);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{serviceId}/review")
+    public ResponseEntity<List<Review>> getAllReviewsByServiceId(@PathVariable("serviceId") int serviceId) {
+        List<Review> reviews = serviceFacade.getAllReviewsByServiceId(serviceId);
+        if (!reviews.isEmpty()) {
+            return ResponseEntity.ok(reviews);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }

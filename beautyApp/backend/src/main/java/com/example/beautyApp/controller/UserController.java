@@ -1,18 +1,15 @@
 package com.example.beautyApp.controller;
 
-import com.example.beautyApp.manager.ReferralManager;
-import com.example.beautyApp.manager.ServiceManager;
-import com.example.beautyApp.manager.UserManager;
+import com.example.beautyApp.manager.*;
+import com.example.beautyApp.model.TB_Customer;
 import com.example.beautyApp.model.TB_Service;
 import com.example.beautyApp.model.TB_User;
 import com.example.beautyApp.model.TB_UserSession;
 import com.example.beautyApp.repository.ReferralRepository;
 import com.example.beautyApp.repository.UserRepository;
-import com.example.beautyApp.request.LoginRequest;
-import com.example.beautyApp.request.RoleRequest;
-import com.example.beautyApp.request.SessionRequest;
-import com.example.beautyApp.request.SignUpRequest;
+import com.example.beautyApp.request.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -38,6 +35,12 @@ public class UserController {
 
     @Autowired
     private ReferralManager referralManager;
+
+    @Autowired
+    private VoucherManager voucherManager;
+
+    @Autowired
+    private AppointmentManager appointmentManager;
 
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception {
@@ -99,6 +102,18 @@ public class UserController {
 
     }
 
+    @PostMapping(path = "/updateCustomer")
+    public ResponseEntity<?> updateCustomer(@RequestBody CustomerRequest customerRequest) throws Exception {
+        Optional<TB_Customer> user = userManager.updateCustomer(customerRequest);
+        System.out.println(user);
+
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+                "statusCode", "200",
+                "message", "No existing functions"
+        ));
+
+    }
+
 
 
     @GetMapping(path = "/login")
@@ -120,9 +135,60 @@ public class UserController {
     }
 
     @GetMapping(path = "/getReferralCode")
-    public ResponseEntity<?> getReferralCode() throws Exception {
+    public ResponseEntity<?> getReferralCode(@Param("token") String token) throws Exception {
 
-        String code = referralManager.getCode("test");
+        String code = referralManager.getCode(token);
+        System.out.println(code);
+
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+                "statusCode", "200",
+                "message", "Success",
+                "data", code
+        ));
+
+    }
+
+    @GetMapping(path = "/getVoucher")
+    public ResponseEntity<?> getVoucher(@Param("token") String token) throws Exception {
+
+        List<VoucherDTO> data = voucherManager.getVoucher(token);
+        System.out.println(data);
+
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+                "statusCode", "200",
+                "message", "Success",
+                "vouchers",data
+
+        ));
+//        return code;
+    }
+
+    @GetMapping(path = "/loadSettings")
+    public ResponseEntity<?> loadSettings(@Param("token") String token) throws Exception {
+
+        List<?> voucher = voucherManager.getVoucher(token);
+        String referral = referralManager.getCode(token);
+        List<?> appointment = appointmentManager.getAppt(token);
+
+//        System.out.println(data);
+
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+                "statusCode", "200",
+                "message", "Success",
+                "vouchers", voucher,
+                "referral", referral,
+                "appointment", appointment
+
+        ));
+//        return code;
+    }
+
+
+    @GetMapping(path = "/getSetting")
+    public ResponseEntity<?> getSetting(@Param("token") String token) throws Exception {
+
+        Optional<TB_Customer> code = userManager.getSetting(token);
+
         System.out.println(code);
 
         return ResponseEntity.status(HttpStatus.OK).body(Map.of(
@@ -157,11 +223,16 @@ public class UserController {
         }
     }
 
-//    public TB_Service store(MultipartFile file) throws IOException {
-//        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//        TB_Service newFile = new TB_Service(1, fileName, "", "",file.getContentType(), file.getBytes());
-//
-//        return serviceRepository.save(newFile);
-//    }
+    @GetMapping("/getUsername")
+    public ResponseEntity<Optional<String>> getUsernameById(@RequestParam("userId") int id) {
+        Optional<String> username = userManager.getUsernameById(id);
+        if (username.isPresent()) {
+            return ResponseEntity.ok(username);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 
 }

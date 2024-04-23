@@ -72,7 +72,9 @@ export class SearchPageComponent implements OnInit {
   }
 
   returnToDashBoard():void{
-    this.router.navigate([""]);
+    this.router.navigate([""]).then(()=>{
+      window.location.reload();
+    });
   }
  
   logout(): void {

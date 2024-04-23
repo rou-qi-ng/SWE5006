@@ -24,7 +24,7 @@
         <div>
             <mat-card class="no-shadow">
                 <mat-card-header class="heading-title">
-                  <mat-card-title>Welcome {{user}}</mat-card-title>
+                  <mat-card-title>Welcome to BeautyApp! {{user}}</mat-card-title>
                 </mat-card-header>
                
             </mat-card>
@@ -37,6 +37,14 @@
                   <mat-card-title>Appointments</mat-card-title>
                   <!-- <mat-card-subtitle>test</mat-card-subtitle> -->
                 </mat-card-header>
+                <div *ngFor="let appointment of appointments">
+                <mat-card-content>
+                  <div class="appointment">
+                    <div class="datetime">{{appointment.appointmentDate}} - {{appointment.appointmentTime}}</div>
+                    <div class="salon-name"  style="cursor: pointer;" (click)= "routeService(appointment.appointmentServiceId)" >{{appointment.appointmentName}}</div>
+                  </div>
+                </mat-card-content>
+              </div>
                
             </mat-card>
 
@@ -44,16 +52,18 @@
                 <mat-card-header>
                   <mat-card-title> Available Voucher</mat-card-title>
                   <!-- <mat-card-subtitle>test</mat-card-subtitle> -->
+                  
                 </mat-card-header>
+                <div *ngFor="let voucher of vouchers">
+                  <mat-card style="color: aliceblue; margin-left: 0%; width:100%; background-color: grey;">
+                    <mat-card-title> {{voucher.voucherName}} </mat-card-title>
+                    <mat-card-subtitle>Code: {{voucher.voucherCode}} </mat-card-subtitle>
+                  </mat-card>
+                </div>
+              
                
             </mat-card>
-            <mat-card>
-                <mat-card-header>
-                  <mat-card-title> Top Picks </mat-card-title>
-                  <!-- <mat-card-subtitle>test</mat-card-subtitle> -->
-                </mat-card-header>
-               
-            </mat-card>
+       
 
             <mat-card>
                 <mat-card-header>
@@ -72,10 +82,17 @@
 
             <mat-card>
                 <mat-card-header>
-                  <mat-card-title> Account Settings</mat-card-title>
+                  <mat-card-title  (click) = "settingsPage()"  style="cursor: pointer;"> Account Settings</mat-card-title>
                 </mat-card-header>
                
             </mat-card>
+
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title  (click) = "registerPage()"  style="cursor: pointer;"> Register A Business</mat-card-title>
+              </mat-card-header>
+             
+          </mat-card>
 
             <mat-card>
                 <mat-card-header>

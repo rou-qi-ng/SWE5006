@@ -5,4 +5,5 @@ export class Review {
     reviewRating!: number;
     reviewDescription!: string;
     reviewCreatedDate!: Date;
+    reviewUsername: any;
 }

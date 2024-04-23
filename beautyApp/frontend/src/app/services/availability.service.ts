@@ -3,13 +3,15 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { Availability } from '../model/availability.model';
 import { Appointment } from '../model/appointment.model';
+import { Common } from '../envrionment.common';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AvailabilityService {
-  private baseUrl = "http://localhost:8401/beautyApp/api"; 
+  private baseUrl = environment.apiUrl + "/beautyApp/api"; 
 
   constructor(private httpClient: HttpClient) {}
 

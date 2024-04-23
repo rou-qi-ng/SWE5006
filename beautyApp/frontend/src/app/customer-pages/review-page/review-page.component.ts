@@ -7,6 +7,9 @@ import { ReviewService } from '../../services/review.service'; // Import the ser
 import { Review } from '../../model/review.model';
 import { ServiceProfileService } from '../../services/serviceProfile.service';
 import { ServiceProfile } from '../../model/serviceProfile.model';
+import { User } from '../../model/user.model';
+import { forkJoin, map } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-review-page',
@@ -28,7 +31,8 @@ export class ReviewPageComponent implements OnInit {
     private reviewService: ReviewService,
     private serviceProfileService: ServiceProfileService,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private userService: UserService
     
   ) {}
 
@@ -99,10 +103,29 @@ export class ReviewPageComponent implements OnInit {
     this.loading = true;
     if (this.serviceId) {
       this.reviewService.getReviews(this.serviceId).subscribe(
-        (data: Review[]) => {
-          this.reviews = data;
-          console.log('Review Details:', this.reviews);
-          this.loading = false;
+        (reviews: Review[]) => {
+          const reviewObservables = reviews.map(review => {
+            console.log(review.reviewUserId);
+            return this.userService.getUsernameById(review.reviewUserId).pipe(
+              map((username: string) => {
+                console.log(username);
+                review.reviewUsername = username;
+                return review;
+              })
+            );
+          });
+  
+          forkJoin(reviewObservables).subscribe(
+            (reviewsWithUsername: Review[]) => {
+              this.reviews = reviewsWithUsername;
+              console.log('Review Details:', this.reviews);
+              this.loading = false;
+            },
+            (error: any) => {
+              console.error('Error fetching review:', error);
+              this.loading = false;
+            }
+          );
         },
         (error: any) => {
           console.error('Error fetching review:', error);
@@ -112,8 +135,13 @@ export class ReviewPageComponent implements OnInit {
     }
   }
 
+  navigateToAddReview(): void {
+    this.router.navigate(['/serviceProfile', this.serviceId, 'review', 'new']);
+  }
   returnToDashBoard():void{
-    this.router.navigate([""]);
+    this.router.navigate([""]).then(()=>{
+      window.location.reload();
+    });
   }
   
   routeTo(serviceName: string) {

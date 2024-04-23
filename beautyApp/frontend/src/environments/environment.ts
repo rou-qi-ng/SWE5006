@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    apiUrl: 'http://localhost:8401/beautyApp/api',
+    apiUrl: 'http://13.212.34.246:8401',
   };

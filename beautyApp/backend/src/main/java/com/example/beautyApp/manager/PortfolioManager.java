@@ -19,13 +19,14 @@ public class PortfolioManager {
     @Autowired
     private PortfolioRepository  portfolioRepository ;
 
-    public void saveFile(Integer serviceId, MultipartFile file) throws IOException {
+    public void saveFile(Integer serviceId, MultipartFile file, Integer logo) throws IOException {
         log.info("Service ID: {}", serviceId);
         Portfolio portfolio = new Portfolio();
         if (serviceId != null) {
             portfolio.setPortfolioServiceId(serviceId);
             log.info("Service ID: {}", portfolio.getPortfolioServiceId());
             portfolio.setPortfolioData(file.getBytes());
+            portfolio.setPortfolioLogo(logo);
             portfolioRepository.save(portfolio);
         } else {
             portfolio.setPortfolioServiceId(0);
