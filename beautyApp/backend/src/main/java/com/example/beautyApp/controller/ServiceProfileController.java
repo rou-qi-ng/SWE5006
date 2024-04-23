@@ -203,11 +203,11 @@ public class ServiceProfileController {
         List<Pricing> pricings = serviceFacade.getAllPricingsByServiceId(serviceId);
 //        log.info("hoi"+pricings.toString());
         log.info("hoi"+serviceId);
-        if (!pricings.isEmpty()) {
+//        if (!pricings.isEmpty()) {
             return ResponseEntity.ok(pricings);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
     }
 
     @GetMapping("/{serviceId}/review")

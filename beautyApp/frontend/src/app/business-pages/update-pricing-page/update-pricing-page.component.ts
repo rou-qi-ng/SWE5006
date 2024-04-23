@@ -26,7 +26,7 @@ export class UpdatePricingPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.pricingId = parseInt(params.get('pricingId') || '1', 10);
+      this.pricingId = parseInt(params.get('pricingId') || '0', 10);
     });
 
     this.loginForm = this.formBuilder.group({
@@ -41,6 +41,7 @@ export class UpdatePricingPageComponent implements OnInit {
         (response: Pricing[]) => {
           if (response && response.length > 0) {
             this.products = response[0];
+            console.log(this.products);
             this.loginForm.patchValue({
               pricingName: this.products?.pricingName || '',
               pricingCost: this.products?.pricingCost || '',
@@ -62,11 +63,11 @@ export class UpdatePricingPageComponent implements OnInit {
   public onSubmit() {
     if (this.loginForm.valid && this.products) {
       const newPricing: Pricing = {
-        pricingId: this.pricingId ?? 1,
+        pricingId: this.pricingId ?? 0,
         pricingName: this.loginForm.get('pricingName')?.value,
         pricingCost: this.loginForm.get('pricingCost')?.value,
         pricingAddon: this.loginForm.get('pricingAddon')?.value,
-        pricingServiceId: this.products.pricingServiceId || 1,
+        pricingServiceId: this.products.pricingServiceId || 0,
       };
 
       this.pricingService.updatePricing(newPricing).subscribe(
