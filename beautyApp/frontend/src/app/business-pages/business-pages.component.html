@@ -22,15 +22,7 @@
       </label>
 
   <div class="background">
-  <!-- Success message -->
-  <div *ngIf="successMessage" class="success-message">
-    {{ successMessage }}
-  </div>
-
-  <!-- Error message -->
-  <div class="alert alert-warning" *ngIf="errorMessage" class="error-message">
-    {{ errorMessage }}
-  </div>
+  
   <div class="authentication-card-container" fxLayout="column" fxLayoutAlign="center">
     <mat-card class="authentication-card">
       <ng-container *ngIf="serviceId !== null">
@@ -68,14 +60,15 @@
             <input matInput type="text" formControlName="service_location" />
           </mat-form-field>
           <br />
-          <mat-card-header>
-            <mat-card-subtitle>Service Menu (Pricing List)</mat-card-subtitle>
+          <mat-card-header *ngIf="serviceId !== null && products1 != null && products1.length > 0">
+            <mat-card-subtitle>Service Menu (Current Pricing List)</mat-card-subtitle>
           </mat-card-header>
           <table class="table table-stripped" *ngIf="serviceId !== null && products1 != null && products1.length > 0">
             <thead>
               <tr>
                 <th>Service Name</th>
-                <th>Type</th>
+                <th>Price</th>
+                <th>Add On</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -83,6 +76,7 @@
               <tr *ngFor="let s of products1">
                 <td>{{ s.pricingName }}</td>
                 <td>{{ s.pricingCost }}</td>
+                <td>{{ s.pricingAddon === 'N' ? 'No' : 'Yes' }}</td>
                 <td>
                   <button (click)="updatePricing(s.pricingId)" class="btn btn-info">Update</button>
                   <button (click)="deletePricing(s.pricingId)" class="btn btn-danger">Delete</button>
@@ -92,7 +86,45 @@
             <br /><br/>
           </table>
           <ng-container>
-            <div class="example-container" *ngFor="let product of products; let i = index">
+            <mat-card-header>
+              <mat-card-subtitle>Service Menu (Pricing List Additional Changes)</mat-card-subtitle>
+            </mat-card-header>
+            <table class="table table-stripped" >
+              <thead>
+                <tr>
+                  <th>Service Name</th>
+                  <th>Price</th>
+                  <th>Add on</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of products; let i = index">
+                  <td>{{ product.pricingName }}</td>
+                  <td>{{ product.pricingCost }}</td>
+                  <td>{{ product.pricingAddon }}</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <div class="form-container">
+            <div >
+              <label for="productName">Service Name:</label><br>
+              <input type="text" id="productName" [(ngModel)]="productName"  [ngModelOptions]="{standalone: true}">
+            </div>
+            <div>
+              <label for="productPrice">Price:</label><br>
+              <input type="number" id="productPrice" [(ngModel)]="productPrice"  [ngModelOptions]="{standalone: true}" min="0">
+            </div>
+            <div>
+              <label for="productAddon">Addon:</label><br>
+              <select id="productAddon" [(ngModel)]="productAddon"  [ngModelOptions]="{standalone: true}">
+                <option value="Y">Yes</option>
+                <option value="N">No</option>
+              </select>
+            </div>
+            </div>
+            <button (click)="addProduct()">Add Product</button>
+            <!-- <div class="example-container" *ngFor="let product of products; let i = index">
               <mat-form-field>
                 <p>{{i+1}}</p>
                 <input matInput placeholder="Service Name" formControlName="productName{{i+1}}">
@@ -112,7 +144,7 @@
                 <mat-icon>remove_circle</mat-icon>
               </button>
               <button mat-raised-button color="primary" (click)="addProduct()">Add Product</button>
-            </div>
+            </div> -->
             <br />
           </ng-container>
           <mat-card-header>
@@ -161,6 +193,15 @@
       <mat-card-actions>
         <button type="button" color="primary" (click)="onSubmit()">Submit</button>
       </mat-card-actions>
+      <!-- Success message -->
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+
+  <!-- Error message -->
+  <div class="alert alert-warning" *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
     </mat-card>
     
   </div>

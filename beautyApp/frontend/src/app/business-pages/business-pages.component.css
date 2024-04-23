@@ -105,3 +105,34 @@ mat-card{
     align-content: center;
     align-items: center;
 }
+
+/* Styles for Desktop Screens */
+.form-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-container > div {
+  width: 30%;
+}
+
+/* Styles for Tablet Screens */
+@media only screen and (max-width: 768px) {
+  .form-container {
+    flex-direction: column;
+  }
+  
+  .form-container > div {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+/* Styles for Mobile Screens */
+@media only screen and (max-width: 480px) {
+  /* Adjust styles for smaller screens */
+}
+
+#productAddon {
+  width: 100%;
+}

@@ -201,6 +201,8 @@ public class ServiceProfileController {
     @GetMapping("/{serviceId}/pricing")
     public ResponseEntity<List<Pricing>> getAllPricingsByServiceId(@PathVariable("serviceId") int serviceId) {
         List<Pricing> pricings = serviceFacade.getAllPricingsByServiceId(serviceId);
+//        log.info("hoi"+pricings.toString());
+        log.info("hoi"+serviceId);
         if (!pricings.isEmpty()) {
             return ResponseEntity.ok(pricings);
         } else {

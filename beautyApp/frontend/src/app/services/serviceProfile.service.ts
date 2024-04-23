@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { ServiceProfile } from '../model/serviceProfile.model';
 import { Portfolio } from '../model/portfolio.model';
 import { Pricing } from '../model/pricing.model';
@@ -59,7 +59,15 @@ export class ServiceProfileService {
   }
 
   updateServiceDetails(serviceProfile: ServiceProfile): Observable<any> {
-    return this.httpClient.post<any>(`${this.baseUrl}/serviceProfile/update`, serviceProfile);
+    return this.httpClient.post<any>(`${this.baseUrl}/serviceProfile/update`, serviceProfile)
+    .pipe(
+      catchError((error) => {
+        // Log the error
+        console.error('Error updating service profile:', error);
+        // Rethrow the error or throw a custom error message
+        return throwError('Failed to update service profile. Please try again later.');
+      })
+    );
   }
 
   getPortfolioByServiceId(serviceId: number): Observable<Portfolio[]> {
