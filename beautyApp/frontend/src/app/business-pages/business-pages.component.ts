@@ -344,7 +344,7 @@ public onSubmit() {
       if (this.products && this.products.length > 0) {
         this.products.forEach((product) => {
         product.pricingServiceId = 1;
-        product.pricingAddon = product.pricingAddon === 'Yes' ? 'Y' : 'N'; // Convert 'yes' to 'Y' and 'no' to 'N'
+        product.pricingAddon = product.pricingAddon === 'Y' ? 'Y' : 'N'; // Convert 'yes' to 'Y' and 'no' to 'N'
           console.log(product);     
         });
       }
@@ -424,7 +424,7 @@ public onSubmit() {
         }
       );
         //this.loginForm.reset();
-        //this.router.navigate(['manage']);
+        this.router.navigate(['manage']);
     }
     else{
       console.log("updatinggg");

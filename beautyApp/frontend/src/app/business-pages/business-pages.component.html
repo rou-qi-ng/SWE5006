@@ -101,7 +101,7 @@
                 <tr *ngFor="let product of products; let i = index">
                   <td>{{ product.pricingName }}</td>
                   <td>{{ product.pricingCost }}</td>
-                  <td>{{ product.pricingAddon }}</td>
+                  <td>{{ product.pricingAddon === 'N' ? 'No' : 'Yes' }}</td>
                 </tr>
               </tbody>
             </table>

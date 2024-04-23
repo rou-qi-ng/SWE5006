@@ -103,6 +103,7 @@ public class ServiceProfileManager {
     }
     
     public List<Pricing> getAllPricingsByServiceId(int serviceId) {
+        log.info(String.valueOf(serviceId));
         return serviceProfileRepository.findPricingsByServiceId(serviceId);
     }
 
