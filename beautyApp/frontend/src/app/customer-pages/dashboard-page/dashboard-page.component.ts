@@ -17,6 +17,11 @@ interface Appointment{
   appointmentName: string;
 }
 
+interface Business{
+  serviceId: number;
+  serviceName: string;
+}
+
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard-page.component.html',
@@ -37,6 +42,7 @@ export class DashboardPageComponent {
   public refCode! : undefined;
   vouchers: Voucher[] = [];
   appointments: Appointment[] = [];
+  businesses: Business[] = [];
   public user = localStorage.getItem('username');
   
 
@@ -55,6 +61,7 @@ export class DashboardPageComponent {
       this.refCode = data['referral'];
       this.vouchers = data['vouchers'];
       this.appointments= data['appointment'];
+      this.businesses = data['business'];
     });
     console.log(token);
     
@@ -97,6 +104,10 @@ export class DashboardPageComponent {
 
   routeService(serviceId: string){
     this.router.navigate(['serviceProfile', serviceId]);
+  }
+
+  routeBusiness(serviceId: number){
+    this.router.navigate(['business', serviceId]);
   }
   returnToDashBoard():void{
     this.router.navigate([""]).then(()=>{

@@ -3,13 +3,14 @@ package com.example.beautyApp.manager;
 import com.example.beautyApp.model.Portfolio;
 import com.example.beautyApp.model.*;
 import com.example.beautyApp.repository.*;
-import org.springframework.beans.factory.ObjectProvider;
+import com.example.beautyApp.request.BusinessDTO;
 import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -30,6 +31,9 @@ public class ServiceProfileManager {
     private ReviewRepository reviewRepository;
     @Autowired
     private final AvailabilityRepository availabilityRepository;
+
+    @Autowired
+    private UserSessionRepository userSessionRepository;
 
     private static final Logger log = LoggerFactory.getLogger(ServiceProfileManager.class);
 
@@ -120,6 +124,27 @@ public class ServiceProfileManager {
             availabilityRepository.updateAvailabilityStatusById(serviceId, "N");
         }
     }
+
+    public List<?> findMyService(String token) {
+        Optional<TB_UserSession> user= userSessionRepository.findByToken(token);
+        System.out.println(user);
+
+        if (user.isPresent()) {
+//            List<Appointment> appointments = appointmentRepository.findAppts(user.get().getUserId());
+            List<ServiceProfile> newService = serviceProfileRepository.findServiceProfilesByUserId(user.get().getUserId());
+            List<BusinessDTO> serviceList = new ArrayList<>();
+            for (ServiceProfile serviceProfile: newService){
+                BusinessDTO businessDTO = new BusinessDTO();
+                businessDTO.setServiceId(serviceProfile.getServiceId());
+                businessDTO.setServiceName(serviceProfile.getServiceName());
+                serviceList.add(businessDTO);
+            }
+            return serviceList;
+        }
+        return new ArrayList<>();
+
+    }
+
 
     @Transactional
     public void deleteService(int userId, int serviceId) {
