@@ -383,6 +383,7 @@ public onSubmit() {
               //     (pricingError) => { console.error('Error adding products:', pricingError); }
               //   );
               // }
+              this.router.navigate(['manage']);
             },
         (error) => {
           console.error('Error adding ServiceProfile:', error);
