@@ -89,4 +89,43 @@ export class ManageBusinessPagesComponent {
     window.location.reload();
   }
 
+  returnToDashBoard():void{
+    this.router.navigate([""]).then(()=>{
+      window.location.reload();
+    });
+  }
+  settingsPage():void{
+    this.router.navigate(["settings"]).then(()=>{
+      window.location.reload();
+    });
+  }
+
+  registerPage():void{
+    this.router.navigate(["business"]).then(()=>{
+      window.location.reload();
+    });
+  }
+
+  
+  managePage():void{
+    this.router.navigate(["manage"]).then(()=>{
+      window.location.reload();
+    });
+  }
+
+  
+  routeTo(serviceName: string) {
+    this.router.navigate(['service', serviceName]);
+  }
+
+  routeService(serviceId: string){
+    this.router.navigate(['serviceProfile', serviceId]);
+  }
+
+  routeBusiness(serviceId: number){
+    this.router.navigate(['business', serviceId]);
+  }
+
+
+
 }
