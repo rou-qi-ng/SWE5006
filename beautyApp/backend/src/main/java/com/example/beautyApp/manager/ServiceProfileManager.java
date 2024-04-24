@@ -54,7 +54,7 @@ public class ServiceProfileManager {
         return serviceProfileRepository.findByServiceLocationAndServiceTypeAndServiceDescriptionAndServiceName(s.getServiceLocation(), s.getServiceType(), s.getServiceDescription(), s.getServiceName());
     }
 
-    public ServiceProfile saveServiceProfile(ServiceProfile serviceProfile,  List<Pricing> pricingList) {
+    public ServiceProfile saveServiceProfile(ServiceProfile serviceProfile,  List<Pricing> pricingList, Integer id) {
         ServiceProfile newService  = serviceProfileRepository.save(serviceProfile);
         log.info(String.valueOf(newService));
         if (pricingList != null){
@@ -82,12 +82,20 @@ public class ServiceProfileManager {
         availability.setAvailabilityServiceId(newService.getServiceId());
         availability.setAvailabilityStatus("Y");
         availabilityRepository.save(availability);
+        Business business = new Business(id, newService.getServiceId());
+//        business.setUserId(11);
+//        business.setServiceId(newService.getServiceId());
+        businessRepository.save(business);
         return newService;
     }
 
 
     public List<Portfolio> getAllImagesByServiceId(int serviceId) {
         return serviceProfileRepository.findImagesByServiceId(serviceId);
+    }
+
+    public List<Portfolio> getProfileImageByServiceId(int serviceId) {
+        return serviceProfileRepository.findProfileImageServiceId(serviceId);
     }
 
     public List<Portfolio> getFirstLogoByServiceId(int serviceId) {
@@ -102,6 +110,10 @@ public class ServiceProfileManager {
         return serviceProfileRepository.findPricingsByServiceId(serviceId);
     }
 
+    public List<Pricing> getAllPricingsByPricingId(int serviceId) {
+        return serviceProfileRepository.findPricingsByPricingId(serviceId);
+    }
+
     public List<Review> getAllReviewsByServiceId(int serviceId) {
         return serviceProfileRepository.findReviewsByServiceId(serviceId);
     }
@@ -110,8 +122,8 @@ public class ServiceProfileManager {
         return serviceProfileRepository.findServiceProfilesByUserId(userId);
     }
 
-    public Optional<Availability> getServiceStatus(int serviceId) {
-        return availabilityRepository.findFirstByAvailabilityServiceId(serviceId);
+    public List<Availability> getServiceStatus(int serviceId) {
+        return availabilityRepository.findByAvailabilityServiceId(serviceId);
     }
 
     @Transactional
@@ -171,6 +183,7 @@ public class ServiceProfileManager {
 
     @Transactional
     public void updateServiceProfile(ServiceProfile serviceProfile) {
+        log.info(String.valueOf(serviceProfile));
         serviceProfileRepository.save(serviceProfile);
     }
 

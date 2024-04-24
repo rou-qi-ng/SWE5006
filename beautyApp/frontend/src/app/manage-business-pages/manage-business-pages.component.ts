@@ -4,6 +4,7 @@ import { ServiceProfile } from '../model/serviceProfile.model';
 import { AuthenticationService } from '../services/authentication.service';
 import { ServiceProfileService } from '../services/serviceProfile.service';
 import { AvailabilityService } from '../services/availability.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-manage-business-pages',
@@ -12,16 +13,35 @@ import { AvailabilityService } from '../services/availability.service';
 })
 export class ManageBusinessPagesComponent {
   service: ServiceProfile[] | undefined;
-  serviceStatus: string;
+  serviceStatus: string[] | null = null;
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
+  userId: number | null = null; 
+  
   constructor(private serviceProfileService: ServiceProfileService, 
     private authenticationService: AuthenticationService,
     private availabilityService: AvailabilityService,
+    private userService: UserService,
      private router: Router) {
-      this.serviceStatus = "";
+    
   }
 
   ngOnInit(): void {
     this.getService();
+    const token = localStorage.getItem("token");
+    console.log('token:', token);
+    if (token) {
+      this.userService.getUserIdByToken(token).subscribe(
+        (userId: number) => {
+          this.userId = userId;
+          console.log('User ID:', userId);
+          
+        },
+        (error: any) => {
+          console.error('Error fetching user ID:', error);
+        }
+      );
+    }
   }
 
   logout(): void {
@@ -29,12 +49,18 @@ export class ManageBusinessPagesComponent {
   }
 
   private getService() {
-    this.serviceProfileService.getServiceList(11).subscribe(data => {
+    this.serviceProfileService.getServiceList(this.userId??11).subscribe(data => {
       this.service = data;
+      data.forEach((product) => {
+        this.availabilityService.getServiceStatus(product?.serviceId ?? 0).subscribe(data1 => {
+          console.log(data1);
+          product.serviceStatus = data1[0]["availabilityStatus"] || "N";
+        }); 
+        console.log(this.service);   
+        });
     });
-    this.availabilityService.getServiceStatus(11).subscribe(data => {
-      this.serviceStatus = data['availabilityStatus'];
-    });
+    
+
   }
 
   updateService(id: number) {
@@ -42,22 +68,25 @@ export class ManageBusinessPagesComponent {
   }
 
   disableService(id: number) {
-    this.availabilityService.updateServiceStatus(11).subscribe(data => {
+    this.availabilityService.updateServiceStatus(id??0).subscribe(data => {
       this.getService();
     });
+    window.location.reload();
   }
+
   enableService(id: number) {
-    this.availabilityService.updateServiceStatus(11).subscribe(data => {
+    this.availabilityService.updateServiceStatus(id??0).subscribe(data => {
       this.getService();
     });
+    window.location.reload();
   }
 
   deleteService(id: number) {
-    this.serviceProfileService.deleteService(11, id).subscribe(data => {
+    this.serviceProfileService.deleteService(this.userId ?? 11, id).subscribe(data => {
       console.log(data);
       this.getService();
     });
-
+    window.location.reload();
   }
 
 }

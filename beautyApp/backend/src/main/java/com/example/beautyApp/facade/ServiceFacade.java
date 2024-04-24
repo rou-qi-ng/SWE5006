@@ -28,6 +28,10 @@ public class ServiceFacade {
         return serviceProfileManager.getAllImagesByServiceId(serviceId);
     }
 
+    public List<Portfolio> getProfileImageByServiceId(int serviceId) {
+        return serviceProfileManager.getProfileImageByServiceId(serviceId);
+    }
+
     public List<Portfolio> getFirstLogoByServiceId(int serviceId) {
         return serviceProfileManager.getFirstLogoByServiceId(serviceId);
     }
@@ -38,6 +42,10 @@ public class ServiceFacade {
 
     public List<Pricing> getAllPricingsByServiceId(int serviceId) {
         return serviceProfileManager.getAllPricingsByServiceId(serviceId);
+    }
+
+    public List<Pricing> getAllPricingsByPricingId(int serviceId) {
+        return serviceProfileManager.getAllPricingsByPricingId(serviceId);
     }
 
     public List<Review> getAllReviewsByServiceId(int serviceId) {

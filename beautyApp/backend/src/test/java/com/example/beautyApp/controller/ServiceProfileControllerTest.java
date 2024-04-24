@@ -139,15 +139,15 @@ public class ServiceProfileControllerTest {
         ServiceProfile serviceProfile = new ServiceProfile(); // Create a service profile for testing
         List<Pricing> pricingList = new ArrayList<>(); // Create a list of pricings
         ServiceProfileWithPricing combinedData = new ServiceProfileWithPricing(serviceProfile, pricingList);
-        when(serviceProfileManager.saveServiceProfile(serviceProfile, pricingList)).thenReturn(serviceProfile); // Mock the behavior of serviceProfileManager.saveServiceProfile
+        when(serviceProfileManager.saveServiceProfile(serviceProfile, pricingList, 11)).thenReturn(serviceProfile); // Mock the behavior of serviceProfileManager.saveServiceProfile
 
         // Act
-        ResponseEntity<ServiceProfile> response = serviceProfileController.addServiceProfile(combinedData);
+        ResponseEntity<ServiceProfile> response = serviceProfileController.addServiceProfile(combinedData, 11);
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(serviceProfile, response.getBody());
-        verify(serviceProfileManager, times(1)).saveServiceProfile(serviceProfile, pricingList); // Verify that the saveServiceProfile method is called once
+        verify(serviceProfileManager, times(1)).saveServiceProfile(serviceProfile, pricingList, 11); // Verify that the saveServiceProfile method is called once
     }
 
     @Test
@@ -156,14 +156,14 @@ public class ServiceProfileControllerTest {
         ServiceProfile serviceProfile = new ServiceProfile(); // Create a service profile for testing
         List<Pricing> pricingList = new ArrayList<>(); // Create a list of pricings
         ServiceProfileWithPricing combinedData = new ServiceProfileWithPricing(serviceProfile, pricingList);
-        when(serviceProfileManager.saveServiceProfile(serviceProfile, pricingList)).thenReturn(null); // Mock the behavior of serviceProfileManager.saveServiceProfile
+        when(serviceProfileManager.saveServiceProfile(serviceProfile, pricingList, 11)).thenReturn(null); // Mock the behavior of serviceProfileManager.saveServiceProfile
 
         // Act
-        ResponseEntity<ServiceProfile> response = serviceProfileController.addServiceProfile(combinedData);
+        ResponseEntity<ServiceProfile> response = serviceProfileController.addServiceProfile(combinedData, 11);
 
         // Assert
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        verify(serviceProfileManager, times(1)).saveServiceProfile(serviceProfile, pricingList); // Verify that the saveServiceProfile method is called once
+        verify(serviceProfileManager, times(1)).saveServiceProfile(serviceProfile, pricingList, 11); // Verify that the saveServiceProfile method is called once
     }
 
     @Test
@@ -229,36 +229,32 @@ public class ServiceProfileControllerTest {
     }
 
     @Test
-    public void testGetServiceStatus_ServiceFound() {
-        // Arrange
-        int serviceId = 1; // Example service ID
+    public void testGetServiceStatusWithAvailableStatus() {
+        // Mock the behavior of serviceProfileManager.getServiceStatus
+        List<Availability> availabilities = new ArrayList<>();
         Availability availability = new Availability();
-        availability.setAvailabilityStatus("Available"); // Set up availability status
+        availability.setAvailabilityStatus("Available");
+        availabilities.add(availability);
+        when(serviceProfileManager.getServiceStatus(1)).thenReturn(availabilities);
 
-        when(serviceProfileManager.getServiceStatus(serviceId)).thenReturn(Optional.of(availability)); // Mock the behavior to return Optional with availability object
+        // Call the controller method
+        ResponseEntity<List<Availability>> responseEntity = serviceProfileController.getServiceStatus(1);
 
-        // Act
-        ResponseEntity<Map<String, String>> response = serviceProfileController.getServiceStatus(serviceId);
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Available", response.getBody().get("availabilityStatus")); // Check if the availability status is returned correctly
-        verify(serviceProfileManager, times(1)).getServiceStatus(serviceId); // Verify that the getServiceStatus method is called once with the provided serviceId
+        // Verify the response
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(availabilities, responseEntity.getBody());
     }
 
     @Test
-    public void testGetServiceStatus_ServiceNotFound() {
-        // Arrange
-        int serviceId = 1; // Example service ID
+    public void testGetServiceStatusWithEmptyStatus() {
+        // Mock the behavior of serviceProfileManager.getServiceStatus
+        when(serviceProfileManager.getServiceStatus(1)).thenReturn(new ArrayList<>());
 
-        // Mock the behavior of serviceProfileManager.getServiceStatus to return an empty optional
-        doReturn(Optional.empty()).when(serviceProfileManager).getServiceStatus(serviceId);
+        // Call the controller method
+        ResponseEntity<List<Availability>> responseEntity = serviceProfileController.getServiceStatus(1);
 
-        // Act
-        ResponseEntity<Map<String, String>> response = serviceProfileController.getServiceStatus(serviceId);
-
-        // Assert
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        // Verify the response
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
     @Test
