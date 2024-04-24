@@ -1,121 +1,71 @@
-body, .table, .table-stripped, table{
+
+body, mat-drawer-container{
     background-color: #D8C2A5;
-}
-.body{
-    width: 100%;
     height: 100%;
+  }
+
+mat-drawer{
+    width: 70%;
+    height: 100%;
+    background-color: #C6B4B4;
+  }
+
+  a{
+    background-color: #C6B4B4;
+    border-color: #C6B4B4;
+  }
+
+
+.no-shadow{
+    box-shadow: none !important;
+    align-items: center;
     background-color: #D8C2A5;
+    align-content: center;
+    margin-bottom: 0%;
+}
+mat-card-title{
+    /* margin-top: 0%; */
+    width: fit-content;
+}
+
+.authentication-card {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.authentication-card-container {
+    min-height: 100vh;
+}
+
+th{
+    color: #D8C2A5;
+}
+
+td{
+    color: black;
+}
+
+
+
+
+mat-card{
+    padding-bottom: 2%;
+    margin-top: 2%;
+    margin-left: 25%;
+    width: 100%;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+    mat-card{
+        padding-bottom: 2%;
+        margin-top: 5%;
+        margin-left: 15%;
+        width: 70%;
+        align-self: center;
+        align-content: center;
+        align-items: center;
     }
-    
-    #sidebarMenu {
-        height: 100%; /*change here related your menu height*/
-        position: fixed;
-        overflow: none;
-        width: 100%;
-        z-index: 100;
-        transform: translateY(-100%); /*change here related your menu height*/
-    }
-    .main-content-wrapper a{
-        width: 100%;
-        height: 40px;
-        display: block;
-        background: #030303;
-        text-align: center;
-        padding-top: 15px;
-        border: 1px solid #4b4545;
-       
-        text-decoration: none;
-    }
-    #sidebarMenu::-webkit-scrollbar {
-        width: 12px;
-    }
-    #sidebarMenu::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-        border-radius: 10px; 
-    }
-    #sidebarMenu::-webkit-scrollbar-thumb {
-        box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-        border-radius: 10px;
-        background: #0000002e;
-        height: 50px;
-    }
-    .sidebarMenuInner{
-        margin:0;
-        padding:0;
-        border-top: 1px solid rgba(255, 255, 255, 0.10);
-    }
-    input[type="checkbox"]:checked ~ #sidebarMenu {
-        transform: translatey(0);
-        top:50px /*change here related your top menu height*/
-    }
-    input[type=checkbox] {
-        transition: all 0.3s;
-        box-sizing: border-box;
-        display: none;
-    }
-    .sidebarIconToggle {
-        transition: all 0.3s;
-        box-sizing: border-box;
-        cursor: pointer;
-        position: absolute;
-        z-index: 99;
-        height: 22px;
-        width: 22px;
-        left:10px;
-        top:10px;
-        display: none
-    }
-    .spinner {
-        transition: all 0.3s;
-        box-sizing: border-box;
-        position: absolute;
-        height: 3px;
-        width: 100%;
-        background-color: black;
-    }
-    .horizontal {
-        transition: all 0.3s;
-        box-sizing: border-box;
-        position: relative;
-        float: left;
-        margin-top: 3px;
-    }
-    .diagonal.part-1 {
-        position: relative;
-        transition: all 0.3s;
-        box-sizing: border-box;
-        float: left;
-    }
-    .diagonal.part-2 {
-        transition: all 0.3s;
-        box-sizing: border-box;
-        position: relative;
-        float: left;
-        margin-top: 3px;
-    }
-    input[type=checkbox]:checked ~ .sidebarIconToggle > .horizontal {
-        transition: all 0.3s;
-        box-sizing: border-box;
-        opacity: 0;
-    }
-    input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-1 {
-        transition: all 0.3s;
-        box-sizing: border-box;
-        transform: rotate(135deg);
-        margin-top: 8px;
-    }
-    input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
-        transition: all 0.3s;
-        box-sizing: border-box;
-        transform: rotate(-135deg);
-        margin-top: -9px;
-    }
-    
-    
-     @media screen and (max-width: 10000px) {
-          .sidebarIconToggle{
-              display:block
-           }
-        }
+  }
