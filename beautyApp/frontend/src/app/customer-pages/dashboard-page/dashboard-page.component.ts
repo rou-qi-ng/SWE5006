@@ -126,6 +126,13 @@ export class DashboardPageComponent {
     });
   }
 
+  
+  managePage():void{
+    this.router.navigate(["manage"]).then(()=>{
+      window.location.reload();
+    });
+  }
+
  logout(): void {
    this.authenticationService.logout();
   //  localStorage.removeItem('username');
